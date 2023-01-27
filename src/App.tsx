@@ -1,10 +1,8 @@
-import './App.css';
-
 function App() {
   return (
-    <div className="App">
+    <main className="max-w-7xl my-0 mx-auto p-6 text-center">
       <h1>React stack</h1>
-    </div>
+    </main>
   );
 }
 
