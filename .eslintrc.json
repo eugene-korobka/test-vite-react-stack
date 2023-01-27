@@ -1,0 +1,106 @@
+{
+  "plugins": [
+    "simple-import-sort",
+    "@typescript-eslint",
+    "import"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts?(x)"
+      ],
+      "excludedFiles": [
+        "**/*.html"
+      ],
+      "rules": {
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": [
+          "warn"
+        ],
+        "complexity": [
+          "warn",
+          15
+        ],
+        "sort-keys": "off",
+        "object-shorthand": "warn",
+        "no-unneeded-ternary": "warn",
+        "no-nested-ternary": "warn",
+        "import/newline-after-import": "warn",
+        "import/first": "warn",
+        "import/no-duplicates": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "vars": "all",
+            "args": "after-used",
+            "ignoreRestSiblings": true,
+            "argsIgnorePattern": "^_"
+          }
+        ],
+        "simple-import-sort/imports": [
+          "warn",
+          {
+            "groups": [
+              // Side effect imports.
+              [
+                "^\\u0000"
+              ],
+              // Packages. `react` related packages come first.
+              [
+                "^react",
+                "^@?\\w",
+                "^styled",
+                "^date-fns",
+                "^lodash",
+                "^redux"
+              ],
+              // Internal packages.
+              [
+                "^(config)(/.*|$)"
+              ],
+              [
+                "^(api-endpoints|api-client)(/.*|$)"
+              ],
+              [
+                "^(model)(/.*|$)"
+              ],
+              [
+                "^(pages)(/.*|$)"
+              ],
+              [
+                "^(containers)(/.*|$)"
+              ],
+              [
+                "^(assets)(/.*|$)"
+              ],
+              [
+                "^(components|modules|utils)(/.*|$)"
+              ],
+              [
+                "^(store)(/.*|$)"
+              ],
+              // Parent imports. Put `..` last.
+              [
+                "^\\.\\.(?!/?$)",
+                "^\\.\\./?$"
+              ],
+              // Other relative imports. Put same-folder imports and `.` last.
+              [
+                "^\\./(?=.*/)(?!/?$)",
+                "^\\.(?!/?$)",
+                "^\\./?$"
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
