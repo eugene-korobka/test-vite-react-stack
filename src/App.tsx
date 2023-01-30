@@ -1,8 +1,16 @@
+import { Provider } from "react-redux";
+
+import { MainContainer } from "components/MainContainer";
+
+import { store } from 'store/store';
+
 function App() {
   return (
-    <main className="max-w-7xl my-0 mx-auto p-6 text-center">
-      <h1>React stack</h1>
-    </main>
+    <Provider store={store}>
+      <MainContainer>
+        <h1 className="mb-4 text-2xl font-bold">React stack</h1>
+      </MainContainer>
+    </Provider>
   );
 }
 
