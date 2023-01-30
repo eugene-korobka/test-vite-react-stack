@@ -1,15 +1,19 @@
 {
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "plugins": [
     "simple-import-sort",
-    "@typescript-eslint",
-    "import"
+    "@typescript-eslint"
   ],
   "parser": "@typescript-eslint/parser",
   "extends": [
+    "react-app",
     "eslint:recommended",
     "prettier",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:import/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
   "overrides": [
     {
