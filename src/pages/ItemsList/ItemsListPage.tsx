@@ -1,4 +1,4 @@
-import { ItemsListWidget } from "./ItemsListWidget";
+import { ItemsListWidget } from 'pages/ItemsList/ItemsListWidget/ItemsListWidget';
 
 export const ItemsListPage = () => {
   return (

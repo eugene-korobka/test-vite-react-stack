@@ -1,5 +1,5 @@
-import { useFetchItemsQuery } from 'pages/ItemsList/store/itemsApi';
-import { ItemType } from 'pages/ItemsList/store/types';
+import { useFetchItemsQuery } from 'pages/ItemsList/ItemsListWidget/store/itemsApi';
+import { ItemType } from 'pages/ItemsList/ItemsListWidget/store/types';
 
 const ItemsListItem = ({ item }: { item: ItemType }) => {
   return (
