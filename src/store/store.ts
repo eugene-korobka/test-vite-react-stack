@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { itemsListFilterSlice } from 'pages/ItemsList/ItemsListFilterWidget/store/itemsListFilter.slice';
+
 import { baseApi } from 'store/baseApi';
 
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
+    [itemsListFilterSlice.name]: itemsListFilterSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 });

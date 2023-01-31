@@ -1,4 +1,4 @@
-import { ItemType } from 'pages/ItemsList/store/types';
+import { ItemType } from 'pages/ItemsList/ItemsListWidget/store/types';
 
 import { baseApi } from 'store/baseApi';
 

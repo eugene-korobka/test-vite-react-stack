@@ -1,5 +1,11 @@
-import { useFetchItemsQuery } from 'pages/ItemsList/ItemsListWidget/store/itemsApi';
+import { useMemo } from 'react';
+
+import { itemsListFilterSelectors } from 'pages/ItemsList/ItemsListFilterWidget/store/itemsListFilter.selector';
+import { titleFilterInitialValue } from 'pages/ItemsList/ItemsListFilterWidget/store/itemsListFilter.slice';
+import { useFetchItemsQuery } from 'pages/ItemsList/ItemsListWidget/store/items.api';
 import { ItemType } from 'pages/ItemsList/ItemsListWidget/store/types';
+
+import { useAppSelector } from 'store/hooks';
 
 const ItemsListItem = ({ item }: { item: ItemType }) => {
   return (
@@ -15,10 +21,24 @@ const useItemListWidgetState = () => {
 
   const noData = !isFetching && !data?.length;
 
-  const hasItems = !noData;
+  const titleFilter = useAppSelector(itemsListFilterSelectors.selectTitleFilter);
+
+  const filteredItems = useMemo(() => {
+    if (!data?.length) {
+      return [];
+    }
+
+    if (titleFilter === titleFilterInitialValue) {
+      return data;
+    }
+
+    return data.filter((item) => item.title === titleFilter);
+  }, [data, titleFilter]);
+
+  const hasItems = !noData && !!filteredItems.length;
 
   return {
-    data,
+    items: filteredItems,
     isFetching,
     noData,
     hasItems,
@@ -26,7 +46,7 @@ const useItemListWidgetState = () => {
 };
 
 export const ItemsListWidget = () => {
-  const { data, isFetching, noData, hasItems } = useItemListWidgetState();
+  const { items, isFetching, noData, hasItems } = useItemListWidgetState();
 
   return (
     <ul className="w-full">
@@ -44,7 +64,7 @@ export const ItemsListWidget = () => {
           <div className="basis-full p-3 text-center">No data</div>
         </li>
       )}
-      {hasItems && data?.map((item) => <ItemsListItem key={item.id} item={item} />)}
+      {hasItems && items?.map((item) => <ItemsListItem key={item.id} item={item} />)}
     </ul>
   );
 };
