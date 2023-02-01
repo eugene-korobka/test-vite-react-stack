@@ -1,10 +1,15 @@
+import { RemoveItemButtonWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWidget';
+
 import { ItemType } from "store/types";
 
 const ItemsListItem = ({ item }: { item: ItemType }) => {
   return (
     <li className="flex border-b border-solid border-gray-700 last:border-none">
-      <div className="basis-1/3 p-3">{item.title}</div>
-      <div className="basis-2/3 p-3">{item.description}</div>
+      <div className="basis-4/12 p-3">{item.title}</div>
+      <div className="basis-7/12 p-3">{item.description}</div>
+      <div className="basis-1/12 p-3">
+        <RemoveItemButtonWidget id={item.id} />
+      </div>
     </li>
   );
 };
@@ -39,8 +44,9 @@ export function ItemsList(props: ItemListProps) {
   return (
     <ul className="w-full">
       <li className="flex border-b-2 border-solid border-black">
-        <div className="basis-1/3 p-3 font-bold">Title</div>
-        <div className="basis-2/3 p-3 font-bold">Description</div>
+        <div className="basis-4/12 p-3 font-bold">Title</div>
+        <div className="basis-7/12 p-3 font-bold">Description</div>
+        <div className="basis-1/12 p-3 font-bold">&nbsp;</div>
       </li>
       {isLoading && (
         <li className="flex">
