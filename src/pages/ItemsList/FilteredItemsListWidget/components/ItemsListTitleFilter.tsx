@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 
-import { itemsListFilterSelectors } from 'pages/ItemsList/ItemsListFilterWidget/store/itemsListFilter.selector';
+import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
+import { itemsListFilterSelectors } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.selector';
 import {
   itemsListFilterActions,
   titleFilterInitialValue,
-} from 'pages/ItemsList/ItemsListFilterWidget/store/itemsListFilter.slice';
-import { useFetchItemsQuery } from 'pages/ItemsList/ItemsListWidget/store/items.api';
+} from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 
-const useItemListFilterWidgetState = () => {
+const useItemsListTitleFilterState = () => {
   const dispatch = useAppDispatch();
 
   const { data } = useFetchItemsQuery(undefined);
@@ -45,9 +45,9 @@ const useItemListFilterWidgetState = () => {
   };
 };
 
-export const ItemsListFilterWidget = () => {
+export const ItemsListTitleFilter = () => {
   const { titleFilter, filterOptions, onChangeOption, isClearButtonVisible, onClearFilter } =
-    useItemListFilterWidgetState();
+    useItemsListTitleFilterState();
 
   return (
     <div className="w-full">
@@ -66,7 +66,7 @@ export const ItemsListFilterWidget = () => {
           ))}
         </select>
         {isClearButtonVisible && (
-          <button className="text-symbol" onClick={onClearFilter}>
+          <button className="text-symbol" title="Clear filter" onClick={onClearFilter}>
             &#9587;
           </button>
         )}

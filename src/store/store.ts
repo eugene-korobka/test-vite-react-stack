@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { itemsListFilterSlice } from 'pages/ItemsList/ItemsListFilterWidget/store/itemsListFilter.slice';
+import { itemsListFilterSlice } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
 
 import { baseApi } from 'store/baseApi';
 
