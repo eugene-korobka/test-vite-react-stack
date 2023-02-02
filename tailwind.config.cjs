@@ -17,9 +17,13 @@ module.exports = {
         24: '96px',
         40: '160px',
       },
+      maxWidth: {
+        175: '700px',
+      },
       width: {
         '1/10': '10%',
         '3/10': '30%',
+        '9/10': '90%',
       },
       fontSize: {
         symbol: ['0.625rem', '0.875rem'],

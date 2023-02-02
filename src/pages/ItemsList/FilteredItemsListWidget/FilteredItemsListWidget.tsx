@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { CreateItemWidget } from 'pages/ItemsList/CreateItemWidget/CreateItemWidget';
 import { ItemsListTitleFilter } from 'pages/ItemsList/FilteredItemsListWidget/components/ItemsListTitleFilter';
 import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
 import { itemsListFilterSelectors } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.selector';
@@ -39,7 +40,10 @@ export const FilteredItemsListWidget = () => {
 
   return (
     <section className="w-full">
-      <ItemsListTitleFilter />
+      <div className="flex justify-between items-center mb-4">
+        <ItemsListTitleFilter />
+        <CreateItemWidget />
+      </div>
       <ItemsTable items={items} />
     </section>
   );

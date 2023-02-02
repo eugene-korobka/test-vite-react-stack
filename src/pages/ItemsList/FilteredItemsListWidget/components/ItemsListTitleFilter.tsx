@@ -50,27 +50,25 @@ export const ItemsListTitleFilter = () => {
     useItemsListTitleFilterState();
 
   return (
-    <div className="w-full">
-      <label htmlFor="titleFilter" className="flex items-center mb-4">
-        <span className="mr-3">Filter by title:</span>
-        <select
-          id="titleFilter"
-          className="w-50 mr-3 p-2 pr-5 border-b-2 border-b-black outline-none cursor-pointer"
-          value={titleFilter}
-          onChange={onChangeOption}
-        >
-          {filterOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        {isClearButtonVisible && (
-          <button className="text-symbol" title="Clear filter" onClick={onClearFilter}>
-            &#9587;
-          </button>
-        )}
-      </label>
-    </div>
+    <label htmlFor="titleFilter" className="flex items-center">
+      <span className="mr-3">Filter by title:</span>
+      <select
+        id="titleFilter"
+        className="w-50 mr-3 p-2 pr-5 border-b-2 border-b-black outline-none cursor-pointer"
+        value={titleFilter}
+        onChange={onChangeOption}
+      >
+        {filterOptions.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      {isClearButtonVisible && (
+        <button className="text-symbol" title="Clear filter" onClick={onClearFilter}>
+          &#9587;
+        </button>
+      )}
+    </label>
   );
 };
