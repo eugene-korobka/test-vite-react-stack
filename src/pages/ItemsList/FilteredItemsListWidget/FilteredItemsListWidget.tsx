@@ -5,9 +5,11 @@ import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/stor
 import { itemsListFilterSelectors } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.selector';
 import { titleFilterInitialValue } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
 
-import { ItemsList } from 'components/ItemsList';
+import { ItemsTable } from 'components/ItemsTable';
 
 import { useAppSelector } from 'store/hooks';
+
+const initialItems = [];
 
 const useFilteredItemsListWidgetState = () => {
   const { data, isFetching } = useFetchItemsQuery(undefined);
@@ -16,7 +18,7 @@ const useFilteredItemsListWidgetState = () => {
 
   const filteredItems = useMemo(() => {
     if (!data?.length) {
-      return [];
+      return initialItems;
     }
 
     if (titleFilter === titleFilterInitialValue) {
@@ -33,12 +35,12 @@ const useFilteredItemsListWidgetState = () => {
 };
 
 export const FilteredItemsListWidget = () => {
-  const { items, isFetching } = useFilteredItemsListWidgetState();
+  const { items } = useFilteredItemsListWidgetState();
 
   return (
     <section className="w-full">
       <ItemsListTitleFilter />
-      <ItemsList isLoading={isFetching} items={items} />
+      <ItemsTable items={items} />
     </section>
   );
 };

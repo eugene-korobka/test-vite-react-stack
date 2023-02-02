@@ -13,6 +13,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      minWidth: {
+        24: '96px',
+        40: '160px',
+      },
+      width: {
+        '1/10': '10%',
+        '3/10': '30%',
+      },
       fontSize: {
         symbol: ['0.625rem', '0.875rem'],
       },
