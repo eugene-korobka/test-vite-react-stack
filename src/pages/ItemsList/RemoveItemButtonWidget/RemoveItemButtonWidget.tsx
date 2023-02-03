@@ -5,18 +5,21 @@ import { useRemoveItemMutation } from 'pages/ItemsList/RemoveItemButtonWidget/st
 import { ItemType } from 'store/types';
 
 interface RemoveItemButtonProps {
-  id: ItemType['id'];
+  itemId: ItemType['id'];
 }
 
 const useRemoveItemButtonWidgetState = (props: RemoveItemButtonProps) => {
-  const { id } = props;
+  const { itemId } = props;
 
   const [removeItemFn, { isLoading }] = useRemoveItemMutation();
 
-  const isDisabled = !id || isLoading;
+  const isDisabled = !itemId || isLoading;
 
   const onClick = () => {
-    removeItemFn({ id });
+    removeItemFn({ itemId })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return {

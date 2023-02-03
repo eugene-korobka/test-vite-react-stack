@@ -9,12 +9,12 @@ export const itemRemoveApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      removeItem: build.mutation<void, { id: ItemType['id'] }>({
-        query: ({ id }) => ({
-          url: `/items/${id}`,
+      removeItem: build.mutation<void, { itemId: ItemType['id'] }>({
+        query: ({ itemId }) => ({
+          url: `/items/${itemId}`,
           method: 'DELETE',
         }),
-        invalidatesTags: (_, __, { id }) => [{ type: ITEMS_TAG_TYPE, id }],
+        invalidatesTags: (_, __, { itemId }) => [{ type: ITEMS_TAG_TYPE, id: itemId }],
       }),
     }),
   });

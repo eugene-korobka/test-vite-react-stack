@@ -8,7 +8,7 @@ const ItemsListItem = ({ item }: { item: ItemType }) => {
       <div className="basis-4/12 p-3">{item.title}</div>
       <div className="basis-7/12 p-3">{item.description}</div>
       <div className="basis-1/12 p-3">
-        <RemoveItemButtonWidget id={item.id} />
+        <RemoveItemButtonWidget itemId={item.id} />
       </div>
     </li>
   );

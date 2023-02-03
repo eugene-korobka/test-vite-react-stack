@@ -28,7 +28,7 @@ const columns = [
     headerClassName: 'min-w-24 w-1/10 p-3 text-start font-bold',
     cellClassName: 'min-w-24 w-1/10 p-3 text-end',
     Cell: ({ value }) => {
-      return <RemoveItemButtonWidget id={value} />;
+      return <RemoveItemButtonWidget itemId={value} />;
     },
   },
 ];
