@@ -3,7 +3,7 @@ import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
 
 import { useCreateItemMutation } from "./store/items.create.api";
 
-export const CreateItemWidget = () => {
+const useCreateItemWidgetState = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleInputRef = useRef<HTMLInputElement>(null);
 
@@ -16,25 +16,45 @@ export const CreateItemWidget = () => {
     dialogRef.current?.close?.();
   };
 
-  const [createItemFn] = useCreateItemMutation();
+  const [createItemFn, { isLoading }] = useCreateItemMutation();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-    const formdata = new FormData(e.target);
+    const formdata = new FormData(event.target);
 
     const data = Object.fromEntries(formdata.entries());
 
-    createItemFn({ data });
+    try {
+      await createItemFn({ data });
 
-    closeDialog();
+      closeDialog();
 
-    e.target.reset();
+      event.target.reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const titleInputId = useId();
   const descriptionInputId = useId();
+
+  return {
+    dialogRef,
+    titleInputRef,
+    titleInputId,
+    descriptionInputId,
+    openDialog,
+    closeDialog,
+    onSubmit,
+    isLoading,
+  };
+};
+
+export const CreateItemWidget = () => {
+  const { dialogRef, titleInputRef, titleInputId, descriptionInputId, openDialog, closeDialog, onSubmit, isLoading } =
+    useCreateItemWidgetState();
 
   return (
     <>
@@ -79,7 +99,11 @@ export const CreateItemWidget = () => {
             >
               Cancel
             </button>
-            <button className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md" type="submit">
+            <button
+              className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
+              type="submit"
+              disabled={isLoading}
+            >
               Create
             </button>
           </div>
