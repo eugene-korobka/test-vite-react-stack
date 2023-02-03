@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
 import { itemsListFilterSelectors } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.selector';
@@ -22,8 +22,8 @@ const useItemsListTitleFilterState = () => {
     return Array.from(new Set([titleFilterInitialValue, ...data.map((item) => item.title)]));
   }, [data]);
 
-  const onChangeOption = (e) => {
-    const newFilter = e.target.value;
+  const onChangeOption = (event) => {
+    const newFilter = event.target.value;
 
     dispatch(itemsListFilterActions.setTitleFilter(newFilter));
   };
@@ -31,6 +31,15 @@ const useItemsListTitleFilterState = () => {
   const titleFilter = useAppSelector(itemsListFilterSelectors.selectTitleFilter);
 
   const isClearButtonVisible = titleFilter !== titleFilterInitialValue;
+
+  useEffect(() => {
+    if (filterOptions.includes(titleFilter)) {
+      return;
+    }
+
+    dispatch(itemsListFilterActions.resetTitleFilter());
+  }, [dispatch, titleFilter, filterOptions]);
+
 
   const onClearFilter = () => {
     dispatch(itemsListFilterActions.resetTitleFilter());
