@@ -8,6 +8,9 @@ const selectTitleFilterDomain = createSelector(
 );
 const selectTitleFilter = createSelector(selectTitleFilterDomain, (state) => state.titleFilter);
 
+const selectTitleFilterOptions = createSelector(selectTitleFilterDomain, (state) => state.titleFilterOptions);
+
 export const itemsListFilterSelectors = {
   selectTitleFilter,
+  selectTitleFilterOptions,
 };

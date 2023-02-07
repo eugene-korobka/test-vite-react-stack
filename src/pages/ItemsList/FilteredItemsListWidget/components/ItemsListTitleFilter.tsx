@@ -1,6 +1,3 @@
-import { useEffect, useMemo } from 'react';
-
-import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
 import { itemsListFilterSelectors } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.selector';
 import {
   itemsListFilterActions,
@@ -12,15 +9,11 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 const useItemsListTitleFilterState = () => {
   const dispatch = useAppDispatch();
 
-  const { data } = useFetchItemsQuery(undefined);
+  const titleFilter = useAppSelector(itemsListFilterSelectors.selectTitleFilter);
 
-  const filterOptions = useMemo(() => {
-    if (!data?.length) {
-      return [titleFilterInitialValue];
-    }
+  const isClearButtonVisible = titleFilter !== titleFilterInitialValue;
 
-    return Array.from(new Set([titleFilterInitialValue, ...data.map((item) => item.title)]));
-  }, [data]);
+  const titleFilterOptions = useAppSelector(itemsListFilterSelectors.selectTitleFilterOptions);
 
   const onChangeOption = (event) => {
     const newFilter = event.target.value;
@@ -28,26 +21,13 @@ const useItemsListTitleFilterState = () => {
     dispatch(itemsListFilterActions.setTitleFilter(newFilter));
   };
 
-  const titleFilter = useAppSelector(itemsListFilterSelectors.selectTitleFilter);
-
-  const isClearButtonVisible = titleFilter !== titleFilterInitialValue;
-
-  useEffect(() => {
-    if (filterOptions.includes(titleFilter)) {
-      return;
-    }
-
-    dispatch(itemsListFilterActions.resetTitleFilter());
-  }, [dispatch, titleFilter, filterOptions]);
-
-
   const onClearFilter = () => {
     dispatch(itemsListFilterActions.resetTitleFilter());
   };
 
   return {
     titleFilter,
-    filterOptions,
+    titleFilterOptions,
     onChangeOption,
     isClearButtonVisible,
     onClearFilter,
@@ -55,7 +35,7 @@ const useItemsListTitleFilterState = () => {
 };
 
 export const ItemsListTitleFilter = () => {
-  const { titleFilter, filterOptions, onChangeOption, isClearButtonVisible, onClearFilter } =
+  const { titleFilter, titleFilterOptions, onChangeOption, isClearButtonVisible, onClearFilter } =
     useItemsListTitleFilterState();
 
   return (
@@ -67,7 +47,7 @@ export const ItemsListTitleFilter = () => {
         value={titleFilter}
         onChange={onChangeOption}
       >
-        {filterOptions.map((option) => (
+        {titleFilterOptions.map((option) => (
           <option key={option} value={option}>
             {option}
           </option>

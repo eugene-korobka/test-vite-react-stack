@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+import { itemsApi } from "pages/ItemsList/FilteredItemsListWidget/store/items.api";
+
 export const titleFilterInitialValue = 'All';
 
-const initialState = {
+const initialState: {
+  titleFilter: string;
+  titleFilterOptions: string[];
+} = {
   titleFilter: titleFilterInitialValue,
+  titleFilterOptions: [],
 };
 
 export const itemsListFilterSlice = createSlice({
@@ -16,6 +22,21 @@ export const itemsListFilterSlice = createSlice({
     resetTitleFilter(state) {
       state.titleFilter = titleFilterInitialValue;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(itemsApi.endpoints.fetchItems.matchFulfilled, (draft, action) => {
+        draft.titleFilterOptions = Array.from(new Set([titleFilterInitialValue, ...action.payload.map((item) => item.title)]));;
+      })
+      .addMatcher(itemsApi.endpoints.fetchItems.matchFulfilled, (draft, action) => {
+        if (draft.titleFilter !== titleFilterInitialValue) {
+          const hasCurrent = action.payload.some((item) => item.title === draft.titleFilter);
+
+          if (!hasCurrent) {
+            draft.titleFilter = titleFilterInitialValue;
+          }
+        }
+      });
   },
 });
 
