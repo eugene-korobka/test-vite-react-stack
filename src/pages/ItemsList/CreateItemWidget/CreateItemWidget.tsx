@@ -61,7 +61,7 @@ export const CreateItemWidget = () => {
       <button className="p-2 shrink-0 border border-solid border-gray-400 rounded-md" onClick={openDialog}>
         New item
       </button>
-      <dialog ref={dialogRef} className="relative max-w-175 w-9/10 p-6 border border-solid border-gray-400 rounded-lg">
+      <dialog ref={dialogRef} className="fixed max-w-175 w-9/10 p-6 border border-solid border-gray-400 rounded-lg">
         <div className="mb-4 text-xl text-center font-bold">
           Create item
           <button className="absolute top-6 right-6" onClick={closeDialog}>

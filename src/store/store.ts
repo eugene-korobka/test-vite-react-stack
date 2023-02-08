@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { createItemSlice } from 'pages/ItemsList/CreateItemWidget/store/createItem.slice';
 import { itemsListFilterSlice } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
 
 import { baseApi } from 'store/baseApi';
@@ -8,6 +9,7 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     [itemsListFilterSlice.name]: itemsListFilterSlice.reducer,
+    [createItemSlice.name]: createItemSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 });
