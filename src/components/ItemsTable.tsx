@@ -1,6 +1,6 @@
 import { useTable } from 'react-table';
 
-import { RemoveItemButtonWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWidget';
+import { RemoveItemButtonWithConfirmWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWithConfirmWidget';
 
 import type { ItemType } from 'store/types';
 
@@ -28,7 +28,7 @@ const columns = [
     headerClassName: 'min-w-24 w-1/10 p-3 text-start font-bold',
     cellClassName: 'min-w-24 w-1/10 p-3 text-end',
     Cell: ({ value }) => {
-      return <RemoveItemButtonWidget itemId={value} />;
+      return <RemoveItemButtonWithConfirmWidget itemId={value} />;
     },
   },
 ];

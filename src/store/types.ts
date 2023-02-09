@@ -3,3 +3,5 @@ export type ItemType = {
   title: string;
   description: string;
 };
+
+export type ItemTypeId = ItemType['id'];

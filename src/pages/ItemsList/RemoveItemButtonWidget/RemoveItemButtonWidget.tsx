@@ -1,11 +1,10 @@
 import { ReactComponent as TrashIcon } from 'src/assets/trash-icon.svg';
 
 import { useRemoveItemMutation } from 'pages/ItemsList/RemoveItemButtonWidget/store/items.remove.api';
-
-import { ItemType } from 'store/types';
+import { ItemTypeId } from 'pages/ItemsList/RemoveItemButtonWidget/store/types';
 
 interface RemoveItemButtonProps {
-  itemId: ItemType['id'];
+  itemId: ItemTypeId;
 }
 
 const useRemoveItemButtonWidgetState = (props: RemoveItemButtonProps) => {

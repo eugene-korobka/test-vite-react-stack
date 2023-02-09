@@ -1,7 +1,8 @@
 import { ITEMS_TAG_TYPE } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
-import { ItemType } from 'pages/ItemsList/FilteredItemsListWidget/store/types';
 
 import { baseApi } from 'store/baseApi';
+
+import { ItemTypeId } from './types';
 
 export const itemRemoveApi = baseApi
   .enhanceEndpoints({
@@ -9,7 +10,7 @@ export const itemRemoveApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      removeItem: build.mutation<void, { itemId: ItemType['id'] }>({
+      removeItem: build.mutation<void, { itemId: ItemTypeId }>({
         query: ({ itemId }) => ({
           url: `/items/${itemId}`,
           method: 'DELETE',

@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { createItemSlice } from 'pages/ItemsList/CreateItemWidget/store/createItem.slice';
 import { itemsListFilterSlice } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
+import { removeItemSlice } from 'pages/ItemsList/RemoveItemButtonWidget/store/removeItem.slice';
 
 import { modalManagerSlice } from 'components/ModalManager/store/modalManager.slice';
 
@@ -13,6 +14,7 @@ export const store = configureStore({
     [modalManagerSlice.name]: modalManagerSlice.reducer,
     [itemsListFilterSlice.name]: itemsListFilterSlice.reducer,
     [createItemSlice.name]: createItemSlice.reducer,
+    [removeItemSlice.name]: removeItemSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 });
