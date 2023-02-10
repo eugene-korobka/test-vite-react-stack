@@ -1,6 +1,7 @@
-import { useId } from "react";
+import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
+import { EditItemForm } from "src/experimental/EditItemForm";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
@@ -27,6 +28,8 @@ const CreateItemModal = () => {
 
   const isCreateModalOpen = useAppSelector(createItemSelectors.selectIsCreateModalOpen);
 
+  const formRef = useRef<any>();
+
   const closeModal = () => {
     dispatch(createItemActions.closeCreateModal());
   };
@@ -52,17 +55,17 @@ const CreateItemModal = () => {
     }
   };
 
-  const titleInputId = useId();
-  const descriptionInputId = useId();
+  const submitForm = () => {
+    formRef.current?.submitForm();
+  };
+
+  // const titleInputId = useId();
+  // const descriptionInputId = useId();
 
   if (isCreateModalOpen) {
     return createPortal(
-      <div
-        className="fixed top-0 bottom-0 left-0 right-0 p-6 flex justify-center items-center bg-black/10"
-      >
-        <div
-          className="max-w-175 w-9/10 p-6 border border-solid border-gray-400 rounded-lg bg-white text-center"
-        >
+      <div className="fixed top-0 bottom-0 left-0 right-0 p-6 flex justify-center items-center bg-black/10">
+        <div className="max-w-175 w-9/10 p-6 border border-solid border-gray-400 rounded-lg bg-white text-center">
           <header className="relative mb-4 text-xl text-center font-bold">
             <div>Create item</div>
             <button className="absolute top-0 right-0" onClick={closeModal}>
@@ -70,7 +73,8 @@ const CreateItemModal = () => {
             </button>
           </header>
           <main className="text-start">
-            <form method="dialog" onSubmit={onSubmit}>
+            <EditItemForm ref={formRef} onSubmit={onSubmit} />
+            {/* <form method="dialog" onSubmit={onSubmit}>
               <label htmlFor={titleInputId} className="block mb-6">
                 <span className="block mb-2">Title</span>
                 <input
@@ -109,8 +113,20 @@ const CreateItemModal = () => {
                   Create
                 </button>
               </div>
-            </form>
+            </form> */}
           </main>
+          <footer className="flex justify-center items-center">
+            <button className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md" onClick={closeModal}>
+              Cancel
+            </button>
+            <button
+              className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
+              disabled={isLoading}
+              onClick={submitForm}
+            >
+              Create
+            </button>
+          </footer>
         </div>
       </div>,
       document.body,
