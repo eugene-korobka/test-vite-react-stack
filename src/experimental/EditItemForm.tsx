@@ -15,6 +15,11 @@ type EditItemFormProps = {
   onSubmit?: React.FormEventHandler;
 };
 
+export type EditItemFormReturnedRef = {
+  getFormValues: () => Partial<ItemType>;
+  submitForm: () => void;
+};
+
 const useEditItemFormState = (props: EditItemFormProps, outterRef) => {
   const { initialValues = defaultValues, onSubmit } = props;
 
@@ -60,7 +65,7 @@ const useEditItemFormState = (props: EditItemFormProps, outterRef) => {
   };
 };
 
-export const EditItemForm = forwardRef<MutableRefObject<any>, EditItemFormProps>((props, outterRef) => {
+export const EditItemForm = forwardRef<MutableRefObject<EditItemFormReturnedRef>, EditItemFormProps>((props, outterRef) => {
   const { formRef, titleInputId, descriptionInputId, titleInputValue, descriptionInputValue, onSubmit, onInputChange } =
     useEditItemFormState(props, outterRef);
 
