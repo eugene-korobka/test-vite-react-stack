@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { createItemSlice } from 'pages/ItemsList/CreateItemWidget/store/createItem.slice';
+import { editItemSlice } from 'pages/ItemsList/EditItemWidget/store/editItem.slice';
 import { itemsListFilterSlice } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
 import { removeItemSlice } from 'pages/ItemsList/RemoveItemButtonWidget/store/removeItem.slice';
 
@@ -15,6 +16,7 @@ export const store = configureStore({
     [itemsListFilterSlice.name]: itemsListFilterSlice.reducer,
     [createItemSlice.name]: createItemSlice.reducer,
     [removeItemSlice.name]: removeItemSlice.reducer,
+    [editItemSlice.name]: editItemSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 });
