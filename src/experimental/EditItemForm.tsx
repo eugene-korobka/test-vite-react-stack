@@ -1,11 +1,11 @@
-import React, { forwardRef, MutableRefObject, useCallback, useId, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useCallback, useId, useImperativeHandle, useRef, useState } from "react";
 
 import { ItemType } from "store/types";
 
 const titleInputName = 'title';
 const descriptionInputName = 'description';
 
-const defaultValues: Partial<ItemType> = {
+export const defaultFormValues: Partial<ItemType> = {
   [titleInputName]: '',
   [descriptionInputName]: '',
 };
@@ -21,7 +21,7 @@ export type EditItemFormReturnedRef = {
 };
 
 const useEditItemFormState = (props: EditItemFormProps, outterRef) => {
-  const { initialValues = defaultValues, onSubmit } = props;
+  const { initialValues = defaultFormValues, onSubmit } = props;
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -65,7 +65,7 @@ const useEditItemFormState = (props: EditItemFormProps, outterRef) => {
   };
 };
 
-export const EditItemForm = forwardRef<MutableRefObject<EditItemFormReturnedRef>, EditItemFormProps>((props, outterRef) => {
+export const EditItemForm = forwardRef<EditItemFormReturnedRef, EditItemFormProps>((props, outterRef) => {
   const { formRef, titleInputId, descriptionInputId, titleInputValue, descriptionInputValue, onSubmit, onInputChange } =
     useEditItemFormState(props, outterRef);
 

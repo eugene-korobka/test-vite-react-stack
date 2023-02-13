@@ -8,7 +8,13 @@ const selectCreateItemDomain = createSelector((state: RootState) => state, (stat
 
 const selectIsCreateModalOpen = createSelector(selectCreateItemDomain, (state) => state.isCreateModalOpen);
 
+const selectFormData = createSelector(selectCreateItemDomain, (state) => state.formData);
+
+const selectIsConfirmCloseModalOpen = createSelector(selectCreateItemDomain, (state) => state.isConfirmCloseModalOpen);
+
 export const createItemSelectors = {
   selectCreateItemDomain,
   selectIsCreateModalOpen,
+  selectFormData,
+  selectIsConfirmCloseModalOpen,
 };

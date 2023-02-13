@@ -1,9 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+
+import { ItemType } from "./types";
 
 const initialState: {
   isCreateModalOpen: boolean;
+  formData: Partial<ItemType>;
+  isConfirmCloseModalOpen: boolean;
 } = {
   isCreateModalOpen: false,
+  formData: {},
+  isConfirmCloseModalOpen: false,
 };
 
 export const createItemSlice = createSlice({
@@ -15,6 +21,22 @@ export const createItemSlice = createSlice({
     },
     closeCreateModal(state) {
       state.isCreateModalOpen = false;
+    },
+    saveFormData(state, action: PayloadAction<{ form: typeof initialState.formData }>) {
+      state.formData = action.payload.form;
+    },
+    clearFormData(state) {
+      state.formData = initialState.formData;
+    },
+    openConfirmCloseModal(state) {
+      state.isConfirmCloseModalOpen = true;
+    },
+    closeConfirmCloseModalWithConfirm(state) {
+      state.isConfirmCloseModalOpen = false;
+      state.isCreateModalOpen = false;
+    },
+    closeConfirmCloseModalWithCancel(state) {
+      state.isConfirmCloseModalOpen = false;
     },
   },
 });
