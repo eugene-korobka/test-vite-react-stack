@@ -15,7 +15,7 @@ export const itemRemoveApi = baseApi
           url: `/items/${itemId}`,
           method: 'DELETE',
         }),
-        invalidatesTags: (_, __, { itemId }) => [{ type: ITEMS_TAG_TYPE, id: itemId }],
+        invalidatesTags: () => [{ type: ITEMS_TAG_TYPE, id: 'LIST' }],
       }),
     }),
   });
