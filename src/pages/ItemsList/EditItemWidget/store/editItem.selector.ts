@@ -1,10 +1,10 @@
 import { createSelector } from "@reduxjs/toolkit"
 
-import { RootState } from "store/store";
+import { selectRootState } from "store/store";
 
 import { editItemSlice } from "./editItem.slice";
 
-const selectEditItemDomain = createSelector((state: RootState) => state, (state) => state[editItemSlice.name]);
+const selectEditItemDomain = createSelector(selectRootState, (state) => state[editItemSlice.name]);
 
 const selectIsEditModalOpen = createSelector(selectEditItemDomain, (state) => state.isEditModalOpen);
 

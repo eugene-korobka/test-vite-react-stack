@@ -1,11 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { RootState } from 'store/store';
+import { selectRootState } from 'store/store';
 
-const selectModalDomain = createSelector(
-  (state: RootState) => state,
-  (state) => state.modalManager,
-);
+const selectModalDomain = createSelector(selectRootState, (state) => state.modalManager);
 
 const selectModalIsOpen = createSelector(selectModalDomain, (state) => state.isOpen);
 

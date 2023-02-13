@@ -1,11 +1,11 @@
 import { createSelector } from "@reduxjs/toolkit";
 
-import { RootState } from "store/store";
+import { selectRootState } from "store/store";
 
-const selectTitleFilterDomain = createSelector(
-  (state: RootState) => state,
-  (state) => state.itemsListFilter,
-);
+import { itemsListFilterSlice } from "./itemsListFilter.slice";
+
+const selectTitleFilterDomain = createSelector(selectRootState, (state) => state[itemsListFilterSlice.name]);
+
 const selectTitleFilter = createSelector(selectTitleFilterDomain, (state) => state.titleFilter);
 
 const selectTitleFilterOptions = createSelector(selectTitleFilterDomain, (state) => state.titleFilterOptions);
