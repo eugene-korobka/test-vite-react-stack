@@ -1,7 +1,6 @@
-import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
-import { defaultFormValues, EditItemForm, EditItemFormReturnedRef } from "src/experimental/EditItemForm";
+import { defaultFormValues, ItemForm, useItemFormRef } from "src/experimental/ItemForm";
 import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -95,10 +94,14 @@ const CreateItemModal = () => {
 
   const formData = useAppSelector(createItemSelectors.selectFormData);
 
-  const formRef = useRef<EditItemFormReturnedRef>(null);
+  const {
+    itemFormRef,
+    getFormValues,
+    submitItemForm,
+  } = useItemFormRef();
 
   const onCloseModal = () => {
-    const formValues = formRef.current?.getFormValues() ?? {};
+    const formValues = getFormValues() ?? {};
 
     if (areObjectEqualsByValues(formValues, formData)) {
       closeCreateModal();
@@ -111,7 +114,7 @@ const CreateItemModal = () => {
 
   const [createItemFn, { isLoading }] = useCreateItemMutation();
 
-  const onSubmit = async (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -128,10 +131,6 @@ const CreateItemModal = () => {
     }
   };
 
-  const submitForm = () => {
-    formRef.current?.submitForm();
-  };
-
   if (isCreateModalOpen) {
     return createPortal(
       <div className="fixed top-0 bottom-0 left-0 right-0 p-6 flex justify-center items-center bg-black/10">
@@ -144,7 +143,7 @@ const CreateItemModal = () => {
             <CreateItemConfirmModal />
           </header>
           <main className="text-start">
-            <EditItemForm ref={formRef} onSubmit={onSubmit} />
+            <ItemForm ref={itemFormRef} onSubmitHandler={onSubmitHandler} />
           </main>
           <footer className="flex justify-center items-center">
             <button
@@ -156,7 +155,7 @@ const CreateItemModal = () => {
             <button
               className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
               disabled={isLoading}
-              onClick={submitForm}
+              onClick={submitItemForm}
             >
               Create
             </button>

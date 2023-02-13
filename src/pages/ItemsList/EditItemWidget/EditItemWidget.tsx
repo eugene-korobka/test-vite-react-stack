@@ -1,7 +1,6 @@
-import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
-import { EditItemForm, EditItemFormReturnedRef } from "src/experimental/EditItemForm";
+import { ItemForm, useItemFormRef } from "src/experimental/ItemForm";
 import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -114,12 +113,16 @@ const EditItemModal = (props: EditItemModalProps) => {
     dispatch(editItemActions.closeEditModal());
   };
 
+  const {
+    itemFormRef,
+    getFormValues,
+    submitItemForm,
+  } = useItemFormRef();
+
   const formData = useAppSelector(editItemSelectors.selectFormData);
 
-  const formRef = useRef<EditItemFormReturnedRef>(null);
-
   const onCloseModal = () => {
-    const formValues = formRef.current?.getFormValues() ?? {};
+    const formValues = getFormValues() ?? {};
 
     if (areObjectEqualsByValues(formValues, formData)) {
       closeEditModal();
@@ -132,7 +135,7 @@ const EditItemModal = (props: EditItemModalProps) => {
 
   const [updateItemFn, { isLoading }] = useUpdateItemMutation();
 
-  const onSubmit = async (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -144,15 +147,9 @@ const EditItemModal = (props: EditItemModalProps) => {
       await updateItemFn({ itemId, data });
 
       closeEditModal();
-
-      // event.target.reset();
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const submitForm = () => {
-    formRef.current?.submitForm();
   };
 
   if (shouldMountModal) {
@@ -167,49 +164,10 @@ const EditItemModal = (props: EditItemModalProps) => {
             <EditItemConfirmModal />
           </header>
           <main className="text-start">
-            {/* <form method="dialog" onSubmit={onSubmit}>
-              <label htmlFor={titleInputId} className="block mb-6">
-                <span className="block mb-2">Title</span>
-                <input
-                  className="block w-full p-2 border border-solid border-gray-400 rounded-md"
-                  id={titleInputId}
-                  name="title"
-                  type="text"
-                  required
-                  autoFocus
-                />
-              </label>
-              <label htmlFor={descriptionInputId} className="block mb-6">
-                <span className="block mb-2">Description</span>
-                <textarea
-                  className="block w-full p-2 border border-solid border-gray-400 rounded-md resize-none"
-                  id={descriptionInputId}
-                  name="description"
-                  rows={5}
-                  required
-                />
-              </label>
-              <div className="flex justify-center">
-                <button
-                  className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md"
-                  type="reset"
-                  value="cancel"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  Save
-                </button>
-                <RemoveItemButtonWithConfirmWidget itemId={itemId} />
-              </div>
-            </form> */}
             {isFetching && <div className="w-full">Loading...</div>}
-            {!isFetching && item && <EditItemForm ref={formRef} initialValues={item} onSubmit={onSubmit} />}
+            {!isFetching && item && (
+              <ItemForm ref={itemFormRef} initialValues={item} onSubmitHandler={onSubmitHandler} />
+            )}
           </main>
           <footer>
             <button
@@ -221,7 +179,7 @@ const EditItemModal = (props: EditItemModalProps) => {
             <button
               className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
               disabled={isLoading}
-              onClick={submitForm}
+              onClick={submitItemForm}
             >
               Save
             </button>
