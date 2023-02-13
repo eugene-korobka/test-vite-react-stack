@@ -1,5 +1,6 @@
 import { useTable } from 'react-table';
 
+import { EditItemWidget } from 'pages/ItemsList/EditItemWidget/EditItemWidget';
 import { RemoveItemButtonWithConfirmWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWithConfirmWidget';
 
 import type { ItemType } from 'store/types';
@@ -25,10 +26,15 @@ const columns = [
   {
     Header: 'Actions',
     accessor: 'id',
-    headerClassName: 'min-w-24 w-1/10 p-3 text-start font-bold',
-    cellClassName: 'min-w-24 w-1/10 p-3 text-end',
+    headerClassName: 'min-w-56 w-1/10 p-3 text-start font-bold',
+    cellClassName: 'min-w-56 w-1/10 p-3 text-end',
     Cell: ({ value }) => {
-      return <RemoveItemButtonWithConfirmWidget itemId={value} />;
+      return (
+        <div className='flex gap-4 justify-end'>
+          <EditItemWidget itemId={value} />
+          <RemoveItemButtonWithConfirmWidget itemId={value} />
+        </div>
+      );
     },
   },
 ];
