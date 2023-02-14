@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
-import { defaultFormValues, ItemForm, useItemFormRef } from "src/experimental/ItemForm";
+import { defaultFormValues, ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "store/hooks";
 import { createItemSelectors } from "./store/createItem.selector";
 import { createItemActions } from "./store/createItem.slice";
 import { useCreateItemMutation } from "./store/items.create.api";
+import { CreateItemConfirmModal, useCreateItemConfirmModalHandlers } from "./CreateItemConfirmModal";
 
 const CreateItemModalButton = () => {
   const dispatch = useAppDispatch();
@@ -25,68 +26,11 @@ const CreateItemModalButton = () => {
   );
 };
 
-const useCreateItemConfirmModalState = () => {
-  const dispatch = useAppDispatch();
-
-  const isModalOpen = useAppSelector(createItemSelectors.selectIsConfirmCloseModalOpen);
-
-  const shouldMountModal = isModalOpen;
-
-  const closeModalConfirm = () => {
-    dispatch(createItemActions.closeConfirmCloseModalWithConfirm());
-  };
-
-  const closeModalCancel = () => {
-    dispatch(createItemActions.closeConfirmCloseModalWithCancel());
-  };
-
-  return {
-    shouldMountModal,
-    closeModalConfirm,
-    closeModalCancel,
-  };
-};
-
-const CreateItemConfirmModal = () => {
-  const { shouldMountModal, closeModalConfirm, closeModalCancel } = useCreateItemConfirmModalState();
-
-  if (shouldMountModal) {
-    return createPortal(
-      <div className="fixed top-0 bottom-0 left-0 right-0 p-6 flex justify-center items-center bg-black/10">
-        <div className="max-w-175 p-6 border border-solid border-gray-400 rounded-lg bg-white">
-          <header className="mb-4 text-center">Confirm exit</header>
-          <main className="mb-4 text-center">
-            Your changes are not saved.
-            <br />
-            Are you sure you want to exit?
-          </main>
-          <footer className="flex justify-center items-center">
-            <button
-              className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-              onClick={closeModalCancel}
-            >
-              Cancel
-            </button>
-            <button
-              className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-              onClick={closeModalConfirm}
-            >
-              Confirm
-            </button>
-          </footer>
-        </div>
-      </div>,
-      document.body,
-    );
-  }
-
-  return null;
-};
-
-const CreateItemModal = () => {
+const useCreateItemModalState = () => {
   const dispatch = useAppDispatch();
 
   const isCreateModalOpen = useAppSelector(createItemSelectors.selectIsCreateModalOpen);
+  const shouldMountModal = isCreateModalOpen;
 
   const closeCreateModal = () => {
     dispatch(createItemActions.closeCreateModal());
@@ -94,11 +38,9 @@ const CreateItemModal = () => {
 
   const formData = useAppSelector(createItemSelectors.selectFormData);
 
-  const {
-    itemFormRef,
-    getFormValues,
-    submitItemForm,
-  } = useItemFormRef();
+  const { itemFormRef, getFormValues, submitItemForm } = useItemFormRef();
+
+  const { openCreateItemConfirmModal } = useCreateItemConfirmModalHandlers();
 
   const onCloseModal = () => {
     const formValues = getFormValues() ?? {};
@@ -109,29 +51,36 @@ const CreateItemModal = () => {
       return;
     }
 
-    dispatch(createItemActions.openConfirmCloseModal());
+    openCreateItemConfirmModal();
   };
 
-  const [createItemFn, { isLoading }] = useCreateItemMutation();
+  const [createItemFn, { isLoading: isItemCreating }] = useCreateItemMutation();
 
-  const onSubmitHandler = async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+  async function createNewItem(data) {
+    await createItemFn({ data });
 
-    const formdata = new FormData(event.target);
-
-    const data = Object.fromEntries(formdata.entries());
-
-    try {
-      await createItemFn({ data });
-
-      closeCreateModal();
-    } catch (error) {
-      console.error(error);
-    }
+    closeCreateModal();
   };
 
-  if (isCreateModalOpen) {
+  const { onSubmitHandler } = useItemFormOnSubmitHandler({
+    mainCallback: createNewItem,
+  });
+
+  return {
+    shouldMountModal,
+    itemFormRef,
+    submitItemForm,
+    onCloseModal,
+    onSubmitHandler,
+    isItemCreating,
+  };
+};
+
+const CreateItemModal = () => {
+  const { shouldMountModal, itemFormRef, submitItemForm, onCloseModal, onSubmitHandler, isItemCreating } =
+    useCreateItemModalState();
+
+  if (shouldMountModal) {
     return createPortal(
       <div className="fixed top-0 bottom-0 left-0 right-0 p-6 flex justify-center items-center bg-black/10">
         <div className="max-w-175 w-9/10 p-6 border border-solid border-gray-400 rounded-lg bg-white text-center">
@@ -154,7 +103,7 @@ const CreateItemModal = () => {
             </button>
             <button
               className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
-              disabled={isLoading}
+              disabled={isItemCreating}
               onClick={submitItemForm}
             >
               Create

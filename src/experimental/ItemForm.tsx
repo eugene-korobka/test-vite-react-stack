@@ -51,14 +51,51 @@ export function useItemFormRef() {
   };
 };
 
-const useInputIds = () => {
+export function useItemFormOnSubmitHandler<T extends {
+  mainCallback: Function;
+  errorCallback?: Function;
+  finallyCallback?: Function;
+}>({
+  mainCallback,
+  errorCallback,
+  finallyCallback,
+}: T) {
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const formdata = new FormData(event.target);
+
+    const data = Object.fromEntries(formdata.entries());
+
+    try {
+      await mainCallback(data);
+    } catch (error) {
+      console.error(error);
+
+      if (typeof errorCallback === 'function') {
+        errorCallback();
+      };
+    } finally {
+      if (typeof finallyCallback === 'function') {
+        finallyCallback();
+      }
+    }
+  };
+
+  return {
+    onSubmitHandler,
+  };
+};
+
+function useInputIds() {
   return {
     titleInputId: useId(),
     descriptionInputId: useId(),
   };
 };
 
-const useItemFormState = (props: ItemFormProps, outterRef: React.ForwardedRef<ItemFormRef>) => {
+function useItemFormState(props: ItemFormProps, outterRef: React.ForwardedRef<ItemFormRef>) {
   const { initialValues = defaultFormValues, onSubmitHandler } = props;
 
   const [formValues, setFormValues] = useState<Partial<ItemType>>(initialValues);

@@ -5,12 +5,12 @@ import { ItemType, ItemTypeId } from "./types";
 
 const initialState: {
   isEditModalOpen: boolean;
-  editedItemId: ItemTypeId | null;
+  currentModalId: ItemTypeId | null;
   formData: Partial<ItemType>;
   isConfirmCloseModalOpen: boolean;
 } = {
   isEditModalOpen: false,
-  editedItemId: null,
+  currentModalId: null,
   formData: {},
   isConfirmCloseModalOpen: false,
 };
@@ -19,13 +19,13 @@ export const editItemSlice = createSlice({
   name: 'editItem',
   initialState,
   reducers: {
-    openEditModal(state, action: PayloadAction<{ itemId: ItemTypeId }>) {
+    openEditModal(state, action: PayloadAction<{ modalId: ItemTypeId }>) {
       state.isEditModalOpen = true;
-      state.editedItemId = action.payload.itemId;
+      state.currentModalId = action.payload.modalId;
     },
     closeEditModal(state) {
       state.isEditModalOpen = false;
-      state.editedItemId = initialState.editedItemId;
+      state.currentModalId = initialState.currentModalId;
     },
     saveFormData(state, action: PayloadAction<{ form: typeof initialState.formData }>) {
       state.formData = action.payload.form;
@@ -39,7 +39,7 @@ export const editItemSlice = createSlice({
     closeConfirmCloseModalWithConfirm(state) {
       state.isConfirmCloseModalOpen = false;
       state.isEditModalOpen = false;
-      state.editedItemId = initialState.editedItemId;
+      state.currentModalId = initialState.currentModalId;
     },
     closeConfirmCloseModalWithCancel(state) {
       state.isConfirmCloseModalOpen = false;

@@ -8,10 +8,10 @@ const selectRemoveItemDomain = createSelector(selectRootState, (state) => state[
 
 const selectIsConfirmRemoveModalOpen = createSelector(selectRemoveItemDomain, (state) => state.isConfirmRemoveModalOpen);
 
-const selectRemovedItemId = createSelector(selectRemoveItemDomain, (state) => state.removedItemId);
+const selectCurrentModalId = createSelector(selectRemoveItemDomain, (state) => state.currentModalId);
 
 export const removeItemSelectors = {
   selectRemoveItemDomain,
   selectIsConfirmRemoveModalOpen,
-  selectRemovedItemId,
+  selectCurrentModalId,
 };

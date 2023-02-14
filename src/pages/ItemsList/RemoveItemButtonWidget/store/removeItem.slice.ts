@@ -4,23 +4,23 @@ import type { ItemTypeId } from "./types";
 
 const initialState: {
   isConfirmRemoveModalOpen: boolean;
-  removedItemId: ItemTypeId | null;
+  currentModalId: ItemTypeId | null;
 } = {
   isConfirmRemoveModalOpen: false,
-  removedItemId: null,
+  currentModalId: null,
 };
 
 export const removeItemSlice = createSlice({
   name: 'removeItem',
   initialState,
   reducers: {
-    openConfirmRemoveModal(state, action: PayloadAction<{ itemId: ItemTypeId }>) {
+    openConfirmRemoveModal(state, action: PayloadAction<{ modalId: ItemTypeId }>) {
       state.isConfirmRemoveModalOpen = true;
-      state.removedItemId = action.payload.itemId;
+      state.currentModalId = action.payload.modalId;
     },
     closeConfirmRemoveModal(state) {
       state.isConfirmRemoveModalOpen = false;
-      state.removedItemId = initialState.removedItemId;
+      state.currentModalId = initialState.currentModalId;
     },
   },
 });

@@ -8,7 +8,7 @@ const selectEditItemDomain = createSelector(selectRootState, (state) => state[ed
 
 const selectIsEditModalOpen = createSelector(selectEditItemDomain, (state) => state.isEditModalOpen);
 
-const selectEditedItemId = createSelector(selectEditItemDomain, (state) => state.editedItemId);
+const selectCurrentModalId = createSelector(selectEditItemDomain, (state) => state.currentModalId);
 
 const selectFormData = createSelector(selectEditItemDomain, (state) => state.formData);
 
@@ -17,7 +17,7 @@ const selectIsConfirmCloseModalOpen = createSelector(selectEditItemDomain, (stat
 export const editItemSelectors = {
   selectEditItemDomain,
   selectIsEditModalOpen,
-  selectEditedItemId,
+  selectCurrentModalId,
   selectFormData,
   selectIsConfirmCloseModalOpen,
 };

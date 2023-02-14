@@ -1,16 +1,17 @@
 import { createPortal } from "react-dom";
 import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
-import { ItemForm, useItemFormRef } from "src/experimental/ItemForm";
+import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
 
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { RemoveItemButtonWithConfirmWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWithConfirmWidget';
 
-import { RemoveItemButtonWithConfirmWidget } from "../RemoveItemButtonWidget/RemoveItemButtonWithConfirmWidget";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
 import { editItemSelectors } from "./store/editItem.selector";
 import { editItemActions } from "./store/editItem.slice";
 import { useFetchItemByIdQuery, useUpdateItemMutation } from "./store/items.edit.api";
 import { ItemTypeId } from "./store/types";
+import { EditItemConfirmModal, useEditItemConfirmModalHandlers } from "./EditItemConfirmModal";
 
 type EditItemModalButtonProps = {
   itemId: ItemTypeId;
@@ -22,7 +23,7 @@ const EditItemModalButton = (props: EditItemModalButtonProps) => {
   const dispatch = useAppDispatch();
 
   const openEditModal = () => {
-    dispatch(editItemActions.openEditModal({ itemId }));
+    dispatch(editItemActions.openEditModal({ modalId: itemId }));
   };
 
   return (
@@ -32,80 +33,18 @@ const EditItemModalButton = (props: EditItemModalButtonProps) => {
   );
 };
 
-const useEditItemConfirmModalState = () => {
-  const dispatch = useAppDispatch();
-
-  const isModalOpen = useAppSelector(editItemSelectors.selectIsConfirmCloseModalOpen);
-
-  const shouldMountModal = isModalOpen;
-
-  const closeModalConfirm = () => {
-    dispatch(editItemActions.closeConfirmCloseModalWithConfirm());
-  };
-
-  const closeModalCancel = () => {
-    dispatch(editItemActions.closeConfirmCloseModalWithCancel());
-  };
-
-  return {
-    shouldMountModal,
-    closeModalConfirm,
-    closeModalCancel,
-  };
-};
-
-const EditItemConfirmModal = () => {
-  const {
-    shouldMountModal,
-    closeModalConfirm,
-    closeModalCancel,
-  } = useEditItemConfirmModalState();
-
-  if (shouldMountModal) {
-    return createPortal(
-      <div className="fixed top-0 bottom-0 left-0 right-0 p-6 flex justify-center items-center bg-black/10">
-        <div className="max-w-175 p-6 border border-solid border-gray-400 rounded-lg bg-white">
-          <header className="mb-4 text-center">Confirm exit</header>
-          <main className="mb-4 text-center">
-            Your changes are not saved.
-            <br />
-            Are you sure you want to exit?
-          </main>
-          <footer className="flex justify-center items-center">
-            <button
-              className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-              onClick={closeModalCancel}
-            >
-              Cancel
-            </button>
-            <button
-              className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-              onClick={closeModalConfirm}
-            >
-              Confirm
-            </button>
-          </footer>
-        </div>
-      </div>,
-      document.body,
-    );
-  }
-
-  return null;
-};
-
 type EditItemModalProps = {
   itemId: ItemTypeId;
 };
 
-const EditItemModal = (props: EditItemModalProps) => {
+function useEditItemModalState(props: EditItemModalProps) {
   const { itemId } = props;
 
   const isEditModalOpen = useAppSelector(editItemSelectors.selectIsEditModalOpen);
-  const editedItemId = useAppSelector(editItemSelectors.selectEditedItemId);
-  const shouldMountModal = Boolean(editedItemId && editedItemId === itemId && isEditModalOpen);
+  const currentModalId = useAppSelector(editItemSelectors.selectCurrentModalId);
+  const shouldMountModal = Boolean(currentModalId && currentModalId === itemId && isEditModalOpen);
 
-  const { data: item, isFetching } = useFetchItemByIdQuery({ itemId }, { skip: !shouldMountModal });
+  const { data: itemById, isFetching: isFetchingItemById } = useFetchItemByIdQuery({ itemId }, { skip: !shouldMountModal });
 
   const dispatch = useAppDispatch();
 
@@ -121,6 +60,8 @@ const EditItemModal = (props: EditItemModalProps) => {
 
   const formData = useAppSelector(editItemSelectors.selectFormData);
 
+  const { openEditItemConfirmModal } = useEditItemConfirmModalHandlers();
+
   const onCloseModal = () => {
     const formValues = getFormValues() ?? {};
 
@@ -130,27 +71,46 @@ const EditItemModal = (props: EditItemModalProps) => {
       return;
     }
 
-    dispatch(editItemActions.openConfirmCloseModal());
+    openEditItemConfirmModal();
   };
 
-  const [updateItemFn, { isLoading }] = useUpdateItemMutation();
+  const [updateItemFn, { isLoading: isItemUpdating }] = useUpdateItemMutation();
 
-  const onSubmitHandler = async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+  async function updateItem(data) {
+    await updateItemFn({ itemId, data });
 
-    const formdata = new FormData(event.target);
+    closeEditModal();
+  }
 
-    const data = Object.fromEntries(formdata.entries());
+  const { onSubmitHandler } = useItemFormOnSubmitHandler({
+    mainCallback: updateItem,
+  });
 
-    try {
-      await updateItemFn({ itemId, data });
-
-      closeEditModal();
-    } catch (error) {
-      console.error(error);
-    }
+  return {
+    itemId,
+    itemById,
+    isFetchingItemById,
+    isItemUpdating,
+    shouldMountModal,
+    itemFormRef,
+    onSubmitHandler,
+    submitItemForm,
+    onCloseModal,
   };
+};
+
+const EditItemModal = (props: EditItemModalProps) => {
+  const {
+    itemId,
+    itemById,
+    isFetchingItemById,
+    isItemUpdating,
+    shouldMountModal,
+    itemFormRef,
+    onSubmitHandler,
+    submitItemForm,
+    onCloseModal,
+  } = useEditItemModalState(props);
 
   if (shouldMountModal) {
     return createPortal(
@@ -164,9 +124,9 @@ const EditItemModal = (props: EditItemModalProps) => {
             <EditItemConfirmModal />
           </header>
           <main className="text-start">
-            {isFetching && <div className="w-full">Loading...</div>}
-            {!isFetching && item && (
-              <ItemForm ref={itemFormRef} initialValues={item} onSubmitHandler={onSubmitHandler} />
+            {isFetchingItemById && <div className="w-full">Loading...</div>}
+            {!isFetchingItemById && itemById && (
+              <ItemForm ref={itemFormRef} initialValues={itemById} onSubmitHandler={onSubmitHandler} />
             )}
           </main>
           <footer>
@@ -178,7 +138,7 @@ const EditItemModal = (props: EditItemModalProps) => {
             </button>
             <button
               className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
-              disabled={isLoading}
+              disabled={isItemUpdating}
               onClick={submitItemForm}
             >
               Save
