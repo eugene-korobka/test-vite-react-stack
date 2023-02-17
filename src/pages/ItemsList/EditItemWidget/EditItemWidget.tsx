@@ -1,9 +1,9 @@
-import { createPortal } from "react-dom";
-import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
 
 import { RemoveItemButtonWithConfirmWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWithConfirmWidget';
+
+import { Modal } from "components/ModalComponents";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
@@ -37,14 +37,16 @@ type EditItemModalProps = {
   itemId: ItemTypeId;
 };
 
-function useEditItemModalState(props: EditItemModalProps) {
-  const { itemId } = props;
-
+function useIsEditItemModalOpen(itemId) {
   const isEditModalOpen = useAppSelector(editItemSelectors.selectIsEditModalOpen);
   const currentModalId = useAppSelector(editItemSelectors.selectCurrentModalId);
-  const shouldMountModal = Boolean(currentModalId && currentModalId === itemId && isEditModalOpen);
+  const isModalOpen = Boolean(currentModalId && currentModalId === itemId && isEditModalOpen);
 
-  const { data: itemById, isFetching: isFetchingItemById } = useFetchItemByIdQuery({ itemId }, { skip: !shouldMountModal });
+  return isModalOpen;
+};
+
+function useEditItemModalState(props: EditItemModalProps) {
+  const { itemId } = props;
 
   const dispatch = useAppDispatch();
 
@@ -52,11 +54,11 @@ function useEditItemModalState(props: EditItemModalProps) {
     dispatch(editItemActions.closeEditModal());
   };
 
-  const {
-    itemFormRef,
-    getFormValues,
-    submitItemForm,
-  } = useItemFormRef();
+  const isModalOpen = useIsEditItemModalOpen(itemId);
+
+  const { data: itemById, isFetching: isFetchingItemById } = useFetchItemByIdQuery({ itemId }, { skip: !isModalOpen });
+
+  const { itemFormRef, getFormValues, submitItemForm } = useItemFormRef();
 
   const formData = useAppSelector(editItemSelectors.selectFormData);
 
@@ -91,7 +93,7 @@ function useEditItemModalState(props: EditItemModalProps) {
     itemById,
     isFetchingItemById,
     isItemUpdating,
-    shouldMountModal,
+    isModalOpen,
     itemFormRef,
     onSubmitHandler,
     submitItemForm,
@@ -105,53 +107,38 @@ const EditItemModal = (props: EditItemModalProps) => {
     itemById,
     isFetchingItemById,
     isItemUpdating,
-    shouldMountModal,
+    isModalOpen,
     itemFormRef,
     onSubmitHandler,
     submitItemForm,
     onCloseModal,
   } = useEditItemModalState(props);
 
-  if (shouldMountModal) {
-    return createPortal(
-      <div className="fixed top-0 bottom-0 left-0 right-0 p-6 flex justify-center items-center bg-black/10">
-        <div className="max-w-175 w-9/10 p-6 border border-solid border-gray-400 rounded-lg bg-white text-center">
-          <header className="relative mb-4 text-xl text-center font-bold">
-            <div>Edit item</div>
-            <button className="absolute top-0 right-0" onClick={onCloseModal}>
-              <CloseIcon className="w-4 h-4" />
-            </button>
-            <EditItemConfirmModal />
-          </header>
-          <main className="text-start">
-            {isFetchingItemById && <div className="w-full">Loading...</div>}
-            {!isFetchingItemById && itemById && (
-              <ItemForm ref={itemFormRef} initialValues={itemById} onSubmitHandler={onSubmitHandler} />
-            )}
-          </main>
-          <footer>
-            <button
-              className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md"
-              onClick={onCloseModal}
-            >
-              Cancel
-            </button>
-            <button
-              className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
-              disabled={isItemUpdating}
-              onClick={submitItemForm}
-            >
-              Save
-            </button>
-            <RemoveItemButtonWithConfirmWidget itemId={itemId} />
-          </footer>
-        </div>
-      </div>,
-      document.body,
-    );
-  }
-
-  return null;
+  return (
+    <Modal.BaseModal isOpen={isModalOpen} onClose={onCloseModal}>
+      <Modal.Header title="Edit item" />
+      <Modal.Main>
+        {isFetchingItemById && <div className="w-full">Loading...</div>}
+        {!isFetchingItemById && itemById && (
+          <ItemForm ref={itemFormRef} initialValues={itemById} onSubmitHandler={onSubmitHandler} />
+        )}
+      </Modal.Main>
+      <Modal.Footer>
+        <button className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md" onClick={onCloseModal}>
+          Cancel
+        </button>
+        <button
+          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
+          disabled={isItemUpdating}
+          onClick={submitItemForm}
+        >
+          Save
+        </button>
+        <RemoveItemButtonWithConfirmWidget itemId={itemId} />
+        <EditItemConfirmModal />
+      </Modal.Footer>
+    </Modal.BaseModal>
+  );
 };
 
 type EditItemWidgetProps = {

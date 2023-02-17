@@ -1,7 +1,7 @@
-import { createPortal } from "react-dom";
-import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
 import { defaultFormValues, ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
+
+import { Modal } from "components/ModalComponents";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
@@ -29,8 +29,7 @@ const CreateItemModalButton = () => {
 const useCreateItemModalState = () => {
   const dispatch = useAppDispatch();
 
-  const isCreateModalOpen = useAppSelector(createItemSelectors.selectIsCreateModalOpen);
-  const shouldMountModal = isCreateModalOpen;
+  const isModalOpen = useAppSelector(createItemSelectors.selectIsCreateModalOpen);
 
   const closeCreateModal = () => {
     dispatch(createItemActions.closeCreateModal());
@@ -67,7 +66,7 @@ const useCreateItemModalState = () => {
   });
 
   return {
-    shouldMountModal,
+    isModalOpen,
     itemFormRef,
     submitItemForm,
     onCloseModal,
@@ -77,45 +76,30 @@ const useCreateItemModalState = () => {
 };
 
 const CreateItemModal = () => {
-  const { shouldMountModal, itemFormRef, submitItemForm, onCloseModal, onSubmitHandler, isItemCreating } =
+  const { isModalOpen, itemFormRef, submitItemForm, onCloseModal, onSubmitHandler, isItemCreating } =
     useCreateItemModalState();
 
-  if (shouldMountModal) {
-    return createPortal(
-      <div className="fixed top-0 bottom-0 left-0 right-0 p-6 flex justify-center items-center bg-black/10">
-        <div className="max-w-175 w-9/10 p-6 border border-solid border-gray-400 rounded-lg bg-white text-center">
-          <header className="relative mb-4 text-xl text-center font-bold">
-            <div>Create item</div>
-            <button className="absolute top-0 right-0" onClick={onCloseModal}>
-              <CloseIcon className="w-4 h-4" />
-            </button>
-            <CreateItemConfirmModal />
-          </header>
-          <main className="text-start">
-            <ItemForm ref={itemFormRef} onSubmitHandler={onSubmitHandler} />
-          </main>
-          <footer className="flex justify-center items-center">
-            <button
-              className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md"
-              onClick={onCloseModal}
-            >
-              Cancel
-            </button>
-            <button
-              className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
-              disabled={isItemCreating}
-              onClick={submitItemForm}
-            >
-              Create
-            </button>
-          </footer>
-        </div>
-      </div>,
-      document.body,
-    );
-  }
-
-  return null;
+  return (
+    <Modal.BaseModal isOpen={isModalOpen} onClose={onCloseModal}>
+      <Modal.Header title="Create item" />
+      <Modal.Main>
+        <ItemForm ref={itemFormRef} onSubmitHandler={onSubmitHandler} />
+      </Modal.Main>
+      <Modal.Footer>
+        <button className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md" onClick={onCloseModal}>
+          Cancel
+        </button>
+        <button
+          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
+          disabled={isItemCreating}
+          onClick={submitItemForm}
+        >
+          Create
+        </button>
+        <CreateItemConfirmModal />
+      </Modal.Footer>
+    </Modal.BaseModal>
+  );
 };
 
 export const CreateItemWidgetV2 = () => {
