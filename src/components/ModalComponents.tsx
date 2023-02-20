@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { ReactComponent as CloseIcon } from "src/assets/close-icon.svg";
 
@@ -49,10 +49,22 @@ const ModalCloseButton = (props: ModalCloseButtonProps) => {
 type ModalBaseProps = React.PropsWithChildren & {
   isOpen: boolean;
   onClose?: () => void;
+  onHide?: () => void;
 };
 
 const BaseModal = (props: ModalBaseProps) => {
-  const { isOpen, children, onClose } = props;
+  const { isOpen, children, onClose, onHide } = props;
+
+  const onHideRef = useRef(onHide);
+  onHideRef.current = onHide;
+
+  useEffect(() => {
+    if (isOpen || !onHideRef.current) {
+      return;
+    }
+
+    onHideRef.current();
+  }, [isOpen]);
 
   if (isOpen) {
     return createPortal(
