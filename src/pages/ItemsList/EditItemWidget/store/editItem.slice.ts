@@ -1,18 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-import { itemEditApi } from "./items.edit.api";
-import { ItemType, ItemTypeId } from "./types";
+import { ItemTypeId } from "./types";
 
 const initialState: {
   isEditModalOpen: boolean;
   currentModalId: ItemTypeId | null;
-  formData: Partial<ItemType>;
   isConfirmCloseModalOpen: boolean;
+  hasFormChanges: boolean;
 } = {
   isEditModalOpen: false,
   currentModalId: null,
-  formData: {},
   isConfirmCloseModalOpen: false,
+  hasFormChanges: false,
 };
 
 export const editItemSlice = createSlice({
@@ -26,36 +25,39 @@ export const editItemSlice = createSlice({
       state.isEditModalOpen = true;
       state.currentModalId = action.payload.modalId;
     },
-    closeEditModal(state) {
-      state.isEditModalOpen = false;
-      state.currentModalId = initialState.currentModalId;
-    },
-    saveFormData(state, action: PayloadAction<{ form: typeof initialState.formData }>) {
-      state.formData = action.payload.form;
-    },
-    clearFormData(state) {
-      state.formData = initialState.formData;
+    closeEditModal() {
+      return initialState;
     },
     openConfirmCloseModal(state) {
       state.isConfirmCloseModalOpen = true;
     },
-    closeConfirmCloseModalWithConfirm(state) {
-      state.isConfirmCloseModalOpen = false;
-      state.isEditModalOpen = false;
-      state.currentModalId = initialState.currentModalId;
+    closeConfirmCloseModalWithConfirm() {
+      return initialState;
     },
     closeConfirmCloseModalWithCancel(state) {
       state.isConfirmCloseModalOpen = false;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(itemEditApi.endpoints.fetchItemById.matchFulfilled, (draft, action) => {
-        draft.formData = action.payload;
-      });
+    setHasFormChanges(state, action: PayloadAction<boolean>) {
+      state.hasFormChanges = action.payload;
+    },
   },
 });
 
-export const editItemActions = editItemSlice.actions;
+const beforeCloseEditModal = () => (dispatch, getState) => {
+  const sliceState = getState()[editItemSlice.name];
+
+  const hasFormChanges = sliceState.hasFormChanges;
+
+  if (hasFormChanges) {
+    dispatch(editItemSlice.actions.openConfirmCloseModal());
+  } else {
+    dispatch(editItemSlice.actions.closeEditModal());
+  }
+};
+
+export const editItemActions = {
+  ...editItemSlice.actions,
+  beforeCloseEditModal,
+};
 
 export const editItemReducer = editItemSlice.reducer;

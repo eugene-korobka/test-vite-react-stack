@@ -29,3 +29,7 @@ export type AppDispatch = typeof store.dispatch;
 export function selectRootState(state: RootState) {
   return state;
 }
+
+export function selectSelectorParams(_: RootState, params) {
+  return params;
+}

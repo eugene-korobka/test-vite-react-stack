@@ -1,4 +1,5 @@
-import React, { forwardRef, useCallback, useId, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
+import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
 
 import { ItemType } from "store/types";
 
@@ -12,6 +13,7 @@ export const defaultFormValues: Partial<ItemType> = {
 
 type ItemFormProps = {
   initialValues?: Partial<ItemType>;
+  onChangeValuesHandler?: (value?: any) => void;
   onSubmitHandler?: React.FormEventHandler;
 };
 
@@ -96,9 +98,19 @@ function useInputIds() {
 };
 
 function useItemFormState(props: ItemFormProps, outterRef: React.ForwardedRef<ItemFormRef>) {
-  const { initialValues = defaultFormValues, onSubmitHandler } = props;
+  const { initialValues = defaultFormValues, onSubmitHandler, onChangeValuesHandler } = props;
 
   const [formValues, setFormValues] = useState<Partial<ItemType>>(initialValues);
+
+  useEffect(() => {
+    if (typeof onChangeValuesHandler !== 'function') {
+      return;
+    }
+
+    const hasChanges = !areObjectEqualsByValues(formValues, initialValues);
+
+    onChangeValuesHandler(hasChanges);
+  }, [onChangeValuesHandler, formValues, initialValues]);
 
   const onInputChange = (event) => {
     const { name, value } = event.target;

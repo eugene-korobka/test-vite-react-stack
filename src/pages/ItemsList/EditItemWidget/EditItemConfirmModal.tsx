@@ -2,32 +2,10 @@ import { memo } from "react";
 
 import { Modal } from "components/ModalComponents";
 
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppSelector } from "store/hooks";
 
 import { editItemSelectors } from "./store/editItem.selector";
-import { editItemActions } from "./store/editItem.slice";
-
-export function useEditItemConfirmModalHandlers() {
-  const dispatch = useAppDispatch();
-
-  const openEditItemConfirmModal = () => {
-    dispatch(editItemActions.openConfirmCloseModal());
-  };
-
-  const closeEditItemConfirmModalWithConfirm = () => {
-    dispatch(editItemActions.closeConfirmCloseModalWithConfirm());
-  };
-
-  const closeEditItemConfirmModalWithCancel = () => {
-    dispatch(editItemActions.closeConfirmCloseModalWithCancel());
-  };
-
-  return {
-    openEditItemConfirmModal,
-    closeEditItemConfirmModalWithConfirm,
-    closeEditItemConfirmModalWithCancel,
-  };
-};
+import { useEditItemConfirmModalHandlers } from "./hooks";
 
 function useEditItemConfirmModalState() {
   const isModalOpen = useAppSelector(editItemSelectors.selectIsConfirmCloseModalOpen);

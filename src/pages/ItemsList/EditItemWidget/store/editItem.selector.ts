@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 
-import { selectRootState } from "store/store";
+import { selectRootState, selectSelectorParams } from "store/store";
 
 import { editItemSlice } from "./editItem.slice";
 
@@ -10,14 +10,16 @@ const selectIsEditModalOpen = createSelector(selectEditItemDomain, (state) => st
 
 const selectCurrentModalId = createSelector(selectEditItemDomain, (state) => state.currentModalId);
 
-const selectFormData = createSelector(selectEditItemDomain, (state) => state.formData);
-
 const selectIsConfirmCloseModalOpen = createSelector(selectEditItemDomain, (state) => state.isConfirmCloseModalOpen);
+
+const selectIsModalOpenById = createSelector(selectEditItemDomain, selectSelectorParams, (state, itemId) => {
+  return Boolean(state.currentModalId && state.currentModalId === itemId && state.isEditModalOpen);
+});
 
 export const editItemSelectors = {
   selectEditItemDomain,
   selectIsEditModalOpen,
   selectCurrentModalId,
-  selectFormData,
   selectIsConfirmCloseModalOpen,
+  selectIsModalOpenById,
 };
