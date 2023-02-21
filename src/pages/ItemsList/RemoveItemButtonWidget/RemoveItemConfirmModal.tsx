@@ -2,35 +2,18 @@ import { memo } from "react";
 
 import { Modal } from "components/ModalComponents";
 
-import { useAppDispatch, useAppSelector } from "store/hooks";
-
 import { useRemoveItemMutation } from "./store/items.remove.api";
-import { removeItemSelectors } from "./store/removeItem.selector";
-import { removeItemActions } from "./store/removeItem.slice";
 import { ItemTypeId } from "./store/types";
+import { useIsRemoveItemConfirmModal, useRemoveItemConfirmModalHandlers } from "./hooks";
 
 type RemoveItemConfirmModalProps = {
   itemId: ItemTypeId;
 };
 
-function useIsModalOpen(itemId) {
-  const isOpen = useAppSelector(removeItemSelectors.selectIsConfirmRemoveModalOpen);
-
-  const currentModalId = useAppSelector(removeItemSelectors.selectCurrentModalId);
-
-  const isModalOpen = Boolean(currentModalId && currentModalId === itemId && isOpen);
-
-  return isModalOpen;
-};
-
 function useRemoveItemConfirmModal(props: RemoveItemConfirmModalProps) {
   const { itemId } = props;
 
-  const dispatch = useAppDispatch();
-
-  const closeModal = () => {
-    dispatch(removeItemActions.closeConfirmRemoveModal());
-  };
+  const { closeRemoveItemConfirmModalWithConfirm, closeRemoveItemConfirmModalWithCancel } = useRemoveItemConfirmModalHandlers(itemId);
 
   const [removeItemFn, { isLoading: isItemRemoving }] = useRemoveItemMutation();
 
@@ -40,24 +23,25 @@ function useRemoveItemConfirmModal(props: RemoveItemConfirmModalProps) {
         console.error(error);
       })
       .finally(() => {
-        closeModal();
+        closeRemoveItemConfirmModalWithConfirm();
       });
   };
 
   const isConfirmButtonDisabled = !itemId || isItemRemoving;
 
-  const isModalOpen = useIsModalOpen(itemId);
+  const isModalOpen = useIsRemoveItemConfirmModal(itemId);
 
   return {
     isModalOpen,
     isConfirmButtonDisabled,
-    closeModal,
+    closeRemoveItemConfirmModalWithCancel,
     confirmRemove,
   };
 };
 
 export const RemoveItemConfirmModal = memo((props: RemoveItemConfirmModalProps) => {
-  const { isModalOpen, isConfirmButtonDisabled, closeModal, confirmRemove } = useRemoveItemConfirmModal(props);
+  const { isModalOpen, isConfirmButtonDisabled, closeRemoveItemConfirmModalWithCancel, confirmRemove } =
+    useRemoveItemConfirmModal(props);
 
   return (
     <Modal.ConfirmModal isOpen={isModalOpen}>
@@ -66,7 +50,7 @@ export const RemoveItemConfirmModal = memo((props: RemoveItemConfirmModalProps) 
       <Modal.Footer>
         <button
           className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-          onClick={closeModal}
+          onClick={closeRemoveItemConfirmModalWithCancel}
         >
           Cancel
         </button>

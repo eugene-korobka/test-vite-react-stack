@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit"
 
-import { selectRootState } from "store/store";
+import { selectRootState, selectSelectorParams } from "store/store";
 
 import { removeItemSlice } from "./removeItem.slice";
 
@@ -10,8 +10,13 @@ const selectIsConfirmRemoveModalOpen = createSelector(selectRemoveItemDomain, (s
 
 const selectCurrentModalId = createSelector(selectRemoveItemDomain, (state) => state.currentModalId);
 
+const selectIsModalOpenById = createSelector(selectRemoveItemDomain, selectSelectorParams, (state, itemId) => {
+  return Boolean(state.currentModalId && state.currentModalId === itemId && state.isConfirmRemoveModalOpen);
+});
+
 export const removeItemSelectors = {
   selectRemoveItemDomain,
   selectIsConfirmRemoveModalOpen,
   selectCurrentModalId,
+  selectIsModalOpenById,
 };

@@ -18,9 +18,11 @@ export const removeItemSlice = createSlice({
       state.isConfirmRemoveModalOpen = true;
       state.currentModalId = action.payload.modalId;
     },
-    closeConfirmRemoveModal(state) {
-      state.isConfirmRemoveModalOpen = false;
-      state.currentModalId = initialState.currentModalId;
+    closeConfirmRemoveModalWithConfirm() {
+      return initialState;
+    },
+    closeConfirmRemoveModalWithCancel() {
+      return initialState;
     },
   },
 });
