@@ -1,18 +1,14 @@
 import { Provider } from "react-redux";
-
-import { ItemsListPage } from 'pages/ItemsList/ItemsListPage';
-
-import { MainContainer } from "components/MainContainer";
+import { RouterProvider } from "react-router-dom";
 
 import { store } from 'store/store';
+
+import { appRouter } from "./router";
 
 function App() {
   return (
     <Provider store={store}>
-      <MainContainer>
-        <h1 className="mb-4 text-center text-2xl font-bold">React stack</h1>
-        <ItemsListPage />
-      </MainContainer>
+      <RouterProvider router={appRouter} />
     </Provider>
   );
 }

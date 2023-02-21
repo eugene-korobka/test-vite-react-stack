@@ -1,6 +1,8 @@
+import React from "react";
+
 export function MainContainer({ children }: { children?: React.ReactNode }) {
   return (
-    <main className="max-w-7xl my-0 mx-auto p-6">
+    <main className="w-full m-0 p-0">
       {children}
     </main>
   );
