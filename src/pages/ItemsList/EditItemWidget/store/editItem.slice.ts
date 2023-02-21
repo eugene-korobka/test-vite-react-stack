@@ -18,9 +18,6 @@ export const editItemSlice = createSlice({
   name: 'editItem',
   initialState,
   reducers: {
-    resetState() {
-      return initialState;
-    },
     openEditModal(state, action: PayloadAction<{ modalId: ItemTypeId }>) {
       state.isEditModalOpen = true;
       state.currentModalId = action.payload.modalId;

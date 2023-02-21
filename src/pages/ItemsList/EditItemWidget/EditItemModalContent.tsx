@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 
 import { RemoveItemButtonWithConfirmWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWithConfirmWidget';
@@ -33,14 +32,6 @@ function useEditItemModalContentState(props: EditItemModalContentProps) {
   }
 
   const { beforeCloseEditItemModal, closeEditItemModal } = useEditItemModalHandlers(itemId);
-
-  // useEffect(() => {
-  //   console.log('useEffect([closeEditItemModal])');
-  //   return () => {
-  //     console.log('useEffect([closeEditItemModal])-CLEAN');
-  //     // dispatch(editItemActions.resetState());
-  //   };
-  // }, [dispatch]);
 
   const [updateItemFn, { isLoading: isItemUpdating }] = useUpdateItemMutation();
 

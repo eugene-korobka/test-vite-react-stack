@@ -6,6 +6,12 @@ import { editItemSelectors } from "./store/editItem.selector";
 import { editItemActions } from "./store/editItem.slice";
 import { ItemTypeId } from "./store/types";
 
+export function useIsEditItemModalOpen(itemId) {
+  const isModalOpen = useAppSelector(editItemSelectors.selectIsModalOpenById, itemId);
+
+  return isModalOpen;
+}
+
 export function useEditItemModalHandlers(itemId: ItemTypeId) {
   const dispatch = useAppDispatch();
 
@@ -26,12 +32,6 @@ export function useEditItemModalHandlers(itemId: ItemTypeId) {
     closeEditItemModal,
     beforeCloseEditItemModal,
   };
-}
-
-export function useIsEditItemModalOpen(itemId) {
-  const isModalOpen = useAppSelector(editItemSelectors.selectIsModalOpenById, itemId);
-
-  return isModalOpen;
 }
 
 export function useEditItemConfirmModalHandlers() {
