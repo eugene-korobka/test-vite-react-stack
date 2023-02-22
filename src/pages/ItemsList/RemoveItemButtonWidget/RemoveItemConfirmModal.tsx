@@ -1,9 +1,9 @@
 import { memo } from "react";
+import { useRemoveItemMutation } from "sharedApi/items.remove.api";
+import { ItemTypeId } from "sharedTypes/item.types";
 
 import { Modal } from "components/ModalComponents";
 
-import { useRemoveItemMutation } from "./store/items.remove.api";
-import { ItemTypeId } from "./store/types";
 import { useIsRemoveItemConfirmModal, useRemoveItemConfirmModalHandlers } from "./hooks";
 
 type RemoveItemConfirmModalProps = {

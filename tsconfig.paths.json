@@ -19,6 +19,18 @@
       ],
       "components/*": [
         "./src/components/*"
+      ],
+      "sharedApi": [
+        "./src/sharedApi"
+      ],
+      "sharedApi/*": [
+        "./src/sharedApi/*"
+      ],
+      "sharedTypes": [
+        "./src/sharedTypes"
+      ],
+      "sharedTypes/*": [
+        "./src/sharedTypes/*"
       ]
     }
   }

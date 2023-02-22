@@ -1,8 +1,8 @@
-import { ITEMS_TAG_TYPE } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
+import { ItemTypeId } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 
-import { ItemTypeId } from './types';
+import { ITEMS_TAG_TYPE } from './sharedTagTypes';
 
 export const itemRemoveApi = baseApi
   .enhanceEndpoints({
