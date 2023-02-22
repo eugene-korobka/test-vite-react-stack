@@ -5,6 +5,8 @@ import { RemoveItemButtonWithConfirmWidget } from 'pages/ItemsList/RemoveItemBut
 
 import type { ItemType } from 'store/types';
 
+import { ViewItemLink } from './ViewItemLink';
+
 interface ItemListProps {
   items: ItemType[];
   isLoading?: boolean;
@@ -26,11 +28,12 @@ const columns = [
   {
     Header: 'Actions',
     accessor: 'id',
-    headerClassName: 'min-w-56 w-1/10 p-3 text-start font-bold',
-    cellClassName: 'min-w-56 w-1/10 p-3 text-end',
+    headerClassName: 'min-w-70 w-1/10 p-3 text-center font-bold',
+    cellClassName: 'min-w-70 w-1/10 p-3 text-end',
     Cell: ({ value }) => {
       return (
         <div className='flex gap-4 justify-end'>
+          <ViewItemLink itemId={value} />
           <EditItemWidget itemId={value} />
           <RemoveItemButtonWithConfirmWidget itemId={value} />
         </div>
