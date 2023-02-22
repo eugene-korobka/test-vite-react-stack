@@ -1,8 +1,7 @@
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 
-import { RemoveItemButtonWithConfirmWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWithConfirmWidget';
-
 import { Modal } from "components/ModalComponents";
+import { RemoveItemButtonWithConfirmModal } from "components/RemoveItemButtonWithConfirmModal";
 
 import { useAppDispatch } from "store/hooks";
 
@@ -56,6 +55,7 @@ function useEditItemModalContentState(props: EditItemModalContentProps) {
     onSubmitHandler,
     submitItemForm,
     beforeCloseEditItemModal,
+    closeEditItemModal,
   };
 }
 
@@ -70,6 +70,7 @@ export const EditItemModalContent = (props: EditItemModalContentProps) => {
     onSubmitHandler,
     submitItemForm,
     beforeCloseEditItemModal,
+    closeEditItemModal,
   } = useEditItemModalContentState(props);
 
   return (
@@ -100,7 +101,7 @@ export const EditItemModalContent = (props: EditItemModalContentProps) => {
         >
           Save
         </button>
-        <RemoveItemButtonWithConfirmWidget itemId={itemId} />
+        <RemoveItemButtonWithConfirmModal itemId={itemId} onRemove={closeEditItemModal} />
         <EditItemConfirmModal />
       </Modal.Footer>
     </>

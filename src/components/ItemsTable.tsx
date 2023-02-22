@@ -1,10 +1,10 @@
 import { useTable } from 'react-table';
 
 import { EditItemWidget } from 'pages/ItemsList/EditItemWidget/EditItemWidget';
-import { RemoveItemButtonWithConfirmWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWithConfirmWidget';
 
 import type { ItemType } from 'store/types';
 
+import { RemoveItemButtonWithConfirmModal } from './RemoveItemButtonWithConfirmModal';
 import { ViewItemLink } from './ViewItemLink';
 
 interface ItemListProps {
@@ -32,10 +32,10 @@ const columns = [
     cellClassName: 'min-w-70 w-1/10 p-3 text-end',
     Cell: ({ value }) => {
       return (
-        <div className='flex gap-4 justify-end'>
+        <div className="flex gap-4 justify-end">
           <ViewItemLink itemId={value} />
           <EditItemWidget itemId={value} />
-          <RemoveItemButtonWithConfirmWidget itemId={value} />
+          <RemoveItemButtonWithConfirmModal itemId={value} />
         </div>
       );
     },

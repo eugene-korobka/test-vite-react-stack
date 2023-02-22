@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { PageContainer } from 'components/PageContainer';
 
 import { ItemViewWidget } from './ItemViewWidget';
+import { RemoveItemButtonWithConfirmWidget } from './RemoveItemButtonWithConfirmWidget';
 
 export const ItemViewPage = () => {
   return (
@@ -12,6 +13,9 @@ export const ItemViewPage = () => {
         <Link to="/items-list" className="text-blue-400">
           &lt; Back to Items list
         </Link>
+        <div className='flex gap-4 items-center'>
+          <RemoveItemButtonWithConfirmWidget />
+        </div>
       </div>
       <ItemViewWidget />
     </PageContainer>
