@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { HomePage } from "pages/HomePage";
 import { ItemViewPage } from "pages/ItemPage/ItemViewPage";
@@ -7,9 +7,12 @@ import { RootPage } from "pages/RootPage";
 
 export const appRouter = createBrowserRouter([
   {
-    path: '/',
     element: <RootPage />,
     children: [
+      {
+        path: '/',
+        element: <Navigate to="/home" />,
+      },
       {
         path: '/home',
         element: <HomePage />,
