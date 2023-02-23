@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 
 import { PageContainer } from 'components/PageContainer';
 
+import { EditItemViewWidget } from './EditItemViewWidget';
 import { ItemViewWidget } from './ItemViewWidget';
-import { RemoveItemButtonWithConfirmWidget } from './RemoveItemButtonWithConfirmWidget';
+// import { RemoveItemButtonWithConfirmWidget } from './RemoveItemButtonWithConfirmWidget';
+import { RemoveItemViewWidget } from './RemoveItemViewWidget';
 
 export const ItemViewPage = () => {
   return (
@@ -14,7 +16,9 @@ export const ItemViewPage = () => {
           &lt; Back to Items list
         </Link>
         <div className='flex gap-4 items-center'>
-          <RemoveItemButtonWithConfirmWidget />
+          {/* <RemoveItemButtonWithConfirmWidget /> */}
+          <EditItemViewWidget />
+          <RemoveItemViewWidget />
         </div>
       </div>
       <ItemViewWidget />

@@ -1,7 +1,9 @@
+import { useCallback } from "react";
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 
 import { Modal } from "components/ModalComponents";
-import { RemoveItemButtonWithConfirmModal } from "components/RemoveItemButtonWithConfirmModal";
+// import { RemoveItemButtonWithConfirmModal } from "components/RemoveItemButtonWithConfirmModal";
+import { RemoveItemWithEvent, useSubscribeToRemoveItemEvent } from "components/RemoveItemWithEvent";
 
 import { useAppDispatch } from "store/hooks";
 
@@ -44,6 +46,12 @@ function useEditItemModalContentState(props: EditItemModalContentProps) {
     mainCallback: updateItem,
   });
 
+  const onRemoveItem = useCallback(() => {
+    closeEditItemModal();
+  }, [closeEditItemModal]);
+
+  useSubscribeToRemoveItemEvent(onRemoveItem);
+
   return {
     itemId,
     itemById,
@@ -70,7 +78,7 @@ export const EditItemModalContent = (props: EditItemModalContentProps) => {
     onSubmitHandler,
     submitItemForm,
     beforeCloseEditItemModal,
-    closeEditItemModal,
+    // closeEditItemModal,
   } = useEditItemModalContentState(props);
 
   return (
@@ -101,7 +109,8 @@ export const EditItemModalContent = (props: EditItemModalContentProps) => {
         >
           Save
         </button>
-        <RemoveItemButtonWithConfirmModal itemId={itemId} onRemove={closeEditItemModal} />
+        {/* <RemoveItemButtonWithConfirmModal itemId={itemId} onRemove={closeEditItemModal} /> */}
+        <RemoveItemWithEvent itemId={itemId} />
         <EditItemConfirmModal />
       </Modal.Footer>
     </>
