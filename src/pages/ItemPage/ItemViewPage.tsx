@@ -1,13 +1,22 @@
-import { Link } from 'react-router-dom';
+import { useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { PageContainer } from 'components/PageContainer';
+import { useSubscribeToRemoveItemEvent } from 'components/RemoveItemWithEvent';
 
 import { EditItemViewWidget } from './EditItemViewWidget';
 import { ItemViewWidget } from './ItemViewWidget';
-// import { RemoveItemButtonWithConfirmWidget } from './RemoveItemButtonWithConfirmWidget';
-import { RemoveItemViewWidget } from './RemoveItemViewWidget';
+import { RemoveItemViewEventWidget } from './RemoveItemViewWidget';
 
 export const ItemViewPage = () => {
+  const navigate = useNavigate();
+
+  const onRemoveItem = useCallback(() => {
+    navigate('/items-list');
+  }, [navigate]);
+
+  useSubscribeToRemoveItemEvent(onRemoveItem);
+
   return (
     <PageContainer>
       <h2 className="mb-4 text-xl">Item View Page</h2>
@@ -16,9 +25,8 @@ export const ItemViewPage = () => {
           &lt; Back to Items list
         </Link>
         <div className='flex gap-4 items-center'>
-          {/* <RemoveItemButtonWithConfirmWidget /> */}
           <EditItemViewWidget />
-          <RemoveItemViewWidget />
+          <RemoveItemViewEventWidget />
         </div>
       </div>
       <ItemViewWidget />

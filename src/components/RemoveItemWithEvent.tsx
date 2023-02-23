@@ -3,7 +3,7 @@ import { useRemoveItemMutation } from "sharedApi/items.remove.api";
 import { ItemTypeId } from "sharedTypes/item.types";
 import { useItemId } from "src/hooks/useItemId";
 
-import { Modal } from "./ModalComponents";
+import { RemoveItemButtonWithConfirmModal } from "./RemoveItemButtonWithConfirmModal";
 
 type RemoveItemWithEventProps = {
   itemId?: ItemTypeId;
@@ -88,32 +88,12 @@ export const RemoveItemWithEvent = (props: RemoveItemWithEventProps) => {
   }
 
   return (
-    <>
-      <button
-        className="p-2 shrink-0 border border-solid border-red-400 rounded-md text-red-400"
-        onClick={openConfirmModal}
-      >
-        Remove
-      </button>
-      <Modal.ConfirmModal isOpen={isConfirmOpen}>
-        <Modal.Header title="Confirm remove" />
-        <Modal.Main>Are you sure you want to remove item?</Modal.Main>
-        <Modal.Footer>
-          <button
-            className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-            onClick={closeConfirmModal}
-          >
-            Cancel
-          </button>
-          <button
-            className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-            disabled={isConfirmButtonDisabled}
-            onClick={confirmRemove}
-          >
-            Confirm
-          </button>
-        </Modal.Footer>
-      </Modal.ConfirmModal>
-    </>
+    <RemoveItemButtonWithConfirmModal
+      isOpen={isConfirmOpen}
+      onButtonClick={openConfirmModal}
+      onCancel={closeConfirmModal}
+      onConfirm={confirmRemove}
+      isConfirmButtonDisabled={isConfirmButtonDisabled}
+    />
   );
 };

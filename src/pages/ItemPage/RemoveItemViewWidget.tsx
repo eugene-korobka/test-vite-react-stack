@@ -1,17 +1,26 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useItemId } from "src/hooks/useItemId";
 
-import { RemoveItemWithEvent, useSubscribeToRemoveItemEvent } from "components/RemoveItemWithEvent";
+import { RemoveItemWithCallback } from "components/RemoveItemWithCallback";
+import { RemoveItemWithEvent } from "components/RemoveItemWithEvent";
 
-export const RemoveItemViewWidget = () => {
+export const RemoveItemViewCallbackWidget = () => {
   const navigate = useNavigate();
 
-  const onRemoveItem = useCallback(() => {
-    console.log('RemoveItemViewWidget-onRemoveItem');
+  const onRemove = useCallback(() => {
     navigate('/items-list');
   }, [navigate]);
 
-  useSubscribeToRemoveItemEvent(onRemoveItem);
+  return <RemoveItemWithCallback onRemove={onRemove} />;
+};
 
-  return <RemoveItemWithEvent />;
+export const RemoveItemViewEventWidget = () => {
+  const itemId = useItemId();
+
+  if (!itemId) {
+    return null;
+  }
+
+  return <RemoveItemWithEvent itemId={itemId} />;
 };
