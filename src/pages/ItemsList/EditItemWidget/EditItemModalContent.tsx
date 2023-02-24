@@ -1,15 +1,14 @@
 import { useCallback } from "react";
+import { useFetchItemByIdQuery, useUpdateItemMutation } from "sharedApi/items.edit.api";
+import { ItemTypeId } from "sharedTypes/item.types";
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 
 import { Modal } from "components/ModalComponents";
-// import { RemoveItemButtonWithConfirmModal } from "components/RemoveItemButtonWithConfirmModal";
 import { RemoveItemWithEvent, useSubscribeToRemoveItemEvent } from "components/RemoveItemWithEvent";
 
 import { useAppDispatch } from "store/hooks";
 
 import { editItemActions } from "./store/editItem.slice";
-import { useFetchItemByIdQuery, useUpdateItemMutation } from "./store/items.edit.api";
-import { ItemTypeId } from "./store/types";
 import { EditItemConfirmModal } from "./EditItemConfirmModal";
 import { useEditItemModalHandlers, useIsEditItemModalOpen } from "./hooks";
 

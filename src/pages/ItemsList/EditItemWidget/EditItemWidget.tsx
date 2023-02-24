@@ -1,4 +1,5 @@
-import { ItemTypeId } from "./store/types";
+import { ItemTypeId } from 'sharedTypes/item.types';
+
 import { EditItemModal } from "./EditItemModal";
 import { EditItemModalButton } from "./EditItemModalButton";
 

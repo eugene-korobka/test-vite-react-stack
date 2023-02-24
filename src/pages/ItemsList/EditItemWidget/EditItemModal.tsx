@@ -1,6 +1,7 @@
+import { ItemTypeId } from 'sharedTypes/item.types';
+
 import { Modal } from "components/ModalComponents";
 
-import { ItemTypeId } from "./store/types";
 import { EditItemModalContent } from "./EditItemModalContent";
 import { useEditItemModalHandlers, useIsEditItemModalOpen } from "./hooks";
 

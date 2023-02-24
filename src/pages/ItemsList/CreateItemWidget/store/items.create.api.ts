@@ -1,7 +1,8 @@
+import { ItemType } from 'sharedTypes/item.types';
+
 import { ITEMS_TAG_TYPE } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
 
 import { baseApi } from 'store/baseApi';
-import { ItemType } from 'store/types';
 
 export const itemCreateApi = baseApi
   .enhanceEndpoints({

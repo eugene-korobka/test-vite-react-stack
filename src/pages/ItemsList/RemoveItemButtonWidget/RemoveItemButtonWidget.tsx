@@ -1,7 +1,6 @@
+import { useRemoveItemMutation } from 'sharedApi/items.remove.api';
+import { ItemTypeId } from 'sharedTypes/item.types';
 import { ReactComponent as TrashIcon } from 'src/assets/trash-icon.svg';
-
-import { useRemoveItemMutation } from 'pages/ItemsList/RemoveItemButtonWidget/store/items.remove.api';
-import { ItemTypeId } from 'pages/ItemsList/RemoveItemButtonWidget/store/types';
 
 interface RemoveItemButtonProps {
   itemId: ItemTypeId;

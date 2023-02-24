@@ -1,4 +1,5 @@
-import { ItemTypeId } from './store/types';
+import { ItemTypeId } from 'sharedTypes/item.types';
+
 import { useRemoveItemConfirmModalHandlers } from './hooks';
 import { RemoveItemConfirmModal } from './RemoveItemConfirmModal';
 

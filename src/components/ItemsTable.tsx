@@ -1,10 +1,8 @@
 import { useTable } from 'react-table';
+import type { ItemType } from 'sharedTypes/item.types';
 
 import { EditItemWidget } from 'pages/ItemsList/EditItemWidget/EditItemWidget';
 
-import type { ItemType } from 'store/types';
-
-// import { RemoveItemButtonWithConfirmModal } from './RemoveItemButtonWithConfirmModal';
 import { RemoveItemWithEvent } from './RemoveItemWithEvent';
 import { ViewItemLink } from './ViewItemLink';
 
@@ -36,7 +34,6 @@ const columns = [
         <div className="flex gap-4 justify-end">
           <ViewItemLink itemId={value} />
           <EditItemWidget itemId={value} />
-          {/* <RemoveItemButtonWithConfirmModal itemId={value} /> */}
           <RemoveItemWithEvent itemId={value} />
         </div>
       );

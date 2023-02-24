@@ -1,10 +1,10 @@
 import { useCallback } from "react";
+import { ItemTypeId } from 'sharedTypes/item.types';
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
 import { editItemSelectors } from "./store/editItem.selector";
 import { editItemActions } from "./store/editItem.slice";
-import { ItemTypeId } from "./store/types";
 
 export function useIsEditItemModalOpen(itemId) {
   const isModalOpen = useAppSelector(editItemSelectors.selectIsModalOpenById, itemId);

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-
-import { ItemTypeId } from "./types";
+import { ItemTypeId } from 'sharedTypes/item.types';
 
 const initialState: {
   isEditModalOpen: boolean;

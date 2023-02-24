@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-
-import type { ItemTypeId } from "./types";
+import type { ItemTypeId } from "sharedTypes/item.types";
 
 const initialState: {
   isConfirmRemoveModalOpen: boolean;

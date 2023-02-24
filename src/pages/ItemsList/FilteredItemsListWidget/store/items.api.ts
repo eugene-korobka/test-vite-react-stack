@@ -1,4 +1,4 @@
-import { ItemType } from 'pages/ItemsList/FilteredItemsListWidget/store/types';
+import { ItemType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 

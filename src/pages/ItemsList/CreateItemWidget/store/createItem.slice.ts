@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-
-import { ItemType } from "./types";
+import { ItemType } from 'sharedTypes/item.types';
 
 const initialState: {
   isCreateModalOpen: boolean;

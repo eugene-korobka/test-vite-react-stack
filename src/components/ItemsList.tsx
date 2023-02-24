@@ -1,6 +1,6 @@
-import { RemoveItemButtonWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWidget';
+import { ItemType } from "sharedTypes/item.types";
 
-import { ItemType } from "store/types";
+import { RemoveItemButtonWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWidget';
 
 const ItemsListItem = ({ item }: { item: ItemType }) => {
   return (

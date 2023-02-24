@@ -1,7 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
+import { ItemType } from 'sharedTypes/item.types';
 import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
-
-import { ItemType } from "store/types";
 
 const titleInputName = 'title';
 const descriptionInputName = 'description';
