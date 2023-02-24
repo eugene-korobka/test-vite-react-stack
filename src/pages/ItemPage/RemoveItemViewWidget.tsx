@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useItemId } from "src/hooks/useItemId";
+import { AppRoutes } from 'src/routes';
 
 import { RemoveItemWithCallback } from "components/RemoveItemWithCallback";
 import { RemoveItemWithEvent } from "components/RemoveItemWithEvent";
@@ -9,7 +10,7 @@ export const RemoveItemViewCallbackWidget = () => {
   const navigate = useNavigate();
 
   const onRemove = useCallback(() => {
-    navigate('/items-list');
+    navigate(AppRoutes.itemsList());
   }, [navigate]);
 
   return <RemoveItemWithCallback onRemove={onRemove} />;

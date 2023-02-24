@@ -1,4 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
+import { AppRoutes } from 'src/routes';
 
 import { MainContainer } from "components/MainContainer";
 
@@ -12,10 +13,10 @@ export const RootPage = () => {
           <nav>
             <ul className="m-0 p-0 list-none">
               <li>
-                <Link to="/home">Home page</Link>
+                <Link to={AppRoutes.home()}>Home page</Link>
               </li>
               <li>
-                <Link to="/items-list">Items list page</Link>
+                <Link to={AppRoutes.itemsList()}>Items list page</Link>
               </li>
             </ul>
           </nav>
