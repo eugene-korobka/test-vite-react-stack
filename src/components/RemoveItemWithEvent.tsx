@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useRemoveItemMutation } from "sharedApi/items.remove.api";
+import { appEventItemRemoved } from "sharedTypes/event.types";
 import { ItemTypeId } from "sharedTypes/item.types";
+import { dispatchAppEvent } from "src/hooks/useAppEvents";
 import { useItemId } from "src/hooks/useItemId";
 
 import { RemoveItemButtonWithConfirmModal } from "./RemoveItemButtonWithConfirmModal";
@@ -27,33 +29,6 @@ function useConfirmModalState() {
   };
 };
 
-const removeItemEventType = 'removeItemEvent';
-
-function createAndDispatchRemoveItemEvent(payload?: { itemId: ItemTypeId }) {
-  const event = new CustomEvent(removeItemEventType, {
-    detail: payload,
-  });
-
-  window.dispatchEvent(event);
-}
-
-export function useSubscribeToRemoveItemEvent(handler) {
-  const handlerRef = useRef<() => void>();
-  handlerRef.current = handler;
-
-  const innerHandler = useCallback(() => {
-    handlerRef.current?.();
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener(removeItemEventType, innerHandler);
-
-    return () => {
-      window.removeEventListener(removeItemEventType, innerHandler);
-    };
-  }, [innerHandler]);
-};
-
 export const RemoveItemWithEvent = (props: RemoveItemWithEventProps) => {
   const { itemId: propsItemId } = props;
 
@@ -73,7 +48,7 @@ export const RemoveItemWithEvent = (props: RemoveItemWithEventProps) => {
     removeItemTrigger({ itemId })
       .unwrap()
       .then(() => {
-        createAndDispatchRemoveItemEvent({ itemId });
+        dispatchAppEvent(appEventItemRemoved, { itemId });
       })
       .catch((error) => {
         console.error(error);

@@ -1,10 +1,12 @@
 import { useCallback } from "react";
 import { useFetchItemByIdQuery, useUpdateItemMutation } from "sharedApi/items.edit.api";
+import { appEventItemRemoved } from "sharedTypes/event.types";
 import { ItemTypeId } from "sharedTypes/item.types";
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
+import { useSubscribeToAppEvent } from "src/hooks/useAppEvents";
 
 import { Modal } from "components/ModalComponents";
-import { RemoveItemWithEvent, useSubscribeToRemoveItemEvent } from "components/RemoveItemWithEvent";
+import { RemoveItemWithEvent } from "components/RemoveItemWithEvent";
 
 import { useAppDispatch } from "store/hooks";
 
@@ -49,7 +51,7 @@ function useEditItemModalContentState(props: EditItemModalContentProps) {
     closeEditItemModal();
   }, [closeEditItemModal]);
 
-  useSubscribeToRemoveItemEvent(onRemoveItem);
+  useSubscribeToAppEvent(appEventItemRemoved, onRemoveItem);
 
   return {
     itemId,

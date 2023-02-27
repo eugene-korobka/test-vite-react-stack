@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { appEventItemRemoved } from 'sharedTypes/event.types';
+import { useSubscribeToAppEvent } from 'src/hooks/useAppEvents';
 import { AppRoutes } from 'src/routes';
 
 import { PageContainer } from 'components/PageContainer';
-import { useSubscribeToRemoveItemEvent } from 'components/RemoveItemWithEvent';
 
 import { EditItemViewWidget } from './EditItemViewWidget';
 import { ItemViewWidget } from './ItemViewWidget';
@@ -16,7 +17,7 @@ export const ItemViewPage = () => {
     navigate(AppRoutes.itemsList());
   }, [navigate]);
 
-  useSubscribeToRemoveItemEvent(onRemoveItem);
+  useSubscribeToAppEvent(appEventItemRemoved, onRemoveItem);
 
   return (
     <PageContainer>
