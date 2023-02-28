@@ -10,10 +10,10 @@ const sidebarItems = [
     to: AppRoutes.itemsList(),
     title: 'Items',
   },
-  // {
-  //   to: AppRoutes.ownersList(),
-  //   title: 'Owners',
-  // },
+  {
+    to: AppRoutes.ownersList(),
+    title: 'Owners',
+  },
 ];
 
 function getNavLinkClassName({ isActive }) {

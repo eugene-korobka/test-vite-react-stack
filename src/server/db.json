@@ -65,5 +65,25 @@
       "description": "Remove 3",
       "id": 13
     }
+  ],
+  "owners": [
+    {
+      "id": 1,
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@somemail.com"
+    },
+    {
+      "id": 2,
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "email": "jane.doe@somemail.com"
+    },
+    {
+      "id": 3,
+      "firstName": "Someone",
+      "lastName": "Else",
+      "email": "someone.else@somemail.com"
+    }
   ]
 }
