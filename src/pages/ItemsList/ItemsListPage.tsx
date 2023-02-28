@@ -1,21 +1,12 @@
 import { FilteredItemsListWidget } from 'pages/ItemsList/FilteredItemsListWidget/FilteredItemsListWidget';
 
 import { PageContainer } from 'components/PageContainer';
-
-// import { ButtonWithModalReduxV1, ButtonWithModalReduxV2, ButtonWithModalReduxV3 } from 'components/ModalManager/ModalManager';
+import { PageHeader } from 'components/PageHeader';
 
 export const ItemsListPage = () => {
   return (
     <PageContainer>
-      <h2 className="mb-4 text-xl">Items List Page</h2>
-      {/* <div>
-        <div>Modal Manager test panel</div>
-        <div className='flex gap-4'>
-          <ButtonWithModalReduxV1 />
-          <ButtonWithModalReduxV2 />
-          <ButtonWithModalReduxV3 />
-        </div>
-      </div> */}
+      <PageHeader>Items List Page</PageHeader>
       <FilteredItemsListWidget />
     </PageContainer>
   );

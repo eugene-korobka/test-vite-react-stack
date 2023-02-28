@@ -1,9 +1,10 @@
 import { PageContainer } from "components/PageContainer";
+import { PageHeader } from "components/PageHeader";
 
 export const HomePage = () => {
   return (
     <PageContainer>
-      <h1>Home Page</h1>
+      <PageHeader>Home Page</PageHeader>
     </PageContainer>
   );
 };

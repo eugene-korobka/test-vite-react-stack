@@ -1,5 +1,7 @@
 import { ItemTypeId } from 'sharedTypes/item.types';
 
+import { AppButton } from 'components/AppButton';
+
 import { useEditItemModalHandlers } from "./hooks";
 
 type EditItemModalButtonProps = {
@@ -12,8 +14,8 @@ export const EditItemModalButton = (props: EditItemModalButtonProps) => {
   const { openEditItemModal } = useEditItemModalHandlers(itemId);
 
   return (
-    <button className="p-2 shrink-0 border border-solid border-gray-400 rounded-md" onClick={openEditItemModal}>
+    <AppButton onClick={openEditItemModal}>
       Edit item
-    </button>
+    </AppButton>
   );
 };

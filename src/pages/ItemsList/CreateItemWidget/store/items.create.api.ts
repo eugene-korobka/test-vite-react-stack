@@ -1,6 +1,5 @@
+import { ITEMS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import { ItemType } from 'sharedTypes/item.types';
-
-import { ITEMS_TAG_TYPE } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
 
 import { baseApi } from 'store/baseApi';
 

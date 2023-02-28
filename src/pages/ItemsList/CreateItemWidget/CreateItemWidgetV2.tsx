@@ -1,6 +1,7 @@
 import { defaultFormValues, ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
 import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
 
+import { AppButton } from "components/AppButton";
 import { Modal } from "components/ModalComponents";
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
@@ -20,9 +21,9 @@ const CreateItemModalButton = () => {
   };
 
   return (
-    <button className="p-2 shrink-0 border border-solid border-gray-400 rounded-md" onClick={openModal}>
+    <AppButton onClick={openModal}>
       New item
-    </button>
+    </AppButton>
   );
 };
 

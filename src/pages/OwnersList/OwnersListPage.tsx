@@ -1,11 +1,12 @@
 import { PageContainer } from 'components/PageContainer';
+import { PageHeader } from 'components/PageHeader';
 
 import { OwnersListWidget } from './OwnersListWidget/OwnersListWidget';
 
 export const OwnersListPage = () => {
   return (
     <PageContainer>
-      <h2 className="mb-4 text-xl">Owners List Page</h2>
+      <PageHeader>Owners List Page</PageHeader>
       <OwnersListWidget />
     </PageContainer>
   );

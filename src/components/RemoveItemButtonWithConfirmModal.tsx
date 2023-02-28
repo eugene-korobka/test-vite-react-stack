@@ -1,5 +1,6 @@
 import React from "react";
 
+import { AppButton } from "./AppButton";
 import { Modal } from "./ModalComponents";
 
 type RemoveItemButtonWithConfirmModalProps = {
@@ -21,12 +22,12 @@ export const RemoveItemButtonWithConfirmModal = (props: RemoveItemButtonWithConf
 
   return (
     <>
-      <button
-        className="p-2 shrink-0 border border-solid border-red-400 rounded-md text-red-400"
+      <AppButton
+        variant="danger"
         onClick={onButtonClick}
       >
         Remove
-      </button>
+      </AppButton>
       <Modal.ConfirmModal isOpen={isOpen}>
         <Modal.Header title="Confirm remove" />
         <Modal.Main>Are you sure you want to remove item?</Modal.Main>

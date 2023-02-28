@@ -1,10 +1,9 @@
+import { ITEMS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import { ItemType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 
-export const ITEMS_TAG_TYPE = 'ItemsList' as const;
-
-export const itemsApi = baseApi
+export const itemsFetchApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [ITEMS_TAG_TYPE],
   })
@@ -24,4 +23,4 @@ export const itemsApi = baseApi
   });
 
 
-export const { useFetchItemsQuery } = itemsApi;
+export const { useFetchItemsQuery } = itemsFetchApi;

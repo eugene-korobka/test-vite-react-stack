@@ -1,5 +1,7 @@
 import { ItemTypeId } from 'sharedTypes/item.types';
 
+import { AppButton } from 'components/AppButton';
+
 import { useRemoveItemConfirmModalHandlers } from './hooks';
 import { RemoveItemConfirmModal } from './RemoveItemConfirmModal';
 
@@ -23,12 +25,12 @@ export const RemoveItemButtonWithConfirmWidget = (props: RemoveItemButtonProps) 
 
   return (
     <>
-      <button
-        className="p-2 shrink-0 border border-solid border-red-400 rounded-md text-red-400"
+      <AppButton
+        variant='danger'
         onClick={openRemoveItemConfirmModal}
       >
         Remove
-      </button>
+      </AppButton>
       <RemoveItemConfirmModal itemId={itemId} />
     </>
   );

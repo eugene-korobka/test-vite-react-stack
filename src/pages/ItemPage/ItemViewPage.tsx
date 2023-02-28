@@ -5,6 +5,7 @@ import { useSubscribeToAppEvent } from 'src/hooks/useAppEvents';
 import { AppRoutes } from 'src/routes';
 
 import { PageContainer } from 'components/PageContainer';
+import { PageHeader } from 'components/PageHeader';
 
 import { EditItemViewWidget } from './EditItemViewWidget';
 import { ItemViewWidget } from './ItemViewWidget';
@@ -21,10 +22,10 @@ export const ItemViewPage = () => {
 
   return (
     <PageContainer>
-      <h2 className="mb-4 text-xl">Item View Page</h2>
+      <PageHeader>Item View Page</PageHeader>
       <div className="mb-4 flex justify-between items-center">
         <Link to={AppRoutes.itemsList()} className="text-blue-400">
-          &lt; Back to Items list
+          &lt; Back to Items
         </Link>
         <div className="flex gap-4 items-center">
           <EditItemViewWidget />

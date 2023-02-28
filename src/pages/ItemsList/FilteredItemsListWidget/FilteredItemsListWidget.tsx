@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 
-// import { CreateItemWidget } from 'pages/ItemsList/CreateItemWidget/CreateItemWidget';
 import { CreateItemWidgetV2 } from 'pages/ItemsList/CreateItemWidget/CreateItemWidgetV2';
 import { ItemsListTitleFilter } from 'pages/ItemsList/FilteredItemsListWidget/components/ItemsListTitleFilter';
-import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/items.api';
+import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/items.fetch.api';
 import { itemsListFilterSelectors } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.selector';
 import { titleFilterInitialValue } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
 
@@ -43,7 +42,6 @@ export const FilteredItemsListWidget = () => {
     <section className="w-full">
       <div className="flex justify-between items-center mb-4">
         <ItemsListTitleFilter />
-        {/* <CreateItemWidget /> */}
         <CreateItemWidgetV2 />
       </div>
       <ItemsTable items={items} />
