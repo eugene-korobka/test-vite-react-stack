@@ -3,6 +3,7 @@ import type { ItemType } from 'sharedTypes/item.types';
 
 import { EditItemWidget } from 'pages/ItemsList/EditItemWidget/EditItemWidget';
 
+import { AppTable } from './AppTable';
 import { RemoveItemWithEvent } from './RemoveItemWithEvent';
 import { ViewItemLink } from './ViewItemLink';
 
@@ -46,52 +47,13 @@ const useItemsTableState = (props: ItemListProps) => {
 
   const tableInstance = useTable({ columns, data: items });
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
-
-  return {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  };
+  return tableInstance;
 };
 
 export function ItemsTable(props: ItemListProps) {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useItemsTableState(props);
+  const tableInstance = useItemsTableState(props);
 
   return (
-    <table className="w-full" {...getTableProps()}>
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr className="border-b-2 border-solid border-black" {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th
-                className={column.headerClassName}
-                {...column.getHeaderProps()}
-              >
-                {column.render('Header')}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <tr className="border-b border-solid border-gray-700 last:border-none" {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return (
-                  <td className={cell.column.cellClassName} {...cell.getCellProps()}>
-                    {cell.render('Cell')}
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <AppTable {...tableInstance} />
   );
 }
