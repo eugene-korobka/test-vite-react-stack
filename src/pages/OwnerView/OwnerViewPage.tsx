@@ -8,8 +8,8 @@ import { PageContainer } from 'components/PageContainer';
 import { PageHeader } from 'components/PageHeader';
 import { RemoveOwnerWithEvent } from 'components/RemoveOwnerWithEvent';
 
+import { EditOwnerViewWidget } from './EditOwnerViewWidget';
 import { OwnerViewWidget } from './OwnerViewWidget';
-
 
 export const OwnerViewPage = () => {
   const navigate = useNavigate();
@@ -27,6 +27,7 @@ export const OwnerViewPage = () => {
         <Link to={AppRoutes.ownersList()} className="mr-auto text-blue-400">
           &lt; Back to Owners
         </Link>
+        <EditOwnerViewWidget />
         <RemoveOwnerWithEvent />
       </div>
       <OwnerViewWidget />

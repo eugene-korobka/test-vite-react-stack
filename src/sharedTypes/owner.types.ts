@@ -6,3 +6,9 @@ export type OwnerType = {
 };
 
 export type OwnerTypeId = OwnerType['id'];
+
+export const firstNameInputName = 'firstName';
+
+export const lastNameInputName = 'lastName';
+
+export const emailInputName = 'email';

@@ -1,5 +1,6 @@
 import { useTable } from 'react-table';
 import type { OwnerType } from 'sharedTypes/owner.types';
+import { EditOwnerWidget } from 'src/widgets/EditOwnerWidget/EditOwnerWidget';
 
 import { AppTable } from './AppTable';
 import { RemoveOwnerWithEvent } from './RemoveOwnerWithEvent';
@@ -38,6 +39,7 @@ const columns = [
       return (
         <div className="flex gap-4 justify-end">
           <ViewOwnerLink ownerId={value} />
+          <EditOwnerWidget ownerId={value} />
           <RemoveOwnerWithEvent ownerId={value} />
         </div>
       );
@@ -51,12 +53,10 @@ function useOwnersTableState(props: OwnersListProps) {
   const tableInstance = useTable({ columns, data: items });
 
   return tableInstance;
-};
+}
 
 export const OwnersTable = (props: OwnersListProps) => {
   const tableInstance = useOwnersTableState(props);
 
-  return (
-    <AppTable {...tableInstance} />
-  );
-}
+  return <AppTable {...tableInstance} />;
+};

@@ -1,10 +1,6 @@
-import React, { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
-import { OwnerType } from "sharedTypes/owner.types";
-import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
-
-const firstNameInputName = 'firstName';
-const lastNameInputName = 'lastName';
-const emailInputName = 'email';
+import React, { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
+import { emailInputName, firstNameInputName, lastNameInputName, OwnerType } from 'sharedTypes/owner.types';
+import { areObjectEqualsByValues } from 'src/utils/areObjectsEqualByValues';
 
 export const defaultFormValues: Partial<OwnerType> = {
   [firstNameInputName]: '',
@@ -16,6 +12,7 @@ type OwnerFormProps = {
   initialValues?: Partial<OwnerType>;
   onChangeValuesHandler?: (value?: any) => void;
   onSubmitHandler?: React.FormEventHandler;
+  disabledFields?: string[];
 };
 
 type OwnerFormRef = {
@@ -23,11 +20,13 @@ type OwnerFormRef = {
   submitOwnerForm: () => void;
 };
 
-function useApplyOuterRef<T extends {
-  outerRef: React.ForwardedRef<OwnerFormRef>;
-  innerRef: React.RefObject<HTMLFormElement>;
-  formValues: Partial<OwnerType>;
-}>({ outerRef, innerRef, formValues }: T): void {
+function useApplyOuterRef<
+  T extends {
+    outerRef: React.ForwardedRef<OwnerFormRef>;
+    innerRef: React.RefObject<HTMLFormElement>;
+    formValues: Partial<OwnerType>;
+  },
+>({ outerRef, innerRef, formValues }: T): void {
   const getFormValues = useCallback(() => formValues, [formValues]);
 
   useImperativeHandle(
@@ -42,7 +41,7 @@ function useApplyOuterRef<T extends {
     },
     [innerRef, getFormValues],
   );
-};
+}
 
 export function useOwnerFormRef() {
   const ownerFormRef = useRef<OwnerFormRef>(null);
@@ -52,17 +51,15 @@ export function useOwnerFormRef() {
     getFormValues: () => ownerFormRef.current?.getFormValues(),
     submitOwnerForm: () => ownerFormRef.current?.submitOwnerForm(),
   };
-};
+}
 
-export function useOwnerFormOnSubmitHandler<T extends {
-  mainCallback: Function;
-  errorCallback?: Function;
-  finallyCallback?: Function;
-}>({
-  mainCallback,
-  errorCallback,
-  finallyCallback,
-}: T) {
+export function useOwnerFormOnSubmitHandler<
+  T extends {
+    mainCallback: Function;
+    errorCallback?: Function;
+    finallyCallback?: Function;
+  },
+>({ mainCallback, errorCallback, finallyCallback }: T) {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -78,7 +75,7 @@ export function useOwnerFormOnSubmitHandler<T extends {
 
       if (typeof errorCallback === 'function') {
         errorCallback();
-      };
+      }
     } finally {
       if (typeof finallyCallback === 'function') {
         finallyCallback();
@@ -89,7 +86,7 @@ export function useOwnerFormOnSubmitHandler<T extends {
   return {
     onSubmitHandler,
   };
-};
+}
 
 function useInputIds() {
   return {
@@ -97,10 +94,10 @@ function useInputIds() {
     lastNameInputId: useId(),
     emailInputId: useId(),
   };
-};
+}
 
 function useOwnerFormState(props: OwnerFormProps, outerRef: React.ForwardedRef<OwnerFormRef>) {
-  const { initialValues = defaultFormValues, onSubmitHandler, onChangeValuesHandler } = props;
+  const { initialValues = defaultFormValues, onSubmitHandler, onChangeValuesHandler, disabledFields = [] } = props;
 
   const [formValues, setFormValues] = useState<Partial<OwnerType>>(initialValues);
 
@@ -128,15 +125,13 @@ function useOwnerFormState(props: OwnerFormProps, outerRef: React.ForwardedRef<O
     formValues,
   });
 
-  const {
-    firstNameInputId,
-    lastNameInputId,
-    emailInputId,
-  } = useInputIds();
+  const { firstNameInputId, lastNameInputId, emailInputId } = useInputIds();
 
   const firstNameInputValue = formValues[firstNameInputName];
   const lastNameInputValue = formValues[lastNameInputName];
   const emailInputValue = formValues[emailInputName];
+
+  const emailInputDisabled = disabledFields.includes(emailInputName);
 
   return {
     innerFormRef,
@@ -146,10 +141,11 @@ function useOwnerFormState(props: OwnerFormProps, outerRef: React.ForwardedRef<O
     firstNameInputValue,
     lastNameInputValue,
     emailInputValue,
+    emailInputDisabled,
     onSubmitHandler,
     onInputChange,
   };
-};
+}
 
 export const OwnerForm = forwardRef<OwnerFormRef, OwnerFormProps>((props, outerRef) => {
   const {
@@ -160,6 +156,7 @@ export const OwnerForm = forwardRef<OwnerFormRef, OwnerFormProps>((props, outerR
     firstNameInputValue,
     lastNameInputValue,
     emailInputValue,
+    emailInputDisabled,
     onSubmitHandler,
     onInputChange,
   } = useOwnerFormState(props, outerRef);
@@ -201,6 +198,7 @@ export const OwnerForm = forwardRef<OwnerFormRef, OwnerFormProps>((props, outerR
           required
           value={emailInputValue}
           onChange={onInputChange}
+          disabled={emailInputDisabled}
         />
       </label>
     </form>
