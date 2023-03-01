@@ -2,6 +2,7 @@ import { useTable } from 'react-table';
 import type { OwnerType } from 'sharedTypes/owner.types';
 
 import { AppTable } from './AppTable';
+import { RemoveOwnerWithEvent } from './RemoveOwnerWithEvent';
 import { ViewOwnerLink } from './ViewOwnerLink';
 
 interface OwnersListProps {
@@ -37,6 +38,7 @@ const columns = [
       return (
         <div className="flex gap-4 justify-end">
           <ViewOwnerLink ownerId={value} />
+          <RemoveOwnerWithEvent ownerId={value} />
         </div>
       );
     },
