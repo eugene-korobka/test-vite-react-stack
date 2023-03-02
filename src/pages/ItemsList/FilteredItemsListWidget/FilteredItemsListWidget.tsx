@@ -34,11 +34,11 @@ const useFilteredItemsListWidgetState = () => {
 };
 
 export const FilteredItemsListWidget = () => {
-  const { items } = useFilteredItemsListWidgetState();
+  const { items, isFetching } = useFilteredItemsListWidgetState();
 
   return (
     <section className="w-full">
-      <ItemsTable items={items} />
+      <ItemsTable isLoading={isFetching} items={items} />
     </section>
   );
 };

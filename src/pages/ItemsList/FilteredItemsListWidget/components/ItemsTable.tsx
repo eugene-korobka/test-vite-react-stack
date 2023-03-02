@@ -43,11 +43,14 @@ const columns = [
 ];
 
 const useItemsTableState = (props: ItemListProps) => {
-  const { items } = props;
+  const { items, isLoading } = props;
 
   const tableInstance = useTable({ columns, data: items });
 
-  return tableInstance;
+  return {
+    isLoading,
+    ...tableInstance,
+  };
 };
 
 export function ItemsTable(props: ItemListProps) {
