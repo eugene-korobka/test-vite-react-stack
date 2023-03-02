@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react';
+import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
+import { useConfirmModalState } from 'hooks/useModal';
 import { useFetchOwnerByIdQuery } from 'sharedApi/owner.fetchById.api';
 import { appEventOwnerRemoved } from 'sharedTypes/event.types';
 import { emailInputName, OwnerTypeId } from 'sharedTypes/owner.types';
 import { OwnerForm, useOwnerFormOnSubmitHandler, useOwnerFormRef } from 'src/experimental/OwnerForm';
-import { useSubscribeToAppEvent } from 'src/hooks/useAppEvents';
-import { useConfirmModalState } from 'src/hooks/useModal';
+import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 
 import { Modal } from 'components/ModalComponents';
-import { RemoveOwnerWithEvent } from 'components/RemoveOwnerWithEvent';
 import { SaveChangesConfirmModal } from 'components/SaveChangesConfirmModal';
 
 import { useUpdateOwnerMutation } from './store/owner.update.api';

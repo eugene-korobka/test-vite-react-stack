@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { editItemSlice } from 'widgets/EditItemWidget/store/editItem.slice';
 
 import { createItemSlice } from 'pages/ItemsList/CreateItemWidget/store/createItem.slice';
-import { editItemSlice } from 'pages/ItemsList/EditItemWidget/store/editItem.slice';
 import { itemsListFilterSlice } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
 import { removeItemSlice } from 'pages/ItemsList/RemoveItemButtonWidget/store/removeItem.slice';
 

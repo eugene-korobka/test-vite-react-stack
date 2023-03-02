@@ -1,12 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: {
-  modalId: string;
-  isOpen: boolean;
   modals: Record<string, boolean>;
 } = {
-  modalId: '',
-  isOpen: false,
   modals: {},
 }
 
@@ -14,15 +10,6 @@ export const modalManagerSlice = createSlice({
   name: 'modalManager',
   initialState,
   reducers: {
-    openModal(state) {
-      state.isOpen = true;
-    },
-    closeModal(state) {
-      state.isOpen = false;
-    },
-    toggleModal(state) {
-      state.isOpen = !state.isOpen;
-    },
     openModalById(state, action: PayloadAction<{ modalId: string }>) {
       const { modalId } = action.payload;
 

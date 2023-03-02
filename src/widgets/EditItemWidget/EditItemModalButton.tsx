@@ -2,7 +2,7 @@ import { ItemTypeId } from 'sharedTypes/item.types';
 
 import { AppButton } from 'components/AppButton';
 
-import { useEditItemModalHandlers } from "./hooks";
+import { useEditItemModalHandlers } from './hooks';
 
 type EditItemModalButtonProps = {
   itemId: ItemTypeId;
@@ -13,9 +13,5 @@ export const EditItemModalButton = (props: EditItemModalButtonProps) => {
 
   const { openEditItemModal } = useEditItemModalHandlers(itemId);
 
-  return (
-    <AppButton onClick={openEditItemModal}>
-      Edit item
-    </AppButton>
-  );
+  return <AppButton onClick={openEditItemModal}>Edit</AppButton>;
 };

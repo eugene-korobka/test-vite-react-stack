@@ -1,6 +1,5 @@
-import { OwnersTable } from 'components/OwnersTable';
-
 import { useFetchOwnersQuery } from './store/owners.fetch.api';
+import { OwnersTable } from './OwnersTable';
 
 const initialItems = [];
 

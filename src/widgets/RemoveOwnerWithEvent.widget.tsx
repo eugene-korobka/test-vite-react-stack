@@ -1,12 +1,12 @@
-import { useRemoveOwnerMutation } from "sharedApi/owner.remove.api";
-import { appEventOwnerRemoved } from "sharedTypes/event.types";
-import { OwnerTypeId } from "sharedTypes/owner.types";
-import { dispatchAppEvent } from "src/hooks/useAppEvents";
-import { useConfirmModalState } from "src/hooks/useModal";
-import { useOwnerId } from "src/hooks/useOwnerId";
+import { dispatchAppEvent } from 'hooks/useAppEvents';
+import { useConfirmModalState } from 'hooks/useModal';
+import { useOwnerId } from 'hooks/useOwnerId';
+import { useRemoveOwnerMutation } from 'sharedApi/owner.remove.api';
+import { appEventOwnerRemoved } from 'sharedTypes/event.types';
+import { OwnerTypeId } from 'sharedTypes/owner.types';
 
-import { AppButton } from "./AppButton";
-import { Modal } from "./ModalComponents";
+import { AppButton } from 'components/AppButton';
+import { Modal } from 'components/ModalComponents';
 
 type RemoveOwnerWithEventProps = {
   ownerId?: OwnerTypeId;
@@ -47,10 +47,7 @@ export const RemoveOwnerWithEvent = (props: RemoveOwnerWithEventProps) => {
 
   return (
     <>
-      <AppButton
-        variant="danger"
-        onClick={openConfirmModal}
-      >
+      <AppButton variant="danger" onClick={openConfirmModal}>
         Remove
       </AppButton>
       <Modal.ConfirmModal isOpen={isConfirmOpen}>

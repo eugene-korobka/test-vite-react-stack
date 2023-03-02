@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
 import { appEventOwnerRemoved } from 'sharedTypes/event.types';
-import { useSubscribeToAppEvent } from 'src/hooks/useAppEvents';
 import { AppRoutes } from 'src/routes';
+import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 
 import { PageContainer } from 'components/PageContainer';
 import { PageHeader } from 'components/PageHeader';
-import { RemoveOwnerWithEvent } from 'components/RemoveOwnerWithEvent';
 
-import { EditOwnerViewWidget } from './EditOwnerViewWidget';
-import { OwnerViewWidget } from './OwnerViewWidget';
+import { EditOwnerViewWidget } from './widgets/EditOwnerViewWidget';
+import { OwnerViewWidget } from './widgets/OwnerViewWidget';
 
 export const OwnerViewPage = () => {
   const navigate = useNavigate();

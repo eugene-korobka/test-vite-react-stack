@@ -1,10 +1,10 @@
 import { useTable } from 'react-table';
 import type { ItemType } from 'sharedTypes/item.types';
+import { EditItemWidget } from 'widgets/EditItemWidget/EditItemWidget';
 
-import { EditItemWidget } from 'pages/ItemsList/EditItemWidget/EditItemWidget';
+import { AppTable } from 'components/AppTable';
+import { RemoveItemWithEvent } from 'components/RemoveItemWithEvent';
 
-import { AppTable } from './AppTable';
-import { RemoveItemWithEvent } from './RemoveItemWithEvent';
 import { ViewItemLink } from './ViewItemLink';
 
 interface ItemListProps {
@@ -53,7 +53,5 @@ const useItemsTableState = (props: ItemListProps) => {
 export function ItemsTable(props: ItemListProps) {
   const tableInstance = useItemsTableState(props);
 
-  return (
-    <AppTable {...tableInstance} />
-  );
+  return <AppTable {...tableInstance} />;
 }

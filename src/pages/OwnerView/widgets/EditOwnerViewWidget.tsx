@@ -1,5 +1,5 @@
-import { useOwnerId } from 'src/hooks/useOwnerId';
-import { EditOwnerWidget } from 'src/widgets/EditOwnerWidget/EditOwnerWidget';
+import { useOwnerId } from 'hooks/useOwnerId';
+import { EditOwnerWidget } from 'widgets/EditOwnerWidget/EditOwnerWidget';
 
 export const EditOwnerViewWidget = () => {
   const ownerId = useOwnerId();

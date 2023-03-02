@@ -1,11 +1,11 @@
-import { useCallback,useState } from "react";
-import { OwnerForm,useOwnerFormOnSubmitHandler, useOwnerFormRef } from "src/experimental/OwnerForm";
-import { useConfirmModalState } from "src/hooks/useModal";
+import { useCallback, useState } from 'react';
+import { useConfirmModalState } from 'hooks/useModal';
+import { OwnerForm, useOwnerFormOnSubmitHandler, useOwnerFormRef } from 'src/experimental/OwnerForm';
 
-import { Modal } from "components/ModalComponents";
-import { SaveChangesConfirmModal } from "components/SaveChangesConfirmModal";
+import { Modal } from 'components/ModalComponents';
+import { SaveChangesConfirmModal } from 'components/SaveChangesConfirmModal';
 
-import { useCreateOwnerMutation } from "./store/owner.create.api";
+import { useCreateOwnerMutation } from './store/owner.create.api';
 
 type CreateOwnerModalProps = {
   isModalOpen: boolean;
@@ -34,7 +34,7 @@ const useCreateOwnerModalState = (props: CreateOwnerModalProps) => {
     await createOwnerTrigger({ data });
 
     closeModal();
-  };
+  }
 
   const { onSubmitHandler } = useOwnerFormOnSubmitHandler({
     mainCallback: createNewOwner,
@@ -81,7 +81,10 @@ export const CreateOwnerModal = (props: CreateOwnerModalProps) => {
         <OwnerForm ref={ownerFormRef} onSubmitHandler={onSubmitHandler} onChangeValuesHandler={onChangeHandler} />
       </Modal.Main>
       <Modal.Footer>
-        <button className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md" onClick={beforeCloseModal}>
+        <button
+          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md"
+          onClick={beforeCloseModal}
+        >
           Cancel
         </button>
         <button

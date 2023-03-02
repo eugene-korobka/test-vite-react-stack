@@ -1,9 +1,10 @@
 import { useTable } from 'react-table';
 import type { OwnerType } from 'sharedTypes/owner.types';
-import { EditOwnerWidget } from 'src/widgets/EditOwnerWidget/EditOwnerWidget';
+import { EditOwnerWidget } from 'widgets/EditOwnerWidget/EditOwnerWidget';
+import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 
-import { AppTable } from './AppTable';
-import { RemoveOwnerWithEvent } from './RemoveOwnerWithEvent';
+import { AppTable } from 'components/AppTable';
+
 import { ViewOwnerLink } from './ViewOwnerLink';
 
 interface OwnersListProps {

@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useRemoveItemMutation } from "sharedApi/items.remove.api";
-import { ItemTypeId } from "sharedTypes/item.types";
-import { useItemId } from "src/hooks/useItemId";
+import { useState } from 'react';
+import { useItemId } from 'hooks/useItemId';
+import { useRemoveItemMutation } from 'sharedApi/items.remove.api';
+import { ItemTypeId } from 'sharedTypes/item.types';
 
-import { RemoveItemButtonWithConfirmModal } from "./RemoveItemButtonWithConfirmModal";
+import { RemoveItemButtonWithConfirmModal } from './RemoveItemButtonWithConfirmModal';
 
 type RemoveItemButtonWithConfirmModalProps = {
   itemId?: ItemTypeId;

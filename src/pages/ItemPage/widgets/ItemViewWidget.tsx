@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useFetchItemByIdQuery } from "sharedApi/items.edit.api";
+import { useParams } from 'react-router-dom';
+import { useFetchItemByIdQuery } from 'sharedApi/item.fetchById.api';
 
 export const ItemViewWidget = () => {
   const { itemId: routeItemId } = useParams();

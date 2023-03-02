@@ -1,5 +1,5 @@
+import { useModalState } from 'hooks/useModal';
 import { ItemTypeId } from 'sharedTypes/item.types';
-import { useModalState } from 'src/hooks/useModal';
 
 import { AppButton } from 'components/AppButton';
 

@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
 import { appEventItemRemoved } from 'sharedTypes/event.types';
-import { useSubscribeToAppEvent } from 'src/hooks/useAppEvents';
 import { AppRoutes } from 'src/routes';
 
 import { PageContainer } from 'components/PageContainer';
 import { PageHeader } from 'components/PageHeader';
 
-import { EditItemViewWidget } from './EditItemViewWidget';
-import { ItemViewWidget } from './ItemViewWidget';
-import { RemoveItemViewEventWidget } from './RemoveItemViewWidget';
+import { EditItemViewWidget } from './widgets/EditItemViewWidget';
+import { ItemViewWidget } from './widgets/ItemViewWidget';
+import { RemoveItemViewEventWidget } from './widgets/RemoveItemViewWidget';
 
 export const ItemViewPage = () => {
   const navigate = useNavigate();

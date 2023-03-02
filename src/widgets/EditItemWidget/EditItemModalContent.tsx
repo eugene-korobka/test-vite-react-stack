@@ -1,18 +1,19 @@
-import { useCallback } from "react";
-import { useFetchItemByIdQuery, useUpdateItemMutation } from "sharedApi/items.edit.api";
-import { appEventItemRemoved } from "sharedTypes/event.types";
-import { ItemTypeId } from "sharedTypes/item.types";
-import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
-import { useSubscribeToAppEvent } from "src/hooks/useAppEvents";
+import { useCallback } from 'react';
+import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
+import { useFetchItemByIdQuery } from 'sharedApi/item.fetchById.api';
+import { appEventItemRemoved } from 'sharedTypes/event.types';
+import { ItemTypeId } from 'sharedTypes/item.types';
+import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from 'src/experimental/ItemForm';
 
-import { Modal } from "components/ModalComponents";
-import { RemoveItemWithEvent } from "components/RemoveItemWithEvent";
+import { Modal } from 'components/ModalComponents';
+import { RemoveItemWithEvent } from 'components/RemoveItemWithEvent';
 
-import { useAppDispatch } from "store/hooks";
+import { useAppDispatch } from 'store/hooks';
 
-import { editItemActions } from "./store/editItem.slice";
-import { EditItemConfirmModal } from "./EditItemConfirmModal";
-import { useEditItemModalHandlers, useIsEditItemModalOpen } from "./hooks";
+import { editItemActions } from './store/editItem.slice';
+import { useUpdateItemMutation } from './store/item.update.api';
+import { EditItemConfirmModal } from './EditItemConfirmModal';
+import { useEditItemModalHandlers, useIsEditItemModalOpen } from './hooks';
 
 type EditItemModalContentProps = {
   itemId: ItemTypeId;
@@ -64,7 +65,6 @@ function useEditItemModalContentState(props: EditItemModalContentProps) {
     onSubmitHandler,
     submitItemForm,
     beforeCloseEditItemModal,
-    closeEditItemModal,
   };
 }
 
@@ -79,7 +79,6 @@ export const EditItemModalContent = (props: EditItemModalContentProps) => {
     onSubmitHandler,
     submitItemForm,
     beforeCloseEditItemModal,
-    // closeEditItemModal,
   } = useEditItemModalContentState(props);
 
   return (
@@ -110,7 +109,6 @@ export const EditItemModalContent = (props: EditItemModalContentProps) => {
         >
           Save
         </button>
-        {/* <RemoveItemButtonWithConfirmModal itemId={itemId} onRemove={closeEditItemModal} /> */}
         <RemoveItemWithEvent itemId={itemId} />
         <EditItemConfirmModal />
       </Modal.Footer>

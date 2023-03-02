@@ -1,4 +1,4 @@
-import { useModalState } from "src/hooks/useModal";
+import { useModalState } from "hooks/useModal";
 
 import { AppButton } from "components/AppButton";
 

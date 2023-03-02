@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useRemoveItemMutation } from "sharedApi/items.remove.api";
-import { appEventItemRemoved } from "sharedTypes/event.types";
-import { ItemTypeId } from "sharedTypes/item.types";
-import { dispatchAppEvent } from "src/hooks/useAppEvents";
-import { useItemId } from "src/hooks/useItemId";
+import { useState } from 'react';
+import { dispatchAppEvent } from 'hooks/useAppEvents';
+import { useItemId } from 'hooks/useItemId';
+import { useRemoveItemMutation } from 'sharedApi/items.remove.api';
+import { appEventItemRemoved } from 'sharedTypes/event.types';
+import { ItemTypeId } from 'sharedTypes/item.types';
 
-import { RemoveItemButtonWithConfirmModal } from "./RemoveItemButtonWithConfirmModal";
+import { RemoveItemButtonWithConfirmModal } from './RemoveItemButtonWithConfirmModal';
 
 type RemoveItemWithEventProps = {
   itemId?: ItemTypeId;
@@ -27,7 +27,7 @@ function useConfirmModalState() {
     openConfirmModal,
     closeConfirmModal,
   };
-};
+}
 
 export const RemoveItemWithEvent = (props: RemoveItemWithEventProps) => {
   const { itemId: propsItemId } = props;
