@@ -1,30 +1,42 @@
-import { defaultFormValues, ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from "src/experimental/ItemForm";
-import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
+import { useCallback } from 'react';
+import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from 'src/experimental/ItemForm';
 
-import { AppButton } from "components/AppButton";
-import { Modal } from "components/ModalComponents";
+import { AppButton } from 'components/AppButton';
+import { Modal } from 'components/ModalComponents';
 
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 
-import { createItemSelectors } from "./store/createItem.selector";
-import { createItemActions } from "./store/createItem.slice";
-import { useCreateItemMutation } from "./store/items.create.api";
-import { CreateItemConfirmModal, useCreateItemConfirmModalHandlers } from "./CreateItemConfirmModal";
+import { createItemSelectors } from './store/createItem.selector';
+import { createItemActions } from './store/createItem.slice';
+import { useCreateItemMutation } from './store/items.create.api';
+import { CreateItemConfirmModal } from './CreateItemConfirmModal';
 
-const CreateItemModalButton = () => {
+function useCreateItemModalHandlers() {
   const dispatch = useAppDispatch();
 
-  const openModal = () => {
-    dispatch(createItemActions.saveFormData({ form: defaultFormValues }));
-
+  const openCreateModal = useCallback(() => {
     dispatch(createItemActions.openCreateModal());
-  };
+  }, [dispatch]);
 
-  return (
-    <AppButton onClick={openModal}>
-      New item
-    </AppButton>
-  );
+  const closeCreateModal = useCallback(() => {
+    dispatch(createItemActions.closeCreateModal());
+  }, [dispatch]);
+
+  const beforeCloseCreateModal = useCallback(() => {
+    dispatch(createItemActions.beforeCloseCreateModal());
+  }, [dispatch]);
+
+  return {
+    openCreateModal,
+    closeCreateModal,
+    beforeCloseCreateModal,
+  };
+}
+
+const CreateItemModalButton = () => {
+  const { openCreateModal } = useCreateItemModalHandlers();
+
+  return <AppButton onClick={openCreateModal}>New item</AppButton>;
 };
 
 const useCreateItemModalState = () => {
@@ -32,27 +44,9 @@ const useCreateItemModalState = () => {
 
   const isModalOpen = useAppSelector(createItemSelectors.selectIsCreateModalOpen);
 
-  const closeCreateModal = () => {
-    dispatch(createItemActions.closeCreateModal());
-  };
+  const { closeCreateModal, beforeCloseCreateModal } = useCreateItemModalHandlers();
 
-  const formData = useAppSelector(createItemSelectors.selectFormData);
-
-  const { itemFormRef, getFormValues, submitItemForm } = useItemFormRef();
-
-  const { openCreateItemConfirmModal } = useCreateItemConfirmModalHandlers();
-
-  const onCloseModal = () => {
-    const formValues = getFormValues() ?? {};
-
-    if (areObjectEqualsByValues(formValues, formData)) {
-      closeCreateModal();
-
-      return;
-    }
-
-    openCreateItemConfirmModal();
-  };
+  const { itemFormRef, submitItemForm } = useItemFormRef();
 
   const [createItemFn, { isLoading: isItemCreating }] = useCreateItemMutation();
 
@@ -60,34 +54,49 @@ const useCreateItemModalState = () => {
     await createItemFn({ data });
 
     closeCreateModal();
-  };
+  }
 
   const { onSubmitHandler } = useItemFormOnSubmitHandler({
     mainCallback: createNewItem,
   });
 
+  function onChangeFormValues(hasChanges: boolean) {
+    dispatch(createItemActions.setHasFormChanges(hasChanges));
+  }
+
   return {
     isModalOpen,
     itemFormRef,
     submitItemForm,
-    onCloseModal,
+    beforeCloseCreateModal,
     onSubmitHandler,
+    onChangeFormValues,
     isItemCreating,
   };
 };
 
 const CreateItemModal = () => {
-  const { isModalOpen, itemFormRef, submitItemForm, onCloseModal, onSubmitHandler, isItemCreating } =
-    useCreateItemModalState();
+  const {
+    isModalOpen,
+    itemFormRef,
+    submitItemForm,
+    beforeCloseCreateModal,
+    onSubmitHandler,
+    onChangeFormValues,
+    isItemCreating,
+  } = useCreateItemModalState();
 
   return (
-    <Modal.BaseModal isOpen={isModalOpen} onClose={onCloseModal}>
+    <Modal.BaseModal isOpen={isModalOpen} onClose={beforeCloseCreateModal}>
       <Modal.Header title="Create item" />
       <Modal.Main>
-        <ItemForm ref={itemFormRef} onSubmitHandler={onSubmitHandler} />
+        <ItemForm ref={itemFormRef} onSubmitHandler={onSubmitHandler} onChangeValuesHandler={onChangeFormValues} />
       </Modal.Main>
       <Modal.Footer>
-        <button className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md" onClick={onCloseModal}>
+        <button
+          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md"
+          onClick={beforeCloseCreateModal}
+        >
           Cancel
         </button>
         <button

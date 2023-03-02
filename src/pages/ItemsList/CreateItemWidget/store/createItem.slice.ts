@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { ItemType } from 'sharedTypes/item.types';
 
 const initialState: {
   isCreateModalOpen: boolean;
-  formData: Partial<ItemType>;
+  hasFormChanges: boolean;
   isConfirmCloseModalOpen: boolean;
 } = {
   isCreateModalOpen: false,
-  formData: {},
+  hasFormChanges: false,
   isConfirmCloseModalOpen: false,
 };
 
@@ -21,12 +20,6 @@ export const createItemSlice = createSlice({
     closeCreateModal(state) {
       state.isCreateModalOpen = false;
     },
-    saveFormData(state, action: PayloadAction<{ form: typeof initialState.formData }>) {
-      state.formData = action.payload.form;
-    },
-    clearFormData(state) {
-      state.formData = initialState.formData;
-    },
     openConfirmCloseModal(state) {
       state.isConfirmCloseModalOpen = true;
     },
@@ -37,9 +30,27 @@ export const createItemSlice = createSlice({
     closeConfirmCloseModalWithCancel(state) {
       state.isConfirmCloseModalOpen = false;
     },
+    setHasFormChanges(state, action: PayloadAction<boolean>) {
+      state.hasFormChanges = action.payload;
+    },
   },
 });
 
-export const createItemActions = createItemSlice.actions;
+const beforeCloseCreateModal = () => (dispatch, getState) => {
+  const sliceState = getState()[createItemSlice.name];
+
+  const hasFormChanges = sliceState.hasFormChanges;
+
+  if (hasFormChanges) {
+    dispatch(createItemSlice.actions.openConfirmCloseModal());
+  } else {
+    dispatch(createItemSlice.actions.closeCreateModal());
+  }
+};
+
+export const createItemActions = {
+  ...createItemSlice.actions,
+  beforeCloseCreateModal,
+};
 
 export const createItemReducer = createItemSlice.reducer;
