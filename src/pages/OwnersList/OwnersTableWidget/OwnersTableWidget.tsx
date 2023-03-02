@@ -1,16 +1,11 @@
 import { useTable } from 'react-table';
-import type { OwnerType } from 'sharedTypes/owner.types';
 import { EditOwnerWidget } from 'widgets/EditOwnerWidget/EditOwnerWidget';
 import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 
 import { AppTable } from 'components/AppTable';
 
+import { useFetchOwnersQuery } from './store/owners.fetch.api';
 import { ViewOwnerLink } from './ViewOwnerLink';
-
-interface OwnersListProps {
-  items: OwnerType[];
-  isLoading?: boolean;
-}
 
 const columns = [
   {
@@ -48,16 +43,27 @@ const columns = [
   },
 ];
 
-function useOwnersTableState(props: OwnersListProps) {
-  const { items } = props;
+const initialData = [];
 
-  const tableInstance = useTable({ columns, data: items });
+const useOwnersTableWidgetState = () => {
+  const { data = initialData, isFetching } = useFetchOwnersQuery(undefined);
 
-  return tableInstance;
-}
+  const isLoading = isFetching;
 
-export const OwnersTable = (props: OwnersListProps) => {
-  const tableInstance = useOwnersTableState(props);
+  const tableInstance = useTable({ columns, data });
 
-  return <AppTable {...tableInstance} />;
+  return {
+    isLoading,
+    ...tableInstance,
+  };
+};
+
+export const OwnersTableWidget = () => {
+  const tableProps = useOwnersTableWidgetState();
+
+  return (
+    <section className="w-full">
+      <AppTable {...tableProps} />;
+    </section>
+  );
 };
