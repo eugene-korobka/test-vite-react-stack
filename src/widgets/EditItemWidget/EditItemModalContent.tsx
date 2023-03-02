@@ -5,6 +5,7 @@ import { appEventItemRemoved } from 'sharedTypes/event.types';
 import { ItemTypeId } from 'sharedTypes/item.types';
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from 'src/experimental/ItemForm';
 
+import { AppButton } from 'components/AppButton';
 import { Modal } from 'components/ModalComponents';
 import { RemoveItemWithEvent } from 'components/RemoveItemWithEvent';
 
@@ -96,19 +97,10 @@ export const EditItemModalContent = (props: EditItemModalContentProps) => {
         )}
       </Modal.Main>
       <Modal.Footer>
-        <button
-          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md"
-          onClick={beforeCloseEditItemModal}
-        >
-          Cancel
-        </button>
-        <button
-          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
-          disabled={isItemUpdating}
-          onClick={submitItemForm}
-        >
+        <AppButton onClick={beforeCloseEditItemModal}>Cancel</AppButton>
+        <AppButton disabled={isItemUpdating} onClick={submitItemForm}>
           Save
-        </button>
+        </AppButton>
         <RemoveItemWithEvent itemId={itemId} />
         <EditItemConfirmModal />
       </Modal.Footer>

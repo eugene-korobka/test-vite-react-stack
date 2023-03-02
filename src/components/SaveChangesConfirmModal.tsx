@@ -1,4 +1,5 @@
-import { Modal } from "./ModalComponents";
+import { AppButton } from './AppButton';
+import { Modal } from './ModalComponents';
 
 type SaveChangesConfirmModalProps = {
   isConfirmOpen: boolean;
@@ -17,11 +18,7 @@ function useSaveChangesConfirmModalState(props: SaveChangesConfirmModalProps) {
 }
 
 export const SaveChangesConfirmModal = (props: SaveChangesConfirmModalProps) => {
-  const {
-    isConfirmOpen,
-    onConfirm,
-    onCancel,
- } = useSaveChangesConfirmModalState(props);
+  const { isConfirmOpen, onConfirm, onCancel } = useSaveChangesConfirmModalState(props);
 
   return (
     <Modal.ConfirmModal isOpen={isConfirmOpen}>
@@ -32,18 +29,8 @@ export const SaveChangesConfirmModal = (props: SaveChangesConfirmModalProps) => 
         Are you sure you want to exit?
       </Modal.Main>
       <Modal.Footer>
-        <button
-          className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-          onClick={onConfirm}
-        >
-          Confirm
-        </button>
+        <AppButton onClick={onCancel}>Cancel</AppButton>
+        <AppButton onClick={onConfirm}>Confirm</AppButton>
       </Modal.Footer>
     </Modal.ConfirmModal>
   );

@@ -1,10 +1,11 @@
-import { memo } from "react";
-import { useRemoveItemMutation } from "sharedApi/items.remove.api";
-import { ItemTypeId } from "sharedTypes/item.types";
+import { memo } from 'react';
+import { useRemoveItemMutation } from 'sharedApi/items.remove.api';
+import { ItemTypeId } from 'sharedTypes/item.types';
 
-import { Modal } from "components/ModalComponents";
+import { AppButton } from 'components/AppButton';
+import { Modal } from 'components/ModalComponents';
 
-import { useIsRemoveItemConfirmModal, useRemoveItemConfirmModalHandlers } from "./hooks";
+import { useIsRemoveItemConfirmModal, useRemoveItemConfirmModalHandlers } from './hooks';
 
 type RemoveItemConfirmModalProps = {
   itemId: ItemTypeId;
@@ -13,7 +14,8 @@ type RemoveItemConfirmModalProps = {
 function useRemoveItemConfirmModal(props: RemoveItemConfirmModalProps) {
   const { itemId } = props;
 
-  const { closeRemoveItemConfirmModalWithConfirm, closeRemoveItemConfirmModalWithCancel } = useRemoveItemConfirmModalHandlers(itemId);
+  const { closeRemoveItemConfirmModalWithConfirm, closeRemoveItemConfirmModalWithCancel } =
+    useRemoveItemConfirmModalHandlers(itemId);
 
   const [removeItemFn, { isLoading: isItemRemoving }] = useRemoveItemMutation();
 
@@ -37,7 +39,7 @@ function useRemoveItemConfirmModal(props: RemoveItemConfirmModalProps) {
     closeRemoveItemConfirmModalWithCancel,
     confirmRemove,
   };
-};
+}
 
 export const RemoveItemConfirmModal = memo((props: RemoveItemConfirmModalProps) => {
   const { isModalOpen, isConfirmButtonDisabled, closeRemoveItemConfirmModalWithCancel, confirmRemove } =
@@ -48,19 +50,10 @@ export const RemoveItemConfirmModal = memo((props: RemoveItemConfirmModalProps) 
       <Modal.Header title="Confirm remove" />
       <Modal.Main>Are you sure you want to remove item?</Modal.Main>
       <Modal.Footer>
-        <button
-          className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-          onClick={closeRemoveItemConfirmModalWithCancel}
-        >
-          Cancel
-        </button>
-        <button
-          className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-          disabled={isConfirmButtonDisabled}
-          onClick={confirmRemove}
-        >
+        <AppButton onClick={closeRemoveItemConfirmModalWithCancel}>Cancel</AppButton>
+        <AppButton disabled={isConfirmButtonDisabled} onClick={confirmRemove}>
           Confirm
-        </button>
+        </AppButton>
       </Modal.Footer>
     </Modal.ConfirmModal>
   );

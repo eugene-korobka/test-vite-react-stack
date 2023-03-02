@@ -54,19 +54,10 @@ export const RemoveOwnerWithEvent = (props: RemoveOwnerWithEventProps) => {
         <Modal.Header title="Confirm remove" />
         <Modal.Main>Are you sure you want to remove owner?</Modal.Main>
         <Modal.Footer>
-          <button
-            className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-            onClick={closeConfirmModal}
-          >
-            Cancel
-          </button>
-          <button
-            className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-            disabled={isConfirmButtonDisabled}
-            onClick={confirmRemove}
-          >
+          <AppButton onClick={closeConfirmModal}>Cancel</AppButton>
+          <AppButton disabled={isConfirmButtonDisabled} onClick={confirmRemove}>
             Confirm
-          </button>
+          </AppButton>
         </Modal.Footer>
       </Modal.ConfirmModal>
     </>

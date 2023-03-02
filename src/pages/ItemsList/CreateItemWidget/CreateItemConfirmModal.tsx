@@ -1,11 +1,12 @@
-import { memo } from "react";
+import { memo } from 'react';
 
-import { Modal } from "components/ModalComponents";
+import { AppButton } from 'components/AppButton';
+import { Modal } from 'components/ModalComponents';
 
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 
-import { createItemSelectors } from "./store/createItem.selector";
-import { createItemActions } from "./store/createItem.slice";
+import { createItemSelectors } from './store/createItem.selector';
+import { createItemActions } from './store/createItem.slice';
 
 export function useCreateItemConfirmModalHandlers() {
   const dispatch = useAppDispatch();
@@ -55,18 +56,8 @@ export const CreateItemConfirmModal = memo(() => {
         Are you sure you want to exit?
       </Modal.Main>
       <Modal.Footer>
-        <button
-          className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-          onClick={closeCreateItemConfirmModalWithCancel}
-        >
-          Cancel
-        </button>
-        <button
-          className="p-2 shrink-0 mr-4 last:mr-0 border border-solid border-gray-400 rounded-md"
-          onClick={closeCreateItemConfirmModalWithConfirm}
-        >
-          Confirm
-        </button>
+        <AppButton onClick={closeCreateItemConfirmModalWithCancel}>Cancel</AppButton>
+        <AppButton onClick={closeCreateItemConfirmModalWithConfirm}>Confirm</AppButton>
       </Modal.Footer>
     </Modal.ConfirmModal>
   );

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
-import { ReactComponent as CloseIcon } from "src/assets/close-icon.svg";
+import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
 
 const Backdrop = (props: React.PropsWithChildren) => {
   const { children } = props;
@@ -120,11 +120,7 @@ const Main = (props: React.PropsWithChildren) => {
 const Footer = (props: React.PropsWithChildren) => {
   const { children } = props;
 
-  return (
-    <footer className="flex justify-center items-center">
-      {children}
-    </footer>
-  );
+  return <footer className="flex justify-center items-center gap-4">{children}</footer>;
 };
 
 export const Modal = {

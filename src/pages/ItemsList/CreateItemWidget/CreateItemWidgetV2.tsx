@@ -93,19 +93,10 @@ const CreateItemModal = () => {
         <ItemForm ref={itemFormRef} onSubmitHandler={onSubmitHandler} onChangeValuesHandler={onChangeFormValues} />
       </Modal.Main>
       <Modal.Footer>
-        <button
-          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md"
-          onClick={beforeCloseCreateModal}
-        >
-          Cancel
-        </button>
-        <button
-          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
-          disabled={isItemCreating}
-          onClick={submitItemForm}
-        >
+        <AppButton onClick={beforeCloseCreateModal}>Cancel</AppButton>
+        <AppButton disabled={isItemCreating} onClick={submitItemForm}>
           Create
-        </button>
+        </AppButton>
         <CreateItemConfirmModal />
       </Modal.Footer>
     </Modal.BaseModal>

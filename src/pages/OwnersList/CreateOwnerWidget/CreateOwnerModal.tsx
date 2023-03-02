@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useConfirmModalState } from 'hooks/useModal';
 import { OwnerForm, useOwnerFormOnSubmitHandler, useOwnerFormRef } from 'src/experimental/OwnerForm';
 
+import { AppButton } from 'components/AppButton';
 import { Modal } from 'components/ModalComponents';
 import { SaveChangesConfirmModal } from 'components/SaveChangesConfirmModal';
 
@@ -81,19 +82,10 @@ export const CreateOwnerModal = (props: CreateOwnerModalProps) => {
         <OwnerForm ref={ownerFormRef} onSubmitHandler={onSubmitHandler} onChangeValuesHandler={onChangeHandler} />
       </Modal.Main>
       <Modal.Footer>
-        <button
-          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md"
-          onClick={beforeCloseModal}
-        >
-          Cancel
-        </button>
-        <button
-          className="mr-6 last:mr-0 p-2 border border-solid border-gray-400 rounded-md disabled:opacity-50"
-          disabled={isCreatingOwner}
-          onClick={submitOwnerForm}
-        >
+        <AppButton onClick={beforeCloseModal}>Cancel</AppButton>
+        <AppButton disabled={isCreatingOwner} onClick={submitOwnerForm}>
           Create
-        </button>
+        </AppButton>
         <SaveChangesConfirmModal isConfirmOpen={isConfirmOpen} onConfirm={closeModal} onCancel={closeConfirmModal} />
       </Modal.Footer>
     </Modal.BaseModal>
