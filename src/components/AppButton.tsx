@@ -1,10 +1,9 @@
-import React from "react";
+import React from 'react';
 
 type AppButtonVariant = 'default' | 'danger' | 'link';
 
-type AppButtonProps = React.PropsWithChildren & {
+type AppButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: AppButtonVariant;
-  onClick?: React.MouseEventHandler
 };
 
 const ButtonVariants = {
@@ -14,31 +13,25 @@ const ButtonVariants = {
 };
 
 function useAppButtonState(props: AppButtonProps) {
-  const { children, variant = 'default', onClick } = props;
+  const { children, variant = 'default', disabled, onClick } = props;
 
   const variantClassNames = ButtonVariants[variant] || '';
 
-  const className = [
-    'p-2 shrink-0 border border-solid rounded-md disabled:opacity-50',
-    variantClassNames,
-  ].join(' ');
+  const className = ['p-2 shrink-0 border border-solid rounded-md disabled:opacity-50', variantClassNames].join(' ');
 
   return {
     children,
     className,
+    disabled,
     onClick,
   };
-};
+}
 
 export const AppButton = (props: AppButtonProps) => {
-  const { children, className, onClick } = useAppButtonState(props);
+  const { children, className, disabled, onClick } = useAppButtonState(props);
 
   return (
-    <button
-      type="button"
-      className={className}
-      onClick={onClick}
-    >
+    <button type="button" className={className} disabled={disabled} onClick={onClick}>
       {children}
     </button>
   );
