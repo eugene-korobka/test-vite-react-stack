@@ -3,7 +3,8 @@ import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
 import { useConfirmModalState } from 'hooks/useModal';
 import { useFetchOwnerByIdQuery } from 'sharedApi/owner.fetchById.api';
 import { appEventOwnerRemoved } from 'sharedTypes/event.types';
-import { emailInputName, OwnerTypeId } from 'sharedTypes/owner.types';
+import type { OwnerIdType } from 'sharedTypes/owner.types';
+import { emailInputName } from 'sharedTypes/owner.types';
 import { OwnerForm, useOwnerFormOnSubmitHandler, useOwnerFormRef } from 'src/experimental/OwnerForm';
 import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 
@@ -16,7 +17,7 @@ import { useUpdateOwnerMutation } from './store/owner.update.api';
 const disabledFields = [emailInputName];
 
 type EditOwnerModalProps = {
-  ownerId: OwnerTypeId;
+  ownerId: OwnerIdType;
   isModalOpen: boolean;
   closeModal: () => void;
 };

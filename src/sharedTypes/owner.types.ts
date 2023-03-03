@@ -1,11 +1,13 @@
+import type { EntityIdType } from "./common.types";
+
 export type OwnerType = {
-  id: number;
+  id: EntityIdType;
   firstName: string;
   lastName: string;
   email: string;
 };
 
-export type OwnerTypeId = OwnerType['id'];
+export type OwnerIdType = EntityIdType;
 
 export const firstNameInputName = 'firstName';
 

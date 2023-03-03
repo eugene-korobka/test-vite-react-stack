@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 
 const initialState: {
   isEditModalOpen: boolean;
-  currentModalId: ItemTypeId | null;
+  currentModalId: ItemIdType | null;
   isConfirmCloseModalOpen: boolean;
   hasFormChanges: boolean;
 } = {
@@ -17,7 +17,7 @@ export const editItemSlice = createSlice({
   name: 'editItem',
   initialState,
   reducers: {
-    openEditModal(state, action: PayloadAction<{ modalId: ItemTypeId }>) {
+    openEditModal(state, action: PayloadAction<{ modalId: ItemIdType }>) {
       state.isEditModalOpen = true;
       state.currentModalId = action.payload.modalId;
     },

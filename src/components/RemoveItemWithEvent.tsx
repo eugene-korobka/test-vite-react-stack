@@ -3,12 +3,12 @@ import { dispatchAppEvent } from 'hooks/useAppEvents';
 import { useItemId } from 'hooks/useItemId';
 import { useRemoveItemMutation } from 'sharedApi/items.remove.api';
 import { appEventItemRemoved } from 'sharedTypes/event.types';
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 
 import { RemoveItemButtonWithConfirmModal } from './RemoveItemButtonWithConfirmModal';
 
 type RemoveItemWithEventProps = {
-  itemId?: ItemTypeId;
+  itemId?: ItemIdType;
 };
 
 function useConfirmModalState() {

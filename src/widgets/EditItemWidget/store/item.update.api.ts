@@ -1,5 +1,5 @@
 import { ITEMS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
-import { ItemType, ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType, ItemType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 
@@ -9,7 +9,7 @@ export const itemEditApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      updateItem: build.mutation<void, { itemId: ItemTypeId; data: Partial<ItemType> }>({
+      updateItem: build.mutation<void, { itemId: ItemIdType; data: Partial<ItemType> }>({
         query: ({ itemId, data }) => ({
           url: `/items/${itemId}`,
           method: 'PATCH',

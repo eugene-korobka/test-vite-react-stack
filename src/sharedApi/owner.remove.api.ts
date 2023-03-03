@@ -1,4 +1,4 @@
-import { OwnerTypeId } from 'sharedTypes/owner.types';
+import type { OwnerIdType } from 'sharedTypes/owner.types';
 
 import { baseApi } from 'store/baseApi';
 
@@ -10,7 +10,7 @@ export const ownerRemoveApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      removeOwner: build.mutation<void, { ownerId: OwnerTypeId }>({
+      removeOwner: build.mutation<void, { ownerId: OwnerIdType }>({
         query: ({ ownerId }) => ({
           url: `/owners/${ownerId}`,
           method: 'DELETE',

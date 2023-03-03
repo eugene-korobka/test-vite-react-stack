@@ -1,4 +1,4 @@
-import { OwnerType, OwnerTypeId } from 'sharedTypes/owner.types';
+import type { OwnerIdType, OwnerType } from 'sharedTypes/owner.types';
 
 import { baseApi } from 'store/baseApi';
 
@@ -10,7 +10,7 @@ export const ownerFetchByIdApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      fetchOwnerById: build.query<OwnerType, { ownerId: OwnerTypeId }>({
+      fetchOwnerById: build.query<OwnerType, { ownerId: OwnerIdType }>({
         query: ({ ownerId }) => ({
           url: `/owners/${ownerId}`,
           method: 'GET',

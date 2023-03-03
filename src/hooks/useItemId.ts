@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { ItemTypeId } from "sharedTypes/item.types";
+import type { ItemIdType } from "sharedTypes/item.types";
 
-export function useItemId(itemId?: ItemTypeId): ItemTypeId | null {
+export function useItemId(itemId?: ItemIdType): ItemIdType | null {
   const { itemId: routeItemId } = useParams();
 
   return itemId || Number(routeItemId) || null;

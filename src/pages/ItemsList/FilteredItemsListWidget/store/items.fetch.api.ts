@@ -1,5 +1,5 @@
 import { ITEMS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
-import { ItemType } from 'sharedTypes/item.types';
+import type { ItemType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 

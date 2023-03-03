@@ -1,10 +1,10 @@
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 
-import { EditItemModal } from "./EditItemModal";
-import { EditItemModalButton } from "./EditItemModalButton";
+import { EditItemModal } from './EditItemModal';
+import { EditItemModalButton } from './EditItemModalButton';
 
 type EditItemWidgetProps = {
-  itemId: ItemTypeId;
+  itemId: ItemIdType;
 };
 
 export const EditItemWidget = (props: EditItemWidgetProps) => {

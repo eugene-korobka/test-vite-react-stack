@@ -1,4 +1,4 @@
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 
@@ -10,7 +10,7 @@ export const itemRemoveApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      removeItem: build.mutation<void, { itemId: ItemTypeId }>({
+      removeItem: build.mutation<void, { itemId: ItemIdType }>({
         query: ({ itemId }) => ({
           url: `/items/${itemId}`,
           method: 'DELETE',

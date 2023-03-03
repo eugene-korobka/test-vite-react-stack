@@ -1,6 +1,6 @@
-import React, { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
-import { ItemType } from 'sharedTypes/item.types';
-import { areObjectEqualsByValues } from "src/utils/areObjectsEqualByValues";
+import React, { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
+import type { ItemType } from 'sharedTypes/item.types';
+import { areObjectEqualsByValues } from 'src/utils/areObjectsEqualByValues';
 
 const titleInputName = 'title';
 const descriptionInputName = 'description';
@@ -21,11 +21,13 @@ type ItemFormRef = {
   submitItemForm: () => void;
 };
 
-function useApplyOutterRef<T extends {
-  outterRef: React.ForwardedRef<ItemFormRef>;
-  innerRef: React.RefObject<HTMLFormElement>;
-  formValues: Partial<ItemType>;
-}>({ outterRef, innerRef, formValues }: T): void {
+function useApplyOutterRef<
+  T extends {
+    outterRef: React.ForwardedRef<ItemFormRef>;
+    innerRef: React.RefObject<HTMLFormElement>;
+    formValues: Partial<ItemType>;
+  },
+>({ outterRef, innerRef, formValues }: T): void {
   const getFormValues = useCallback(() => formValues, [formValues]);
 
   useImperativeHandle(
@@ -40,7 +42,7 @@ function useApplyOutterRef<T extends {
     },
     [innerRef, getFormValues],
   );
-};
+}
 
 export function useItemFormRef() {
   const itemFormRef = useRef<ItemFormRef>(null);
@@ -50,17 +52,15 @@ export function useItemFormRef() {
     getFormValues: () => itemFormRef.current?.getFormValues(),
     submitItemForm: () => itemFormRef.current?.submitItemForm(),
   };
-};
+}
 
-export function useItemFormOnSubmitHandler<T extends {
-  mainCallback: Function;
-  errorCallback?: Function;
-  finallyCallback?: Function;
-}>({
-  mainCallback,
-  errorCallback,
-  finallyCallback,
-}: T) {
+export function useItemFormOnSubmitHandler<
+  T extends {
+    mainCallback: Function;
+    errorCallback?: Function;
+    finallyCallback?: Function;
+  },
+>({ mainCallback, errorCallback, finallyCallback }: T) {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -76,7 +76,7 @@ export function useItemFormOnSubmitHandler<T extends {
 
       if (typeof errorCallback === 'function') {
         errorCallback();
-      };
+      }
     } finally {
       if (typeof finallyCallback === 'function') {
         finallyCallback();
@@ -87,14 +87,14 @@ export function useItemFormOnSubmitHandler<T extends {
   return {
     onSubmitHandler,
   };
-};
+}
 
 function useInputIds() {
   return {
     titleInputId: useId(),
     descriptionInputId: useId(),
   };
-};
+}
 
 function useItemFormState(props: ItemFormProps, outterRef: React.ForwardedRef<ItemFormRef>) {
   const { initialValues = defaultFormValues, onSubmitHandler, onChangeValuesHandler } = props;
@@ -125,10 +125,7 @@ function useItemFormState(props: ItemFormProps, outterRef: React.ForwardedRef<It
     formValues,
   });
 
-  const {
-    titleInputId,
-    descriptionInputId,
-  } = useInputIds();
+  const { titleInputId, descriptionInputId } = useInputIds();
 
   const titleInputValue = formValues[titleInputName];
   const descriptionInputValue = formValues[descriptionInputName];
@@ -142,7 +139,7 @@ function useItemFormState(props: ItemFormProps, outterRef: React.ForwardedRef<It
     onSubmitHandler,
     onInputChange,
   };
-};
+}
 
 export const ItemForm = forwardRef<ItemFormRef, ItemFormProps>((props, outterRef) => {
   const {

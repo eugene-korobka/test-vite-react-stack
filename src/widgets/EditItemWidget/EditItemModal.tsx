@@ -1,12 +1,12 @@
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 
-import { Modal } from "components/ModalComponents";
+import { Modal } from 'components/ModalComponents';
 
-import { EditItemModalContent } from "./EditItemModalContent";
-import { useEditItemModalHandlers, useIsEditItemModalOpen } from "./hooks";
+import { EditItemModalContent } from './EditItemModalContent';
+import { useEditItemModalHandlers, useIsEditItemModalOpen } from './hooks';
 
 type EditItemModalProps = {
-  itemId: ItemTypeId;
+  itemId: ItemIdType;
 };
 
 function useEditItemModalState(props: EditItemModalProps) {
@@ -32,5 +32,3 @@ export const EditItemModal = (props: EditItemModalProps) => {
     </Modal.BaseModal>
   );
 };
-
-

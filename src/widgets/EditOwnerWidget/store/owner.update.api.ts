@@ -1,5 +1,5 @@
 import { OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
-import { OwnerType, OwnerTypeId } from 'sharedTypes/owner.types';
+import type { OwnerIdType, OwnerType } from 'sharedTypes/owner.types';
 
 import { baseApi } from 'store/baseApi';
 
@@ -9,7 +9,7 @@ export const ownerUpdateApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      updateOwner: build.mutation<void, { ownerId: OwnerTypeId; data: Partial<OwnerType> }>({
+      updateOwner: build.mutation<void, { ownerId: OwnerIdType; data: Partial<OwnerType> }>({
         query: ({ ownerId, data }) => ({
           url: `/owners/${ownerId}`,
           method: 'PATCH',

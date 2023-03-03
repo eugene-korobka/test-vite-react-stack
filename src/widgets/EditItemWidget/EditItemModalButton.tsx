@@ -1,11 +1,11 @@
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 
 import { AppButton } from 'components/AppButton';
 
 import { useEditItemModalHandlers } from './hooks';
 
 type EditItemModalButtonProps = {
-  itemId: ItemTypeId;
+  itemId: ItemIdType;
 };
 
 export const EditItemModalButton = (props: EditItemModalButtonProps) => {

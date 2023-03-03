@@ -3,13 +3,13 @@ import { useConfirmModalState } from 'hooks/useModal';
 import { useOwnerId } from 'hooks/useOwnerId';
 import { useRemoveOwnerMutation } from 'sharedApi/owner.remove.api';
 import { appEventOwnerRemoved } from 'sharedTypes/event.types';
-import { OwnerTypeId } from 'sharedTypes/owner.types';
+import type { OwnerIdType } from 'sharedTypes/owner.types';
 
 import { AppButton } from 'components/AppButton';
 import { Modal } from 'components/ModalComponents';
 
 type RemoveOwnerWithEventProps = {
-  ownerId?: OwnerTypeId;
+  ownerId?: OwnerIdType;
 };
 
 export const RemoveOwnerWithEvent = (props: RemoveOwnerWithEventProps) => {

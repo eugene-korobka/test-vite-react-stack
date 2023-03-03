@@ -1,4 +1,4 @@
-import { ItemType, ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType, ItemType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 
@@ -10,7 +10,7 @@ export const itemEditApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      fetchItemById: build.query<ItemType, { itemId: ItemTypeId }>({
+      fetchItemById: build.query<ItemType, { itemId: ItemIdType }>({
         query: ({ itemId }) => ({
           url: `/items/${itemId}`,
           method: 'GET',

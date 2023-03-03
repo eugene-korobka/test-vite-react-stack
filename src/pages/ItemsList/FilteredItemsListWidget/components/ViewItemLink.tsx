@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { ItemTypeId } from "sharedTypes/item.types";
-import { AppRoutes } from "src/routes";
+import { Link } from 'react-router-dom';
+import type { ItemIdType } from 'sharedTypes/item.types';
+import { AppRoutes } from 'src/routes';
 
 type ViewItemLinkProps = {
-  itemId: ItemTypeId;
+  itemId: ItemIdType;
 };
 
 export const ViewItemLink = (props: ViewItemLinkProps) => {

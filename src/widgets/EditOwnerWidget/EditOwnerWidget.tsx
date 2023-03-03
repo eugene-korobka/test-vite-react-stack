@@ -1,12 +1,12 @@
 import { useModalState } from 'hooks/useModal';
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { OwnerIdType } from 'sharedTypes/owner.types';
 
 import { AppButton } from 'components/AppButton';
 
 import { EditOwnerModal } from './EditOwnerModal';
 
 type EditOwnerWidgetProps = {
-  ownerId: ItemTypeId;
+  ownerId: OwnerIdType;
 };
 
 function useEditOwnerWidgetState(props: EditOwnerWidgetProps) {

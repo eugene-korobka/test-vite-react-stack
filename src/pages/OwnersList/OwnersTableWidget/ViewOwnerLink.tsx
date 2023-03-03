@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { OwnerTypeId } from "sharedTypes/owner.types";
-import { AppRoutes } from "src/routes";
+import { Link } from 'react-router-dom';
+import type { OwnerIdType } from 'sharedTypes/owner.types';
+import { AppRoutes } from 'src/routes';
 
 type ViewOwnerLinkProps = {
-  ownerId: OwnerTypeId;
+  ownerId: OwnerIdType;
 };
 
 export const ViewOwnerLink = (props: ViewOwnerLinkProps) => {

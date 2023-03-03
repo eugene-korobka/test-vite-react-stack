@@ -1,4 +1,4 @@
-import { ItemType } from "sharedTypes/item.types";
+import type { ItemType } from 'sharedTypes/item.types';
 
 import { RemoveItemButtonWidget } from 'pages/ItemsList/RemoveItemButtonWidget/RemoveItemButtonWidget';
 
@@ -34,12 +34,7 @@ const useItemsListState = (props: ItemListProps) => {
 };
 
 export function ItemsList(props: ItemListProps) {
-  const {
-    isLoading,
-    noData,
-    hasItems,
-    items,
-} = useItemsListState(props);
+  const { isLoading, noData, hasItems, items } = useItemsListState(props);
 
   return (
     <ul className="w-full">

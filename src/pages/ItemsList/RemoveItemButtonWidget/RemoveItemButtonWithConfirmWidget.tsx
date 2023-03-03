@@ -1,4 +1,4 @@
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 
 import { AppButton } from 'components/AppButton';
 
@@ -6,8 +6,8 @@ import { useRemoveItemConfirmModalHandlers } from './hooks';
 import { RemoveItemConfirmModal } from './RemoveItemConfirmModal';
 
 type RemoveItemButtonProps = {
-  itemId: ItemTypeId;
-}
+  itemId: ItemIdType;
+};
 
 const useRemoveItemButtonWithConfirmWidgetState = (props: RemoveItemButtonProps) => {
   const { itemId } = props;
@@ -25,10 +25,7 @@ export const RemoveItemButtonWithConfirmWidget = (props: RemoveItemButtonProps) 
 
   return (
     <>
-      <AppButton
-        variant='danger'
-        onClick={openRemoveItemConfirmModal}
-      >
+      <AppButton variant="danger" onClick={openRemoveItemConfirmModal}>
         Remove
       </AppButton>
       <RemoveItemConfirmModal itemId={itemId} />

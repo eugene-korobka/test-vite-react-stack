@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
 import { useFetchItemByIdQuery } from 'sharedApi/item.fetchById.api';
 import { appEventItemRemoved } from 'sharedTypes/event.types';
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from 'src/experimental/ItemForm';
 
 import { AppButton } from 'components/AppButton';
@@ -17,7 +17,7 @@ import { EditItemConfirmModal } from './EditItemConfirmModal';
 import { useEditItemModalHandlers, useIsEditItemModalOpen } from './hooks';
 
 type EditItemModalContentProps = {
-  itemId: ItemTypeId;
+  itemId: ItemIdType;
 };
 
 function useEditItemModalContentState(props: EditItemModalContentProps) {

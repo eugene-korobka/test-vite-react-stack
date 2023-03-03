@@ -1,7 +1,9 @@
+import type { EntityIdType } from "./common.types";
+
 export type ItemType = {
-  id: number;
+  id: EntityIdType;
   title: string;
   description: string;
 };
 
-export type ItemTypeId = ItemType['id'];
+export type ItemIdType = EntityIdType;

@@ -1,5 +1,5 @@
 import { OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
-import { OwnerType } from 'sharedTypes/owner.types';
+import type { OwnerType } from 'sharedTypes/owner.types';
 
 import { baseApi } from 'store/baseApi';
 

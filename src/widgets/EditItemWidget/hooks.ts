@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { ItemTypeId } from 'sharedTypes/item.types';
+import type { ItemIdType } from 'sharedTypes/item.types';
 
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
@@ -12,7 +12,7 @@ export function useIsEditItemModalOpen(itemId) {
   return isModalOpen;
 }
 
-export function useEditItemModalHandlers(itemId: ItemTypeId) {
+export function useEditItemModalHandlers(itemId: ItemIdType) {
   const dispatch = useAppDispatch();
 
   const openEditItemModal = useCallback(() => {
