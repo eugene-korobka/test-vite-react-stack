@@ -1,9 +1,9 @@
 import { useTable } from 'react-table';
 import type { ItemType } from 'sharedTypes/item.types';
 import { EditItemWidget } from 'widgets/EditItemWidget/EditItemWidget';
+import { RemoveItemWithEvent } from 'widgets/RemoveItem/RemoveItemWithEvent';
 
 import { AppTable } from 'components/AppTable';
-import { RemoveItemWithEvent } from 'components/RemoveItemWithEvent';
 
 import { ViewItemLink } from './ViewItemLink';
 

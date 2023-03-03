@@ -4,10 +4,10 @@ import { useFetchItemByIdQuery } from 'sharedApi/item.fetchById.api';
 import { appEventItemRemoved } from 'sharedTypes/event.types';
 import type { ItemIdType } from 'sharedTypes/item.types';
 import { ItemForm, useItemFormOnSubmitHandler, useItemFormRef } from 'src/experimental/ItemForm';
+import { RemoveItemWithEvent } from 'widgets/RemoveItem/RemoveItemWithEvent';
 
 import { AppButton } from 'components/AppButton';
 import { Modal } from 'components/ModalComponents';
-import { RemoveItemWithEvent } from 'components/RemoveItemWithEvent';
 
 import { useAppDispatch } from 'store/hooks';
 

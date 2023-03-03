@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { AppButton } from './AppButton';
-import { Modal } from './ModalComponents';
+import { AppButton } from 'components/AppButton';
+import { Modal } from 'components/ModalComponents';
 
 type RemoveItemButtonWithConfirmModalProps = {
   isOpen: boolean;
