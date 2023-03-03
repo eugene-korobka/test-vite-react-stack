@@ -9,12 +9,12 @@ interface RemoveItemButtonProps {
 const useRemoveItemButtonWidgetState = (props: RemoveItemButtonProps) => {
   const { itemId } = props;
 
-  const [removeItemFn, { isLoading }] = useRemoveItemMutation();
+  const [removeItemTrigger, { isLoading }] = useRemoveItemMutation();
 
   const isDisabled = !itemId || isLoading;
 
   const onClick = () => {
-    removeItemFn({ itemId }).catch((error) => {
+    removeItemTrigger({ itemId }).catch((error) => {
       console.error(error);
     });
   };

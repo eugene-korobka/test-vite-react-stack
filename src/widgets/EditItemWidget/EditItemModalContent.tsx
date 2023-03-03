@@ -37,10 +37,10 @@ function useEditItemModalContentState(props: EditItemModalContentProps) {
 
   const { beforeCloseEditItemModal, closeEditItemModal } = useEditItemModalHandlers(itemId);
 
-  const [updateItemFn, { isLoading: isItemUpdating }] = useUpdateItemMutation();
+  const [updateItemTrigger, { isLoading: isItemUpdating }] = useUpdateItemMutation();
 
   async function updateItem(data) {
-    await updateItemFn({ itemId, data });
+    await updateItemTrigger({ itemId, data });
 
     closeEditItemModal();
   }

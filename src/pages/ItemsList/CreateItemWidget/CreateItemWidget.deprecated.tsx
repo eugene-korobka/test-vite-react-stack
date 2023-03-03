@@ -1,7 +1,7 @@
-import { useId, useRef } from "react";
+import { useId, useRef } from 'react';
 import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
 
-import { useCreateItemMutation } from "./store/items.create.api";
+import { useCreateItemMutation } from './store/items.create.api';
 
 const useCreateItemWidgetState = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -16,18 +16,18 @@ const useCreateItemWidgetState = () => {
     dialogRef.current?.close?.();
   };
 
-  const [createItemFn, { isLoading }] = useCreateItemMutation();
+  const [createItemTrigger, { isLoading }] = useCreateItemMutation();
 
   const onSubmit = async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    const formdata = new FormData(event.target);
+    const formData = new FormData(event.target);
 
-    const data = Object.fromEntries(formdata.entries());
+    const data = Object.fromEntries(formData.entries());
 
     try {
-      await createItemFn({ data });
+      await createItemTrigger({ data });
 
       closeDialog();
 

@@ -17,10 +17,10 @@ function useRemoveItemConfirmModal(props: RemoveItemConfirmModalProps) {
   const { closeRemoveItemConfirmModalWithConfirm, closeRemoveItemConfirmModalWithCancel } =
     useRemoveItemConfirmModalHandlers(itemId);
 
-  const [removeItemFn, { isLoading: isItemRemoving }] = useRemoveItemMutation();
+  const [removeItemTrigger, { isLoading: isItemRemoving }] = useRemoveItemMutation();
 
   const confirmRemove = () => {
-    removeItemFn({ itemId })
+    removeItemTrigger({ itemId })
       .catch((error) => {
         console.error(error);
       })

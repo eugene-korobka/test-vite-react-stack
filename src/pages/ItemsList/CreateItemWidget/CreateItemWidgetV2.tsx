@@ -48,10 +48,10 @@ const useCreateItemModalState = () => {
 
   const { itemFormRef, submitItemForm } = useItemFormRef();
 
-  const [createItemFn, { isLoading: isItemCreating }] = useCreateItemMutation();
+  const [createItemTrigger, { isLoading: isItemCreating }] = useCreateItemMutation();
 
   async function createNewItem(data) {
-    await createItemFn({ data });
+    await createItemTrigger({ data });
 
     closeCreateModal();
   }
