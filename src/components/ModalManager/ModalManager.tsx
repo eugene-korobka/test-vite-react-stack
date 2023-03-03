@@ -1,10 +1,10 @@
-import { ReactNode, useCallback } from "react";
-import { createPortal } from "react-dom";
+import { ReactNode, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 
-import { modalManagerSelectors } from "./store/modalManager.selector";
-import { modalManagerActions } from "./store/modalManager.slice";
+import { modalManagerSelectors } from './store/modalManager.selector';
+import { modalManagerActions } from './store/modalManager.slice';
 
 interface ModalProps {
   children?: ReactNode;
@@ -59,9 +59,9 @@ export const ButtonWithModalReduxV1 = () => {
       </button>
       <ModalRedux modalId={modalId}>
         <header className="relative mb-4 font-bold text-center">Redux Modal V1</header>
-        <main className="mb-4">
+        <section className="mb-4">
           <div>Redux Modal V1 Body</div>
-        </main>
+        </section>
         <footer>
           <button className="p-2 shrink-0 border border-solid border-gray-400 rounded-md" onClick={closeModalById}>
             Close
@@ -80,9 +80,9 @@ export const ModalReduxV2 = () => {
   return (
     <ModalRedux modalId={modalId}>
       <header className="relative mb-4 font-bold text-center">Redux Modal V2</header>
-      <main className="mb-4">
+      <section className="mb-4">
         <div>Redux Modal V2 Body</div>
-      </main>
+      </section>
       <footer>
         <ButtonWithModalReduxV1 />
         <button className="p-2 shrink-0 border border-solid border-gray-400 rounded-md" onClick={closeModalById}>
@@ -114,9 +114,9 @@ export const ModalReduxV3 = ({ modalId }) => {
   return (
     <ModalRedux modalId={modalId}>
       <header className="relative mb-4 font-bold text-center">Redux Modal V3</header>
-      <main className="mb-4">
+      <section className="mb-4">
         <div>Redux Modal V3 Body</div>
-      </main>
+      </section>
       <footer>
         <ButtonWithModalReduxV2 />
         <button className="p-2 shrink-0 border border-solid border-gray-400 rounded-md" onClick={closeModalById}>

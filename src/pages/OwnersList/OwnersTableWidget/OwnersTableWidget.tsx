@@ -63,7 +63,7 @@ export const OwnersTableWidget = () => {
 
   return (
     <section className="w-full">
-      <AppTable {...tableProps} />;
+      <AppTable {...tableProps} />
     </section>
   );
 };

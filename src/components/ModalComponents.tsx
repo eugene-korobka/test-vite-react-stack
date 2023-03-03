@@ -114,7 +114,7 @@ const Header = (props: ModalHeaderProps) => {
 const Main = (props: React.PropsWithChildren) => {
   const { children } = props;
 
-  return <main className="mb-4 overflow-y-hidden overscroll-contain text-start last:mb-0">{children}</main>;
+  return <section className="mb-4 overflow-y-hidden overscroll-contain text-start last:mb-0">{children}</section>;
 };
 
 const Footer = (props: React.PropsWithChildren) => {
