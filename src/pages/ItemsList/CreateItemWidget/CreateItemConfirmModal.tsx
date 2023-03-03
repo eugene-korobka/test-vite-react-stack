@@ -1,7 +1,6 @@
 import { memo } from 'react';
 
-import { AppButton } from 'components/AppButton';
-import { Modal } from 'components/ModalComponents';
+import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmModal';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 
@@ -48,17 +47,10 @@ export const CreateItemConfirmModal = memo(() => {
     useCreateItemConfirmModalState();
 
   return (
-    <Modal.ConfirmModal isOpen={isModalOpen}>
-      <Modal.Header title="Confirm exit" />
-      <Modal.Main>
-        Your changes are not saved.
-        <br />
-        Are you sure you want to exit?
-      </Modal.Main>
-      <Modal.Footer>
-        <AppButton onClick={closeCreateItemConfirmModalWithCancel}>Cancel</AppButton>
-        <AppButton onClick={closeCreateItemConfirmModalWithConfirm}>Confirm</AppButton>
-      </Modal.Footer>
-    </Modal.ConfirmModal>
+    <ExitWithChangesConfirmModal
+      isConfirmOpen={isModalOpen}
+      onConfirm={closeCreateItemConfirmModalWithConfirm}
+      onCancel={closeCreateItemConfirmModalWithCancel}
+    />
   );
 });

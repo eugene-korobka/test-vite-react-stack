@@ -3,8 +3,8 @@ import { useConfirmModalState } from 'hooks/useModal';
 import { OwnerForm, useOwnerFormOnSubmitHandler, useOwnerFormRef } from 'src/experimental/OwnerForm';
 
 import { AppButton } from 'components/AppButton';
+import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmModal';
 import { Modal } from 'components/ModalComponents';
-import { SaveChangesConfirmModal } from 'components/SaveChangesConfirmModal';
 
 import { useCreateOwnerMutation } from './store/owner.create.api';
 
@@ -86,7 +86,11 @@ export const CreateOwnerModal = (props: CreateOwnerModalProps) => {
         <AppButton disabled={isCreatingOwner} onClick={submitOwnerForm}>
           Create
         </AppButton>
-        <SaveChangesConfirmModal isConfirmOpen={isConfirmOpen} onConfirm={closeModal} onCancel={closeConfirmModal} />
+        <ExitWithChangesConfirmModal
+          isConfirmOpen={isConfirmOpen}
+          onConfirm={closeModal}
+          onCancel={closeConfirmModal}
+        />
       </Modal.Footer>
     </Modal.BaseModal>
   );

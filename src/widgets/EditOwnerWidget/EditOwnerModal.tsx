@@ -9,8 +9,8 @@ import { OwnerForm, useOwnerFormOnSubmitHandler, useOwnerFormRef } from 'src/exp
 import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 
 import { AppButton } from 'components/AppButton';
+import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmModal';
 import { Modal } from 'components/ModalComponents';
-import { SaveChangesConfirmModal } from 'components/SaveChangesConfirmModal';
 
 import { useUpdateOwnerMutation } from './store/owner.update.api';
 
@@ -121,7 +121,11 @@ export const EditOwnerModal = (props: EditOwnerModalProps) => {
           Save
         </AppButton>
         <RemoveOwnerWithEvent ownerId={ownerId} />
-        <SaveChangesConfirmModal isConfirmOpen={isConfirmOpen} onConfirm={closeModal} onCancel={closeConfirmModal} />
+        <ExitWithChangesConfirmModal
+          isConfirmOpen={isConfirmOpen}
+          onConfirm={closeModal}
+          onCancel={closeConfirmModal}
+        />
       </Modal.Footer>
     </Modal.BaseModal>
   );
