@@ -4,6 +4,8 @@ import { descriptionInputName, ownerIdInputName, titleInputName } from 'sharedTy
 import type { ItemType } from 'sharedTypes/item.types';
 import { SelectOwner } from 'widgets/SelectOwner.widget';
 
+import { RequiredFieldMark } from './RequiredFieldMark';
+
 export const defaultFormValues: Partial<ItemType> = {
   [titleInputName]: '',
   [descriptionInputName]: '',
@@ -64,7 +66,9 @@ export const ItemHookForm = (props: ItemHookFormPropsType) => {
     <form id={formId} className="w-full" onSubmit={onFormSubmit}>
       <div className="mb-4 text-center">Item Hook Form</div>
       <label htmlFor={titleInputId} className="block mb-6">
-        <span className="block mb-2">Title</span>
+        <span className="block mb-2">
+          Title <RequiredFieldMark />
+        </span>
         <input
           className="block w-full p-2 border border-solid border-gray-400 rounded-md"
           id={titleInputId}
@@ -74,7 +78,9 @@ export const ItemHookForm = (props: ItemHookFormPropsType) => {
         />
       </label>
       <label htmlFor={descriptionInputId} className="block mb-6">
-        <span className="block mb-2">Description</span>
+        <span className="block mb-2">
+          Description <RequiredFieldMark />
+        </span>
         <textarea
           className="block w-full p-2 border border-solid border-gray-400 rounded-md resize-none"
           id={descriptionInputId}

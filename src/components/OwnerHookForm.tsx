@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { emailInputName, firstNameInputName, lastNameInputName } from 'sharedTypes/constants';
 import type { OwnerType } from 'sharedTypes/owner.types';
 
+import { RequiredFieldMark } from './RequiredFieldMark';
+
 export const defaultFormValues: Partial<OwnerType> = {
   [firstNameInputName]: '',
   [lastNameInputName]: '',
@@ -76,7 +78,9 @@ export const OwnerHookForm = (props: OwnerFormPropsType) => {
     <form id={formId} className="w-full" onSubmit={onFormSubmit}>
       <div className="mb-4 text-center">Owner Hook Form</div>
       <label htmlFor={firstNameInputId} className="block mb-6">
-        <span className="block mb-2">First name</span>
+        <span className="block mb-2">
+          First name <RequiredFieldMark />
+        </span>
         <input
           className="block w-full p-2 border border-solid border-gray-400 rounded-md"
           id={firstNameInputId}
@@ -86,7 +90,9 @@ export const OwnerHookForm = (props: OwnerFormPropsType) => {
         />
       </label>
       <label htmlFor={lastNameInputId} className="block mb-6">
-        <span className="block mb-2">Last name</span>
+        <span className="block mb-2">
+          Last name <RequiredFieldMark />
+        </span>
         <input
           className="block w-full p-2 border border-solid border-gray-400 rounded-md"
           id={lastNameInputId}
@@ -95,7 +101,9 @@ export const OwnerHookForm = (props: OwnerFormPropsType) => {
         />
       </label>
       <label htmlFor={emailInputId} className="block mb-6">
-        <span className="block mb-2">Email</span>
+        <span className="block mb-2">
+          Email <RequiredFieldMark />
+        </span>
         <input
           className="block w-full p-2 border border-solid border-gray-400 rounded-md"
           id={emailInputId}
