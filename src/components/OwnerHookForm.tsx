@@ -1,7 +1,7 @@
 import { useEffect, useId } from 'react';
 import { useForm } from 'react-hook-form';
+import { emailInputName, firstNameInputName, lastNameInputName } from 'sharedTypes/constants';
 import type { OwnerType } from 'sharedTypes/owner.types';
-import { emailInputName, firstNameInputName, lastNameInputName } from 'sharedTypes/owner.types';
 
 export const defaultFormValues: Partial<OwnerType> = {
   [firstNameInputName]: '',

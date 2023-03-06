@@ -1,9 +1,7 @@
 import { useEffect, useId } from 'react';
 import { useForm } from 'react-hook-form';
-import { ItemType } from 'sharedTypes/item.types';
-
-const titleInputName = 'title';
-const descriptionInputName = 'description';
+import { descriptionInputName, titleInputName } from 'sharedTypes/constants';
+import type { ItemType } from 'sharedTypes/item.types';
 
 export const defaultFormValues: Partial<ItemType> = {
   [titleInputName]: '',

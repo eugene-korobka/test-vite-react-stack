@@ -8,9 +8,3 @@ export type OwnerType = {
 };
 
 export type OwnerIdType = EntityIdType;
-
-export const firstNameInputName = 'firstName';
-
-export const lastNameInputName = 'lastName';
-
-export const emailInputName = 'email';

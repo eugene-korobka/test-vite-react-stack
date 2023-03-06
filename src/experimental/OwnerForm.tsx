@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
+import { emailInputName, firstNameInputName, lastNameInputName } from 'sharedTypes/constants';
 import type { OwnerType } from 'sharedTypes/owner.types';
-import { emailInputName, firstNameInputName, lastNameInputName } from 'sharedTypes/owner.types';
 import { areObjectEqualsByValues } from 'src/utils/areObjectsEqualByValues';
 
 export const defaultFormValues: Partial<OwnerType> = {
