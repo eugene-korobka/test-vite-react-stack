@@ -3,67 +3,86 @@
     {
       "id": 1,
       "title": "Title 1",
-      "description": "Description 1"
+      "description": "Description 1",
+      "ownerId": null
     },
     {
       "id": 2,
       "title": "Title 2",
-      "description": "Description 2"
+      "description": "Description 2",
+      "ownerId": null
     },
     {
       "id": 3,
       "title": "Common title",
-      "description": "Description 3"
+      "description": "Description 3",
+      "ownerId": null
     },
     {
       "id": 4,
       "title": "Title 4",
-      "description": "Description 4"
+      "description": "Description 4",
+      "ownerId": null
     },
     {
       "id": 5,
       "title": "Common title",
-      "description": "Description 5"
+      "description": "Description 5",
+      "ownerId": null
     },
     {
       "id": 6,
       "title": "Common title",
-      "description": "Description 6"
+      "description": "Description 6",
+      "ownerId": null
     },
     {
       "id": 7,
       "title": "Common title",
-      "description": "Description 7"
+      "description": "Description 7",
+      "ownerId": null
     },
     {
       "id": 8,
       "title": "Title 8",
-      "description": "Description 8"
+      "description": "Description 8",
+      "ownerId": null
     },
     {
       "id": 9,
       "title": "Title 9",
-      "description": "Description 9"
+      "description": "Description 9",
+      "ownerId": null
     },
     {
       "id": 10,
       "title": "Common title",
-      "description": "Description 10"
+      "description": "Description 10",
+      "ownerId": null
     },
     {
       "title": "Remove 1",
       "description": "Remove 1",
-      "id": 11
+      "id": 11,
+      "ownerId": null
     },
     {
       "title": "Remove 2",
       "description": "Remove 2",
-      "id": 12
+      "id": 12,
+      "ownerId": null
     },
     {
       "title": "Remove 3",
       "description": "Remove 3",
-      "id": 13
+      "id": 13,
+      "ownerId": null
+    },
+    {
+      "title": "With owner",
+      "description": "With owner",
+      "ownerId": 2,
+      "id": 14
     }
   ],
   "owners": [

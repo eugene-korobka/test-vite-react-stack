@@ -1,11 +1,13 @@
 import { useEffect, useId } from 'react';
 import { useForm } from 'react-hook-form';
-import { descriptionInputName, titleInputName } from 'sharedTypes/constants';
+import { descriptionInputName, ownerIdInputName, titleInputName } from 'sharedTypes/constants';
 import type { ItemType } from 'sharedTypes/item.types';
+import { SelectOwner } from 'widgets/SelectOwner.widget';
 
 export const defaultFormValues: Partial<ItemType> = {
   [titleInputName]: '',
   [descriptionInputName]: '',
+  [ownerIdInputName]: null,
 };
 
 function useInputIds() {
@@ -80,6 +82,7 @@ export const ItemHookForm = (props: ItemHookFormPropsType) => {
           {...register(descriptionInputName, { required: true })}
         />
       </label>
+      <SelectOwner register={register} />
     </form>
   );
 };
