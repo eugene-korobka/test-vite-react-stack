@@ -1,10 +1,10 @@
 import { useTable } from 'react-table';
+import { useFetchOwnersQuery } from 'sharedApi/owners.fetch.api';
 import { EditOwnerWidgetHookForm } from 'widgets/EditOwnerWidget/EditOwnerWidgetHookForm';
 import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 
 import { AppTable } from 'components/AppTable';
 
-import { useFetchOwnersQuery } from './store/owners.fetch.api';
 import { ViewOwnerLink } from './ViewOwnerLink';
 
 const columns = [
