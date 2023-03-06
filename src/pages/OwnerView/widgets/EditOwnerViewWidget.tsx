@@ -1,5 +1,5 @@
 import { useOwnerId } from 'hooks/useOwnerId';
-import { EditOwnerWidget } from 'widgets/EditOwnerWidget/EditOwnerWidget';
+import { EditOwnerWidgetHookForm } from 'widgets/EditOwnerWidget/EditOwnerWidgetHookForm';
 
 export const EditOwnerViewWidget = () => {
   const ownerId = useOwnerId();
@@ -8,5 +8,5 @@ export const EditOwnerViewWidget = () => {
     return null;
   }
 
-  return <EditOwnerWidget ownerId={ownerId} />;
+  return <EditOwnerWidgetHookForm ownerId={ownerId} />;
 };

@@ -1,6 +1,6 @@
 import { useTable } from 'react-table';
 import type { ItemType } from 'sharedTypes/item.types';
-import { EditItemWidget } from 'widgets/EditItemWidget/EditItemWidget';
+import { EditItemWidgetHookForm } from 'widgets/EditItemWidget/EditItemWidgetHookForm';
 import { RemoveItemWithEvent } from 'widgets/RemoveItem/RemoveItemWithEvent';
 
 import { AppTable } from 'components/AppTable';
@@ -34,7 +34,7 @@ const columns = [
       return (
         <div className="flex gap-4 justify-end">
           <ViewItemLink itemId={value} />
-          <EditItemWidget itemId={value} />
+          <EditItemWidgetHookForm itemId={value} />
           <RemoveItemWithEvent itemId={value} />
         </div>
       );

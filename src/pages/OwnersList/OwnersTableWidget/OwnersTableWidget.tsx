@@ -1,5 +1,5 @@
 import { useTable } from 'react-table';
-import { EditOwnerWidget } from 'widgets/EditOwnerWidget/EditOwnerWidget';
+import { EditOwnerWidgetHookForm } from 'widgets/EditOwnerWidget/EditOwnerWidgetHookForm';
 import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 
 import { AppTable } from 'components/AppTable';
@@ -35,7 +35,7 @@ const columns = [
       return (
         <div className="flex gap-4 justify-end">
           <ViewOwnerLink ownerId={value} />
-          <EditOwnerWidget ownerId={value} />
+          <EditOwnerWidgetHookForm ownerId={value} />
           <RemoveOwnerWithEvent ownerId={value} />
         </div>
       );

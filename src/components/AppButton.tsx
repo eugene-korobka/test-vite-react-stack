@@ -12,12 +12,18 @@ const ButtonVariants = {
   link: 'border-blue-400 text-blue-400',
 };
 
-function useAppButtonState(props: AppButtonProps) {
-  const { children, variant = 'default', disabled, onClick } = props;
-
+function useAppButtonClassName(variant: AppButtonVariant = 'default') {
   const variantClassNames = ButtonVariants[variant] || '';
 
   const className = ['p-2 shrink-0 border border-solid rounded-md disabled:opacity-50', variantClassNames].join(' ');
+
+  return className;
+}
+
+function useAppButtonState(props: AppButtonProps) {
+  const { children, variant, disabled, onClick } = props;
+
+  const className = useAppButtonClassName(variant);
 
   return {
     children,
@@ -32,6 +38,29 @@ export const AppButton = (props: AppButtonProps) => {
 
   return (
     <button type="button" className={className} disabled={disabled} onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
+function useAppSubmitButtonState(props: AppButtonProps) {
+  const { children, variant, form, disabled } = props;
+
+  const className = useAppButtonClassName(variant);
+
+  return {
+    children,
+    className,
+    form,
+    disabled,
+  };
+}
+
+export const AppSubmitButton = (props: AppButtonProps) => {
+  const { children, className, form, disabled } = useAppSubmitButtonState(props);
+
+  return (
+    <button className={className} form={form} disabled={disabled}>
       {children}
     </button>
   );

@@ -1,5 +1,5 @@
 import { useItemId } from 'hooks/useItemId';
-import { EditItemWidget } from 'widgets/EditItemWidget/EditItemWidget';
+import { EditItemWidgetHookForm } from 'widgets/EditItemWidget/EditItemWidgetHookForm';
 
 export const EditItemViewWidget = () => {
   const itemId = useItemId();
@@ -8,5 +8,5 @@ export const EditItemViewWidget = () => {
     return null;
   }
 
-  return <EditItemWidget itemId={itemId} />;
+  return <EditItemWidgetHookForm itemId={itemId} />;
 };

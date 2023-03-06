@@ -1,7 +1,7 @@
 import { PageContainer } from 'components/PageContainer';
 import { PageHeader } from 'components/PageHeader';
 
-import { CreateOwnerWidget } from './CreateOwnerWidget/CreateOwnerWidget';
+import { CreateOwnerWidgetHookForm } from './CreateOwnerWidget/CreateOwnerWidgetHookForm';
 import { OwnersTableWidget } from './OwnersTableWidget/OwnersTableWidget';
 
 export const OwnersListPage = () => {
@@ -9,7 +9,7 @@ export const OwnersListPage = () => {
     <PageContainer>
       <PageHeader>Owners List Page</PageHeader>
       <div className="text-end">
-        <CreateOwnerWidget />
+        <CreateOwnerWidgetHookForm />
       </div>
       <OwnersTableWidget />
     </PageContainer>
