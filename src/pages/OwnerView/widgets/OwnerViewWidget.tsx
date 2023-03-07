@@ -1,5 +1,7 @@
-import { useParams } from "react-router-dom";
-import { useFetchOwnerByIdQuery } from "sharedApi/owner.fetchById.api";
+import { useParams } from 'react-router-dom';
+import { useFetchOwnerByIdQuery } from 'sharedApi/owner.fetchById.api';
+
+import { OwnerItemsList } from './OwnerItemsList.widget';
 
 export const OwnerViewWidget = () => {
   const { ownerId: routeOwnerId } = useParams();
@@ -19,6 +21,8 @@ export const OwnerViewWidget = () => {
       <div>{ownerById?.lastName}</div>
       <div className="font-bold">Email:</div>
       <div>{ownerById?.email}</div>
+      <br />
+      <OwnerItemsList ownerId={ownerId} />
     </div>
   );
 };

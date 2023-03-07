@@ -16,7 +16,7 @@
       "id": 3,
       "title": "Common title",
       "description": "Description 3",
-      "ownerId": null
+      "ownerId": 2
     },
     {
       "id": 4,
@@ -28,7 +28,7 @@
       "id": 5,
       "title": "Common title",
       "description": "Description 5",
-      "ownerId": null
+      "ownerId": 2
     },
     {
       "id": 6,
@@ -46,42 +46,42 @@
       "id": 8,
       "title": "Title 8",
       "description": "Description 8",
-      "ownerId": null
+      "ownerId": 1
     },
     {
       "id": 9,
       "title": "Title 9",
       "description": "Description 9",
-      "ownerId": null
+      "ownerId": 1
     },
     {
       "id": 10,
       "title": "Common title",
       "description": "Description 10",
-      "ownerId": null
+      "ownerId": 2
     },
     {
       "title": "Remove 1",
       "description": "Remove 1",
       "id": 11,
-      "ownerId": null
+      "ownerId": 3
     },
     {
       "title": "Remove 2",
       "description": "Remove 2",
       "id": 12,
-      "ownerId": null
+      "ownerId": 3
     },
     {
       "title": "Remove 3",
       "description": "Remove 3",
       "id": 13,
-      "ownerId": null
+      "ownerId": 3
     },
     {
       "title": "With owner",
       "description": "With owner",
-      "ownerId": 2,
+      "ownerId": 1,
       "id": 14
     }
   ],
