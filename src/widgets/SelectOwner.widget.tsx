@@ -14,7 +14,7 @@ export const SelectOwner = (props: SelectOwnerProps) => {
 
   const { data, isFetching } = useFetchOwnersQuery();
 
-  const hasItems = !isFetching && data?.length;
+  const hasItems = !isFetching && !!data?.length;
 
   const isSelectVisible = !isFetching;
 
@@ -32,7 +32,7 @@ export const SelectOwner = (props: SelectOwnerProps) => {
           disabled={isFetching}
         >
           <option key={-1} value="">
-            Select owner...
+            No owner
           </option>
           {hasItems &&
             data.map((owner) => (
