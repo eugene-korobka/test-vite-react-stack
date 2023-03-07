@@ -33,6 +33,11 @@ const useCreateOwnerModalHookFormState = (props: CreateOwnerModalHookFormProps) 
     }
   }, [hasFormChanges, openConfirmModal, closeModal]);
 
+  const confirmExit = useCallback(() => {
+    closeConfirmModal();
+    closeModal();
+  }, [closeConfirmModal, closeModal]);
+
   const [createOwnerTrigger, { isLoading: isCreatingOwner }] = useCreateOwnerMutation();
 
   async function createOwner(data) {
@@ -49,8 +54,8 @@ const useCreateOwnerModalHookFormState = (props: CreateOwnerModalHookFormProps) 
 
   return {
     isModalOpen,
-    closeModal,
     beforeCloseModal,
+    confirmExit,
     formId,
     createOwner,
     onChangeHandler,
@@ -63,8 +68,8 @@ const useCreateOwnerModalHookFormState = (props: CreateOwnerModalHookFormProps) 
 export const CreateOwnerModalHookForm = (props: CreateOwnerModalHookFormProps) => {
   const {
     isModalOpen,
-    closeModal,
     beforeCloseModal,
+    confirmExit,
     formId,
     createOwner,
     onChangeHandler,
@@ -86,7 +91,7 @@ export const CreateOwnerModalHookForm = (props: CreateOwnerModalHookFormProps) =
         </AppSubmitButton>
         <ExitWithChangesConfirmModal
           isConfirmOpen={isConfirmOpen}
-          onConfirm={closeModal}
+          onConfirm={confirmExit}
           onCancel={closeConfirmModal}
         />
       </Modal.Footer>

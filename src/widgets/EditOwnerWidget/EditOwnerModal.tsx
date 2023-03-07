@@ -42,6 +42,11 @@ function useEditOwnerModalState(props: EditOwnerModalProps) {
     }
   }, [hasFormChanges, openConfirmModal, closeModal]);
 
+  const confirmExit = useCallback(() => {
+    closeConfirmModal();
+    closeModal();
+  }, [closeConfirmModal, closeModal]);
+
   const [updateOwnerTrigger, { isLoading: isUpdatingOwner }] = useUpdateOwnerMutation();
 
   async function updateOwner(data) {
@@ -69,8 +74,8 @@ function useEditOwnerModalState(props: EditOwnerModalProps) {
   return {
     ownerId,
     isModalOpen,
-    closeModal,
     beforeCloseModal,
+    confirmExit,
     isFetchingOwnerById,
     ownerById,
     ownerFormRef,
@@ -87,8 +92,8 @@ export const EditOwnerModal = (props: EditOwnerModalProps) => {
   const {
     ownerId,
     isModalOpen,
-    closeModal,
     beforeCloseModal,
+    confirmExit,
     isFetchingOwnerById,
     ownerById,
     ownerFormRef,
@@ -123,7 +128,7 @@ export const EditOwnerModal = (props: EditOwnerModalProps) => {
         <RemoveOwnerWithEvent ownerId={ownerId} />
         <ExitWithChangesConfirmModal
           isConfirmOpen={isConfirmOpen}
-          onConfirm={closeModal}
+          onConfirm={confirmExit}
           onCancel={closeConfirmModal}
         />
       </Modal.Footer>
