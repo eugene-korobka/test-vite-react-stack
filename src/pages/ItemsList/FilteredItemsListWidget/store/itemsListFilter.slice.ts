@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { itemsFetchApi } from "pages/ItemsList/FilteredItemsListWidget/store/items.fetch.api";
+import { fetchItemsApi } from "pages/ItemsList/FilteredItemsListWidget/store/fetchItems.api";
 
 export const titleFilterInitialValue = 'All';
 
@@ -25,10 +25,10 @@ export const itemsListFilterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(itemsFetchApi.endpoints.fetchItems.matchFulfilled, (draft, action) => {
+      .addMatcher(fetchItemsApi.endpoints.fetchItems.matchFulfilled, (draft, action) => {
         draft.titleFilterOptions = Array.from(new Set([titleFilterInitialValue, ...action.payload.map((item) => item.title)]));;
       })
-      .addMatcher(itemsFetchApi.endpoints.fetchItems.matchFulfilled, (draft, action) => {
+      .addMatcher(fetchItemsApi.endpoints.fetchItems.matchFulfilled, (draft, action) => {
         if (draft.titleFilter !== titleFilterInitialValue) {
           const hasCurrent = action.payload.some((item) => item.title === draft.titleFilter);
 

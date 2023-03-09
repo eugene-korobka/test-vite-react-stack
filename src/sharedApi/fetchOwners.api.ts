@@ -3,7 +3,7 @@ import type { OwnerType } from 'sharedTypes/owner.types';
 
 import { baseApi } from 'store/baseApi';
 
-export const ownersFetchApi = baseApi
+export const fetchOwnersApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [OWNERS_TAG_TYPE],
   })
@@ -22,5 +22,4 @@ export const ownersFetchApi = baseApi
     }),
   });
 
-
-export const { useFetchOwnersQuery } = ownersFetchApi;
+export const { useFetchOwnersQuery } = fetchOwnersApi;

@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { UseFormRegister } from 'react-hook-form';
-import { useFetchOwnersQuery } from 'sharedApi/owners.fetch.api';
+import { useFetchOwnersQuery } from 'sharedApi/fetchOwners.api';
 import { ownerIdInputName } from 'sharedTypes/constants';
 import type { ItemType } from 'sharedTypes/item.types';
 import { getOwnerFullName } from 'src/utils/getOwnerFullName';

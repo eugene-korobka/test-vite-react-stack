@@ -4,7 +4,7 @@ import { baseApi } from 'store/baseApi';
 
 import { ITEMS_TAG_TYPE } from './sharedTagTypes';
 
-export const itemEditApi = baseApi
+export const fetchItemByIdApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [ITEMS_TAG_TYPE],
   })
@@ -20,5 +20,4 @@ export const itemEditApi = baseApi
     }),
   });
 
-
-export const { useFetchItemByIdQuery } = itemEditApi;
+export const { useFetchItemByIdQuery } = fetchItemByIdApi;

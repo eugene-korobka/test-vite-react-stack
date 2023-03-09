@@ -3,7 +3,7 @@ import type { OwnerIdType, OwnerType } from 'sharedTypes/owner.types';
 
 import { baseApi } from 'store/baseApi';
 
-export const ownerUpdateApi = baseApi
+export const updateOwnerApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [OWNERS_TAG_TYPE],
   })
@@ -20,5 +20,4 @@ export const ownerUpdateApi = baseApi
     }),
   });
 
-
-export const { useUpdateOwnerMutation } = ownerUpdateApi;
+export const { useUpdateOwnerMutation } = updateOwnerApi;

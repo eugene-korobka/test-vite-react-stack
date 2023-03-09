@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useFetchOwnerByIdQuery } from 'sharedApi/owner.fetchById.api';
+import { useFetchOwnerByIdQuery } from 'sharedApi/fetchOwnerById.api';
 
 import { OwnerItemsList } from './OwnerItemsList.widget';
 

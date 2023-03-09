@@ -1,7 +1,7 @@
 import { useId, useRef } from 'react';
 import { ReactComponent as CloseIcon } from 'src/assets/close-icon.svg';
 
-import { useCreateItemMutation } from './store/items.create.api';
+import { useCreateItemMutation } from './store/createItem.api';
 
 const useCreateItemWidgetState = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { useFetchItemByIdQuery } from 'sharedApi/item.fetchById.api';
-import { useFetchOwnerByIdQuery } from 'sharedApi/owner.fetchById.api';
+import { useFetchItemByIdQuery } from 'sharedApi/fetchItemById.api';
+import { useFetchOwnerByIdQuery } from 'sharedApi/fetchOwnerById.api';
 import { getOwnerFullName } from 'src/utils/getOwnerFullName';
 
 export const ItemViewWidget = () => {

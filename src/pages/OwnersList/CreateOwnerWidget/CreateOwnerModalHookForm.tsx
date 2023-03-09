@@ -6,7 +6,7 @@ import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmMo
 import { Modal } from 'components/ModalComponents';
 import { OwnerHookForm } from 'components/OwnerHookForm';
 
-import { useCreateOwnerMutation } from './store/owner.create.api';
+import { useCreateOwnerMutation } from './store/createOwner.api';
 
 type CreateOwnerModalHookFormProps = {
   isModalOpen: boolean;

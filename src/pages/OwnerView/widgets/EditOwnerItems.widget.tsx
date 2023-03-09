@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useConfirmModalState, useModalState } from 'hooks/useModal';
-import { useUpdateItemsOwnerMutation } from 'sharedApi/items.updateOwner.api';
+import { useUpdateItemsOwnerMutation } from 'sharedApi/updateItemsOwner.api';
 import { ItemType } from 'sharedTypes/item.types';
 import { OwnerIdType } from 'sharedTypes/owner.types';
 
-import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/items.fetch.api';
+import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/fetchItems.api';
 
 import { AppButton } from 'components/AppButton';
 import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmModal';

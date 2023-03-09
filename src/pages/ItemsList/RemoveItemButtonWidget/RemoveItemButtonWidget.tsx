@@ -1,4 +1,4 @@
-import { useRemoveItemMutation } from 'sharedApi/items.remove.api';
+import { useRemoveItemMutation } from 'sharedApi/removeItem.api';
 import type { ItemIdType } from 'sharedTypes/item.types';
 import { ReactComponent as TrashIcon } from 'src/assets/trash-icon.svg';
 

@@ -4,7 +4,7 @@ import { baseApi } from 'store/baseApi';
 
 import { ITEMS_TAG_TYPE } from './sharedTagTypes';
 
-export const itemRemoveApi = baseApi
+export const removeItemApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [ITEMS_TAG_TYPE],
   })
@@ -20,5 +20,4 @@ export const itemRemoveApi = baseApi
     }),
   });
 
-
-export const { useRemoveItemMutation } = itemRemoveApi;
+export const { useRemoveItemMutation } = removeItemApi;

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/items.fetch.api';
+import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/fetchItems.api';
 import { itemsListFilterSelectors } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.selector';
 import { titleFilterInitialValue } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
 

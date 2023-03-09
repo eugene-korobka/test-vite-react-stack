@@ -4,7 +4,7 @@ import { baseApi } from 'store/baseApi';
 
 import { OWNERS_TAG_TYPE } from './sharedTagTypes';
 
-export const ownerRemoveApi = baseApi
+export const removeOwnerApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [OWNERS_TAG_TYPE],
   })
@@ -20,5 +20,4 @@ export const ownerRemoveApi = baseApi
     }),
   });
 
-
-export const { useRemoveOwnerMutation } = ownerRemoveApi;
+export const { useRemoveOwnerMutation } = removeOwnerApi;

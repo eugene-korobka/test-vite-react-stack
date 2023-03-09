@@ -6,9 +6,9 @@ import { Modal } from 'components/ModalComponents';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 
+import { useCreateItemMutation } from './store/createItem.api';
 import { createItemSelectors } from './store/createItem.selector';
 import { createItemActions } from './store/createItem.slice';
-import { useCreateItemMutation } from './store/items.create.api';
 import { CreateItemConfirmModal } from './CreateItemConfirmModal';
 
 function useCreateItemModalHandlers() {

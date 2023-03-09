@@ -1,7 +1,7 @@
 import { useCallback, useId, useState } from 'react';
 import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
 import { useConfirmModalState } from 'hooks/useModal';
-import { useFetchOwnerByIdQuery } from 'sharedApi/owner.fetchById.api';
+import { useFetchOwnerByIdQuery } from 'sharedApi/fetchOwnerById.api';
 import { emailInputName } from 'sharedTypes/constants';
 import { appEventOwnerRemoved } from 'sharedTypes/event.types';
 import type { OwnerIdType } from 'sharedTypes/owner.types';
@@ -12,7 +12,7 @@ import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmMo
 import { Modal } from 'components/ModalComponents';
 import { OwnerHookForm } from 'components/OwnerHookForm';
 
-import { useUpdateOwnerMutation } from './store/owner.update.api';
+import { useUpdateOwnerMutation } from './store/updateOwner.api';
 
 const disabledFields = [emailInputName];
 

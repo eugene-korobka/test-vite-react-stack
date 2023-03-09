@@ -6,7 +6,7 @@ import { AppButton } from 'components/AppButton';
 import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmModal';
 import { Modal } from 'components/ModalComponents';
 
-import { useCreateOwnerMutation } from './store/owner.create.api';
+import { useCreateOwnerMutation } from './store/createOwner.api';
 
 type CreateOwnerModalProps = {
   isModalOpen: boolean;

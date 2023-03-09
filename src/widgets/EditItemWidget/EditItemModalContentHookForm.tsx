@@ -1,6 +1,6 @@
 import { useCallback, useId } from 'react';
 import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
-import { useFetchItemByIdQuery } from 'sharedApi/item.fetchById.api';
+import { useFetchItemByIdQuery } from 'sharedApi/fetchItemById.api';
 import { appEventItemRemoved } from 'sharedTypes/event.types';
 import type { ItemIdType } from 'sharedTypes/item.types';
 import { RemoveItemWithEvent } from 'widgets/RemoveItem/RemoveItemWithEvent';
@@ -12,7 +12,7 @@ import { Modal } from 'components/ModalComponents';
 import { useAppDispatch } from 'store/hooks';
 
 import { editItemActions } from './store/editItem.slice';
-import { useUpdateItemMutation } from './store/item.update.api';
+import { useUpdateItemMutation } from './store/updateItem.api';
 import { EditItemConfirmModal } from './EditItemConfirmModal';
 import { useEditItemModalHandlers, useIsEditItemModalOpen } from './hooks';
 

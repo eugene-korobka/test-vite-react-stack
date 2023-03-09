@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { dispatchAppEvent } from 'hooks/useAppEvents';
 import { useItemId } from 'hooks/useItemId';
-import { useRemoveItemMutation } from 'sharedApi/items.remove.api';
+import { useRemoveItemMutation } from 'sharedApi/removeItem.api';
 import { appEventItemRemoved } from 'sharedTypes/event.types';
 import type { ItemIdType } from 'sharedTypes/item.types';
 

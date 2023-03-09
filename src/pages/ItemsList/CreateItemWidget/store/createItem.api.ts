@@ -3,7 +3,7 @@ import type { ItemType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 
-export const itemCreateApi = baseApi
+export const createItemApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [ITEMS_TAG_TYPE],
   })
@@ -20,5 +20,4 @@ export const itemCreateApi = baseApi
     }),
   });
 
-
-export const { useCreateItemMutation } = itemCreateApi;
+export const { useCreateItemMutation } = createItemApi;

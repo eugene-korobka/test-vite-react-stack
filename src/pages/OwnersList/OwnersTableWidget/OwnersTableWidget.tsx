@@ -1,5 +1,5 @@
 import { useTable } from 'react-table';
-import { useFetchOwnersQuery } from 'sharedApi/owners.fetch.api';
+import { useFetchOwnersQuery } from 'sharedApi/fetchOwners.api';
 import { EditOwnerWidgetHookForm } from 'widgets/EditOwnerWidget/EditOwnerWidgetHookForm';
 import { RemoveOwnerWithEvent } from 'widgets/RemoveOwnerWithEvent.widget';
 

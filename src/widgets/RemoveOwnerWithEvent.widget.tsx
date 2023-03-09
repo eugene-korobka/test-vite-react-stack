@@ -1,7 +1,7 @@
 import { dispatchAppEvent } from 'hooks/useAppEvents';
 import { useConfirmModalState } from 'hooks/useModal';
 import { useOwnerId } from 'hooks/useOwnerId';
-import { useRemoveOwnerMutation } from 'sharedApi/owner.remove.api';
+import { useRemoveOwnerMutation } from 'sharedApi/removeOwner.api';
 import { appEventOwnerRemoved } from 'sharedTypes/event.types';
 import type { OwnerIdType } from 'sharedTypes/owner.types';
 

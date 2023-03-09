@@ -3,7 +3,7 @@ import type { ItemType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 
-export const itemsUpdateOwnerApi = baseApi
+export const updateItemsOwnerApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [OWNER_ITEMS_TAG_TYPE, ITEMS_TAG_TYPE],
   })
@@ -29,5 +29,4 @@ export const itemsUpdateOwnerApi = baseApi
     }),
   });
 
-
-export const { useUpdateItemsOwnerMutation } = itemsUpdateOwnerApi;
+export const { useUpdateItemsOwnerMutation } = updateItemsOwnerApi;

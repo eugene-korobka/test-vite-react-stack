@@ -1,4 +1,4 @@
-import { useFetchOwnerItemsQuery } from 'sharedApi/owner.fetchOwnerItems.api';
+import { useFetchOwnerItemsQuery } from 'sharedApi/fetchOwnerItems.api';
 import { OwnerIdType } from 'sharedTypes/owner.types';
 
 import { EditOwnerItemsWidget } from './EditOwnerItems.widget';

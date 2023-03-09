@@ -3,7 +3,7 @@ import type { ItemType } from 'sharedTypes/item.types';
 
 import { baseApi } from 'store/baseApi';
 
-export const itemsFetchApi = baseApi
+export const fetchItemsApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [ITEMS_TAG_TYPE],
   })
@@ -22,5 +22,4 @@ export const itemsFetchApi = baseApi
     }),
   });
 
-
-export const { useFetchItemsQuery } = itemsFetchApi;
+export const { useFetchItemsQuery } = fetchItemsApi;
