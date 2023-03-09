@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useConfirmModalState, useModalState } from 'hooks/useModal';
+import { useFetchItemsForOwnerQuery } from 'sharedApi/fetchItems.api';
 import { useUpdateItemsOwnerMutation } from 'sharedApi/updateItemsOwner.api';
 import { ItemType } from 'sharedTypes/item.types';
 import { OwnerIdType } from 'sharedTypes/owner.types';
-
-import { useFetchItemsQuery } from 'pages/ItemsList/FilteredItemsListWidget/store/fetchItems.api';
 
 import { AppButton } from 'components/AppButton';
 import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmModal';
@@ -33,15 +32,10 @@ type EditOwnerItemsModalPropsType = {
 function useEditOwnerItemsModalState(props: EditOwnerItemsModalPropsType) {
   const { ownerId, isModalOpen, closeModal } = props;
 
-  const { data: allItems, isFetching: isFetchingItems } = useFetchItemsQuery(undefined, { skip: !isModalOpen });
-
-  const initialItems = useMemo(() => {
-    if (!allItems?.length) {
-      return emptyItems;
-    }
-
-    return allItems.filter((item) => item.ownerId === null || item.ownerId === ownerId);
-  }, [allItems, ownerId]);
+  const { data: initialItems = emptyItems, isFetching: isFetchingItems } = useFetchItemsForOwnerQuery(
+    { ownerId },
+    { skip: !isModalOpen },
+  );
 
   const noItems = !isFetchingItems && !initialItems?.length;
   const hasItems = !isFetchingItems && !!initialItems?.length;
