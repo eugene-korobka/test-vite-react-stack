@@ -1,27 +1,32 @@
 import { ObjectId } from "@fastify/mongodb";
+import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
 
 const urlArticles = '/articles';
 const urlArticleById = '/articles/:articleId';
 
+const properties = {
+  title: { type: 'string' },
+  description: { type: 'string' },
+  // ownerId: { type: 'string' },
+};
+
 const articlePostBodyJsonSchema = {
   type: 'object',
-  properties: {
-    title: { type: 'string' },
-    description: { type: 'string' },
-    // ownerId: { type: 'string' },
-  },
+  properties,
   required: ['title', 'description'],
 }
 
 const articlePatchBodyJsonSchema = {
   type: 'object',
-  properties: {
-    title: { type: 'string' },
-    description: { type: 'string' },
-  },
+  properties,
   required: [],
 }
 
+function getArticleDto(body) {
+  const articleDoc = peekDefinedPropertiesByTemplate(body, properties);
+
+  return articleDoc;
+}
 
 export async function articleRoutes(instance) {
   const collection = instance.mongo.db.collection('articles');
@@ -59,7 +64,9 @@ export async function articleRoutes(instance) {
   }
 
   instance.patch(urlArticleById, { schema: patchSchema }, async (request, reply) => {
-    const result = await collection.updateOne({ _id: ObjectId(request.params.articleId) }, { $set: request.body });
+    const changes = getArticleDto(request.body);
+
+    const result = await collection.updateOne({ _id: ObjectId(request.params.articleId) }, { $set: changes });
 
     return result
   })
@@ -69,7 +76,9 @@ export async function articleRoutes(instance) {
   }
 
   instance.post(urlArticles, { schema: postSchema }, async (request, reply) => {
-    const result = await collection.insertOne(request.body);
+    const newArticle = getArticleDto(request.body);
+
+    const result = await collection.insertOne(newArticle);
 
     return result
   })};

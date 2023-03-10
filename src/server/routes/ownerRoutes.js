@@ -1,28 +1,32 @@
 import { ObjectId } from "@fastify/mongodb";
+import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
 
 const urlOwners = '/owners';
 const urlOwnerById = '/owners/:ownerId';
 
+const properties = {
+  firstName: { type: 'string' },
+  lastName: { type: 'string' },
+  email: { type: 'string' },
+};
+
 const ownerPostBodyJsonSchema = {
   type: 'object',
-  properties: {
-    firstName: { type: 'string' },
-    lastName: { type: 'string' },
-    email: { type: 'string' },
-  },
+  properties,
   required: ['firstName', 'lastName', 'email'],
 }
 
 const ownerPatchBodyJsonSchema = {
   type: 'object',
-  properties: {
-    firstName: { type: 'string' },
-    lastName: { type: 'string' },
-    email: { type: 'string' },
-  },
+  properties,
   required: [],
 }
 
+function getOwnerDto(body) {
+  const ownerDoc = peekDefinedPropertiesByTemplate(body, properties);
+
+  return ownerDoc;
+}
 
 export async function ownerRoutes(instance) {
   const collection = instance.mongo.db.collection('owners');
@@ -60,7 +64,9 @@ export async function ownerRoutes(instance) {
   }
 
   instance.patch(urlOwnerById, { schema: patchSchema }, async (request, reply) => {
-    const result = await collection.updateOne({ _id: ObjectId(request.params.ownerId) }, { $set: request.body });
+    const changes = getOwnerDto(request.body);
+
+    const result = await collection.updateOne({ _id: ObjectId(request.params.ownerId) }, { $set: changes });
 
     return result
   })
@@ -70,7 +76,9 @@ export async function ownerRoutes(instance) {
   }
 
   instance.post(urlOwners, { schema: postSchema }, async (request, reply) => {
-    const result = await collection.insertOne(request.body);
+    const newOwner = getOwnerDto(request.body);
+
+    const result = await collection.insertOne(newOwner);
 
     return result
   })};
