@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { editItemSlice } from 'widgets/EditItemWidget/store/editItem.slice';
+import { editArticleSlice } from 'widgets/EditArticleWidget/store/editArticle.slice';
 
-import { createItemSlice } from 'pages/ItemsList/CreateItemWidget/store/createItem.slice';
-import { itemsListFilterSlice } from 'pages/ItemsList/FilteredItemsListWidget/store/itemsListFilter.slice';
-import { removeItemSlice } from 'pages/ItemsList/RemoveItemButtonWidget/store/removeItem.slice';
+import { createArticleSlice } from 'pages/ArticlesList/CreateArticleWidget/store/createArticle.slice';
+import { articlesListFilterSlice } from 'pages/ArticlesList/FilteredArticlesListWidget/store/articlesListFilter.slice';
+import { removeArticleSlice } from 'pages/ArticlesList/RemoveArticleButtonWidget/store/removeArticle.slice';
 
 import { modalManagerSlice } from 'components/ModalManager/store/modalManager.slice';
 
@@ -13,10 +13,10 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     [modalManagerSlice.name]: modalManagerSlice.reducer,
-    [itemsListFilterSlice.name]: itemsListFilterSlice.reducer,
-    [createItemSlice.name]: createItemSlice.reducer,
-    [removeItemSlice.name]: removeItemSlice.reducer,
-    [editItemSlice.name]: editItemSlice.reducer,
+    [articlesListFilterSlice.name]: articlesListFilterSlice.reducer,
+    [createArticleSlice.name]: createArticleSlice.reducer,
+    [removeArticleSlice.name]: removeArticleSlice.reducer,
+    [editArticleSlice.name]: editArticleSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 });

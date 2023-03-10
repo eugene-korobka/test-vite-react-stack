@@ -1,3 +1,3 @@
-export const appEventItemRemoved = 'appEventItemRemoved';
+export const appEventArticleRemoved = 'appEventArticleRemoved';
 
 export const appEventOwnerRemoved = 'appEventOwnerRemoved';

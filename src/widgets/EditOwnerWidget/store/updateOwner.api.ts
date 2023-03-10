@@ -1,5 +1,7 @@
 import { OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
+import { urlOwnerById } from 'sharedApi/urlStrings';
 import type { OwnerIdType, OwnerType } from 'sharedTypes/owner.types';
+import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
 
@@ -11,7 +13,7 @@ export const updateOwnerApi = baseApi
     endpoints: (build) => ({
       updateOwner: build.mutation<void, { ownerId: OwnerIdType; data: Partial<OwnerType> }>({
         query: ({ ownerId, data }) => ({
-          url: `/owners/${ownerId}`,
+          url: replaceUrlParams(urlOwnerById, { ownerId }),
           method: 'PATCH',
           body: data,
         }),

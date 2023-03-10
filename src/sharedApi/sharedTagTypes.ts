@@ -1,5 +1,5 @@
-export const ITEMS_TAG_TYPE = 'ItemsList' as const;
+export const ARTICLES_TAG_TYPE = 'ArticlesList' as const;
 
 export const OWNERS_TAG_TYPE = 'OwnersList' as const;
 
-export const OWNER_ITEMS_TAG_TYPE = 'OwnerItemsList' as const;
+export const OWNER_ARTICLES_TAG_TYPE = 'OwnerArticlesList' as const;

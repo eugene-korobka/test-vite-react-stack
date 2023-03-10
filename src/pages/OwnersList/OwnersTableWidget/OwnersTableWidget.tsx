@@ -28,7 +28,7 @@ const columns = [
   },
   {
     Header: 'Actions',
-    accessor: 'id',
+    accessor: '_id',
     headerClassName: 'min-w-70 w-1/10 p-3 text-center font-bold',
     cellClassName: 'min-w-70 w-1/10 p-3 text-end',
     Cell: ({ value }) => {

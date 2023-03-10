@@ -1,8 +1,10 @@
 import type { OwnerIdType } from 'sharedTypes/owner.types';
+import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
 
 import { OWNERS_TAG_TYPE } from './sharedTagTypes';
+import { urlOwnerById } from './urlStrings';
 
 export const removeOwnerApi = baseApi
   .enhanceEndpoints({
@@ -12,7 +14,7 @@ export const removeOwnerApi = baseApi
     endpoints: (build) => ({
       removeOwner: build.mutation<void, { ownerId: OwnerIdType }>({
         query: ({ ownerId }) => ({
-          url: `/owners/${ownerId}`,
+          url: replaceUrlParams(urlOwnerById, { ownerId }),
           method: 'DELETE',
         }),
         invalidatesTags: () => [{ type: OWNERS_TAG_TYPE, id: 'LIST' }],

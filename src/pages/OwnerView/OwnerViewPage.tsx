@@ -14,11 +14,11 @@ import { OwnerViewWidget } from './widgets/OwnerViewWidget';
 export const OwnerViewPage = () => {
   const navigate = useNavigate();
 
-  const onRemoveItem = useCallback(() => {
+  const onRemoveArticle = useCallback(() => {
     navigate(AppRoutes.ownersList());
   }, [navigate]);
 
-  useSubscribeToAppEvent(appEventOwnerRemoved, onRemoveItem);
+  useSubscribeToAppEvent(appEventOwnerRemoved, onRemoveArticle);
 
   return (
     <PageContainer>

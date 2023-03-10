@@ -1,7 +1,7 @@
 import type { EntityIdType } from "./common.types";
 
 export type OwnerType = {
-  id: EntityIdType;
+  _id: EntityIdType;
   firstName: string;
   lastName: string;
   email: string;

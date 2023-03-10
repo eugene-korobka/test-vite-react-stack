@@ -1,12 +1,12 @@
 import { useId } from 'react';
 import { UseFormRegister } from 'react-hook-form';
 import { useFetchOwnersQuery } from 'sharedApi/fetchOwners.api';
+import type { ArticleType } from 'sharedTypes/article.types';
 import { ownerIdInputName } from 'sharedTypes/constants';
-import type { ItemType } from 'sharedTypes/item.types';
 import { getOwnerFullName } from 'src/utils/getOwnerFullName';
 
 type SelectOwnerProps = {
-  register: UseFormRegister<Partial<ItemType>>;
+  register: UseFormRegister<Partial<ArticleType>>;
 };
 
 export const SelectOwner = (props: SelectOwnerProps) => {
@@ -14,7 +14,7 @@ export const SelectOwner = (props: SelectOwnerProps) => {
 
   const { data, isFetching } = useFetchOwnersQuery();
 
-  const hasItems = !isFetching && !!data?.length;
+  const hasArticles = !isFetching && !!data?.length;
 
   const isSelectVisible = !isFetching;
 
@@ -28,15 +28,15 @@ export const SelectOwner = (props: SelectOwnerProps) => {
         <select
           id={ownerInputId}
           className="block w-full p-2 border border-solid border-gray-400 rounded-md"
-          {...register(ownerIdInputName, { setValueAs: (v) => Number(v) || null })}
+          {...register(ownerIdInputName)}
           disabled={isFetching}
         >
           <option key={-1} value="">
             No owner
           </option>
-          {hasItems &&
+          {hasArticles &&
             data.map((owner) => (
-              <option key={owner.id} value={owner.id}>
+              <option key={owner._id} value={owner._id}>
                 {getOwnerFullName(owner)}
               </option>
             ))}

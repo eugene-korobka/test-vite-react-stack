@@ -1,11 +1,11 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
-import { HomePage } from "pages/HomePage";
-import { ItemViewPage } from "pages/ItemPage/ItemViewPage";
-import { ItemsListPage } from "pages/ItemsList/ItemsListPage";
-import { OwnersListPage } from "pages/OwnersList/OwnersListPage";
-import { OwnerViewPage } from "pages/OwnerView/OwnerViewPage";
-import { RootPage } from "pages/RootPage";
+import { ArticleViewPage } from 'pages/ArticlePage/ArticleViewPage';
+import { ArticlesListPage } from 'pages/ArticlesList/ArticlesListPage';
+import { HomePage } from 'pages/HomePage';
+import { OwnersListPage } from 'pages/OwnersList/OwnersListPage';
+import { OwnerViewPage } from 'pages/OwnerView/OwnerViewPage';
+import { RootPage } from 'pages/RootPage';
 
 import { AppRoutes } from './routes';
 
@@ -22,12 +22,12 @@ export const appRouter = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: AppRoutes.itemsList(),
-        element: <ItemsListPage />,
+        path: AppRoutes.articlesList(),
+        element: <ArticlesListPage />,
       },
       {
-        path: AppRoutes.itemView(),
-        element: <ItemViewPage />,
+        path: AppRoutes.articleView(),
+        element: <ArticleViewPage />,
       },
       {
         path: AppRoutes.ownersList(),
