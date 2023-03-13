@@ -1,4 +1,5 @@
 import { ObjectId } from "@fastify/mongodb";
+import { getDbCollections } from "../db-connector.js";
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
 
 const urlArticles = '/articles';
@@ -40,11 +41,11 @@ function getArticleDto(body) {
 }
 
 export async function articleRoutes(instance) {
-  const collection = instance.mongo.db.collection('articles');
+  const { articlesCollection } = getDbCollections(instance);
 
   instance.get(urlArticles, async (request, reply) => {
     try {
-      const result = await collection.find().toArray();
+      const result = await articlesCollection.find().toArray();
 
       return result
     } catch (error) {
@@ -56,7 +57,7 @@ export async function articleRoutes(instance) {
 
   instance.get(urlArticleById, async (request, reply) => {
     try {
-      const result = await collection.findOne({ _id: ObjectId(request.params.articleId) });
+      const result = await articlesCollection.findOne({ _id: ObjectId(request.params.articleId) });
 
       if (result === null) {
         return reply.status(404).send({ message: 'Not Found' });
@@ -72,7 +73,7 @@ export async function articleRoutes(instance) {
 
   instance.delete(urlArticleById, async (request, reply) => {
     try {
-      const result = await collection.findOneAndDelete({ _id: ObjectId(request.params.articleId) });
+      const result = await articlesCollection.findOneAndDelete({ _id: ObjectId(request.params.articleId) });
 
       return result
     } catch (error) {
@@ -86,7 +87,7 @@ export async function articleRoutes(instance) {
     try {
       const changes = getArticleDto(request.body);
 
-      const result = await collection.updateOne({ _id: ObjectId(request.params.articleId) }, { $set: changes });
+      const result = await articlesCollection.updateOne({ _id: ObjectId(request.params.articleId) }, { $set: changes });
 
       return result
     } catch (error) {
@@ -100,7 +101,7 @@ export async function articleRoutes(instance) {
     try {
       const newArticle = getArticleDto(request.body);
 
-      const result = await collection.insertOne(newArticle);
+      const result = await articlesCollection.insertOne(newArticle);
 
       return result
     } catch (error) {
@@ -109,4 +110,5 @@ export async function articleRoutes(instance) {
       throw error;
     }
   });
+
 };

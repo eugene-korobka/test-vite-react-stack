@@ -7,19 +7,31 @@ import fastifyMongo from '@fastify/mongodb'
  */
 async function mongoConnector (fastify, options) {
   fastify.register(fastifyMongo, {
-    url: 'mongodb://localhost:27017/reactStackDb'
+    url: 'mongodb://localhost:27017/reactStackDb',
+    forceClose: true,
   })
 }
 
 // Wrapping a plugin function with fastify-plugin exposes the decorators
 // and hooks, declared inside the plugin to the parent scope.
-// module.exports = fastifyPlugin(mongoConnector);
 export const dbConnector = fastifyPlugin(mongoConnector);
+
+const articlesCollectionName = 'articles';
+const ownersCollectionName = 'owners';
+
+export function getDbCollections(instance) {
+  const db = instance.mongo.db;
+
+  return {
+    articlesCollection: db.collection(articlesCollectionName),
+    ownersCollection: db.collection(ownersCollectionName),
+  };
+}
 
 export async function mockDatabase(instance) {
   const db = instance.mongo.db;
 
-  const articlesCollection = db.collection('articles');
+  const articlesCollection = db.collection(articlesCollectionName);
 
   const articlesCount = await articlesCollection.estimatedDocumentCount();
 
@@ -33,7 +45,7 @@ export async function mockDatabase(instance) {
     ]);
   }
 
-  const ownersCollection = db.collection('owners');
+  const ownersCollection = db.collection(ownersCollectionName);
 
   const ownersCount = await ownersCollection.estimatedDocumentCount();
 

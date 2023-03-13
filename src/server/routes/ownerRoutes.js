@@ -1,4 +1,5 @@
 import { ObjectId } from "@fastify/mongodb";
+import { getDbCollections } from "../db-connector.js";
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
 
 const urlOwners = '/owners';
@@ -41,11 +42,11 @@ function getOwnerDto(body) {
 }
 
 export async function ownerRoutes(instance) {
-  const collection = instance.mongo.db.collection('owners');
+  const { ownersCollection } = getDbCollections(instance);
 
   instance.get(urlOwners, async (request, reply) => {
     try {
-      const result = await collection.find().toArray();
+      const result = await ownersCollection.find().toArray();
 
       return result
     } catch (error) {
@@ -57,7 +58,7 @@ export async function ownerRoutes(instance) {
 
   instance.get(urlOwnerById, async (request, reply) => {
     try {
-      const result = await collection.findOne({ _id: ObjectId(request.params.ownerId) });
+      const result = await ownersCollection.findOne({ _id: ObjectId(request.params.ownerId) });
 
       if (result === null) {
         return reply.status(404).send({ message: 'Not Found' });
@@ -73,7 +74,7 @@ export async function ownerRoutes(instance) {
 
   instance.delete(urlOwnerById, async (request, reply) => {
     try {
-      const result = await collection.findOneAndDelete({ _id: ObjectId(request.params.ownerId) });
+      const result = await ownersCollection.findOneAndDelete({ _id: ObjectId(request.params.ownerId) });
 
       return result
     } catch (error) {
@@ -87,7 +88,7 @@ export async function ownerRoutes(instance) {
     try {
       const changes = getOwnerDto(request.body);
 
-      const result = await collection.updateOne({ _id: ObjectId(request.params.ownerId) }, { $set: changes });
+      const result = await ownersCollection.updateOne({ _id: ObjectId(request.params.ownerId) }, { $set: changes });
 
       return result
     } catch (error) {
@@ -101,7 +102,7 @@ export async function ownerRoutes(instance) {
     try {
       const newOwner = getOwnerDto(request.body);
 
-      const result = await collection.insertOne(newOwner);
+      const result = await ownersCollection.insertOne(newOwner);
 
       return result
     } catch (error) {
@@ -110,4 +111,5 @@ export async function ownerRoutes(instance) {
       throw error;
     }
   });
+
 };
