@@ -22,6 +22,18 @@ const ownerPatchBodyJsonSchema = {
   required: [],
 }
 
+const patchOwnerOptions = {
+  schema: {
+    body: ownerPatchBodyJsonSchema,
+  },
+};
+
+const postOwnerOptions = {
+  schema: {
+    body: ownerPostBodyJsonSchema,
+  },
+};
+
 function getOwnerDto(body) {
   const ownerDoc = peekDefinedPropertiesByTemplate(body, properties);
 
@@ -32,10 +44,16 @@ export async function ownerRoutes(instance) {
   const collection = instance.mongo.db.collection('owners');
 
   instance.get(urlOwners, async (request, reply) => {
-    const result = await collection.find().toArray();
+    try {
+      const result = await collection.find().toArray();
 
-    return result
-  })
+      return result
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  });
 
   instance.get(urlOwnerById, async (request, reply) => {
     try {
@@ -51,34 +69,45 @@ export async function ownerRoutes(instance) {
 
       throw error;
     }
-  })
+  });
 
   instance.delete(urlOwnerById, async (request, reply) => {
-    const result = await collection.findOneAndDelete({ _id: ObjectId(request.params.ownerId) });
+    try {
+      const result = await collection.findOneAndDelete({ _id: ObjectId(request.params.ownerId) });
 
-    return result
-  })
+      return result
+    } catch (error) {
+      console.error(error);
 
-  const patchSchema = {
-    body: ownerPatchBodyJsonSchema,
-  }
+      throw error;
+    }
+  });
 
-  instance.patch(urlOwnerById, { schema: patchSchema }, async (request, reply) => {
-    const changes = getOwnerDto(request.body);
+  instance.patch(urlOwnerById, patchOwnerOptions, async (request, reply) => {
+    try {
+      const changes = getOwnerDto(request.body);
 
-    const result = await collection.updateOne({ _id: ObjectId(request.params.ownerId) }, { $set: changes });
+      const result = await collection.updateOne({ _id: ObjectId(request.params.ownerId) }, { $set: changes });
 
-    return result
-  })
+      return result
+    } catch (error) {
+      console.error(error);
 
-  const postSchema = {
-    body: ownerPostBodyJsonSchema,
-  }
+      throw error;
+    }
+  });
 
-  instance.post(urlOwners, { schema: postSchema }, async (request, reply) => {
-    const newOwner = getOwnerDto(request.body);
+  instance.post(urlOwners, postOwnerOptions, async (request, reply) => {
+    try {
+      const newOwner = getOwnerDto(request.body);
 
-    const result = await collection.insertOne(newOwner);
+      const result = await collection.insertOne(newOwner);
 
-    return result
-  })};
+      return result
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  });
+};

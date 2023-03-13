@@ -7,7 +7,6 @@ const urlArticleById = '/articles/:articleId';
 const properties = {
   title: { type: 'string' },
   description: { type: 'string' },
-  // ownerId: { type: 'string' },
 };
 
 const articlePostBodyJsonSchema = {
@@ -22,6 +21,18 @@ const articlePatchBodyJsonSchema = {
   required: [],
 }
 
+const patchArticleOptions = {
+  schema: {
+    body: articlePatchBodyJsonSchema,
+  },
+};
+
+const postArticleOptions = {
+  schema: {
+    body: articlePostBodyJsonSchema,
+  },
+};
+
 function getArticleDto(body) {
   const articleDoc = peekDefinedPropertiesByTemplate(body, properties);
 
@@ -32,10 +43,16 @@ export async function articleRoutes(instance) {
   const collection = instance.mongo.db.collection('articles');
 
   instance.get(urlArticles, async (request, reply) => {
-    const result = await collection.find().toArray();
+    try {
+      const result = await collection.find().toArray();
 
-    return result
-  })
+      return result
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  });
 
   instance.get(urlArticleById, async (request, reply) => {
     try {
@@ -51,34 +68,45 @@ export async function articleRoutes(instance) {
 
       throw error;
     }
-  })
+  });
 
   instance.delete(urlArticleById, async (request, reply) => {
-    const result = await collection.findOneAndDelete({ _id: ObjectId(request.params.articleId) });
+    try {
+      const result = await collection.findOneAndDelete({ _id: ObjectId(request.params.articleId) });
 
-    return result
-  })
+      return result
+    } catch (error) {
+      console.error(error);
 
-  const patchSchema = {
-    body: articlePatchBodyJsonSchema,
-  }
+      throw error;
+    }
+  });
 
-  instance.patch(urlArticleById, { schema: patchSchema }, async (request, reply) => {
-    const changes = getArticleDto(request.body);
+  instance.patch(urlArticleById, patchArticleOptions, async (request, reply) => {
+    try {
+      const changes = getArticleDto(request.body);
 
-    const result = await collection.updateOne({ _id: ObjectId(request.params.articleId) }, { $set: changes });
+      const result = await collection.updateOne({ _id: ObjectId(request.params.articleId) }, { $set: changes });
 
-    return result
-  })
+      return result
+    } catch (error) {
+      console.error(error);
 
-  const postSchema = {
-    body: articlePostBodyJsonSchema,
-  }
+      throw error;
+    }
+  });
 
-  instance.post(urlArticles, { schema: postSchema }, async (request, reply) => {
-    const newArticle = getArticleDto(request.body);
+  instance.post(urlArticles, postArticleOptions, async (request, reply) => {
+    try {
+      const newArticle = getArticleDto(request.body);
 
-    const result = await collection.insertOne(newArticle);
+      const result = await collection.insertOne(newArticle);
 
-    return result
-  })};
+      return result
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  });
+};
