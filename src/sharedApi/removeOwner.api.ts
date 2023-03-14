@@ -13,10 +13,12 @@ export const removeOwnerApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       removeOwner: build.mutation<void, { ownerId: OwnerIdType }>({
-        query: ({ ownerId }) => ({
-          url: replaceUrlParams(urlOwnerById, { ownerId }),
-          method: 'DELETE',
-        }),
+        query: ({ ownerId }) => {
+          return {
+            url: replaceUrlParams(urlOwnerById, { ownerId }),
+            method: 'DELETE',
+          };
+        },
         invalidatesTags: () => [{ type: OWNERS_TAG_TYPE, id: 'LIST' }],
       }),
     }),

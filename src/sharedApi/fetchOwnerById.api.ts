@@ -13,10 +13,12 @@ export const fetchOwnerByIdApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       fetchOwnerById: build.query<OwnerType, { ownerId: OwnerIdType }>({
-        query: ({ ownerId }) => ({
-          url: replaceUrlParams(urlOwnerById, { ownerId }),
-          method: 'GET',
-        }),
+        query: ({ ownerId }) => {
+          return ({
+            url: replaceUrlParams(urlOwnerById, { ownerId }),
+            method: 'GET',
+          });
+        },
         providesTags: (_, __, { ownerId }) => [{ type: OWNERS_TAG_TYPE, id: ownerId }],
       }),
     }),

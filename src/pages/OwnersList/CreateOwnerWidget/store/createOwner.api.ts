@@ -12,11 +12,13 @@ export const createOwnerApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       createOwner: build.mutation<void, { data: Partial<OwnerType> }>({
-        query: ({ data }) => ({
-          url: replaceUrlParams(urlOwners),
-          method: 'POST',
-          body: data,
-        }),
+        query: ({ data }) => {
+          return {
+            url: replaceUrlParams(urlOwners),
+            method: 'POST',
+            body: data,
+          };
+        },
         invalidatesTags: () => [{ type: OWNERS_TAG_TYPE, id: 'LIST' }],
       }),
     }),

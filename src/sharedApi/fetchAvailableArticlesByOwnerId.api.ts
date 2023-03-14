@@ -14,10 +14,12 @@ export const fetchAvailableArticlesByOwnerIdApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       fetchAvailableArticlesByOwnerId: build.query<ArticleType[], { ownerId: OwnerIdType }>({
-        query: ({ ownerId }) => ({
-          url: replaceUrlParams(urlOwnerArticlesAvailable, { ownerId }),
-          method: 'GET',
-        }),
+        query: ({ ownerId }) => {
+          return ({
+            url: replaceUrlParams(urlOwnerArticlesAvailable, { ownerId }),
+            method: 'GET',
+          });
+        },
         providesTags: () => [{ type: ARTICLES_TAG_TYPE, id: 'LIST' }],
       }),
     }),

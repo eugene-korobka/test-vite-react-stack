@@ -13,10 +13,12 @@ export const removeArticleApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       removeArticle: build.mutation<void, { articleId: ArticleIdType }>({
-        query: ({ articleId }) => ({
-          url: replaceUrlParams(urlArticleById, { articleId }),
-          method: 'DELETE',
-        }),
+        query: ({ articleId }) => {
+          return ({
+            url: replaceUrlParams(urlArticleById, { articleId }),
+            method: 'DELETE',
+          });
+        },
         invalidatesTags: () => [{ type: ARTICLES_TAG_TYPE, id: 'LIST' }],
       }),
     }),

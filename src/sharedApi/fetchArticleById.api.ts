@@ -13,10 +13,12 @@ export const fetchArticleByIdApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       fetchArticleById: build.query<ArticleType, { articleId: ArticleIdType }>({
-        query: ({ articleId }) => ({
-          url: replaceUrlParams(urlArticleById, { articleId }),
-          method: 'GET',
-        }),
+        query: ({ articleId }) => {
+          return ({
+            url: replaceUrlParams(urlArticleById, { articleId }),
+            method: 'GET',
+          });
+        },
         providesTags: (_, __, { articleId }) => [{ type: ARTICLES_TAG_TYPE, id: articleId }],
       }),
     }),

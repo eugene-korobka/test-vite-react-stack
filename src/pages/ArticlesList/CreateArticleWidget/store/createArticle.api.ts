@@ -12,11 +12,13 @@ export const createArticleApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       createArticle: build.mutation<void, { data: Partial<ArticleType> }>({
-        query: ({ data }) => ({
-          url: replaceUrlParams(urlArticles),
-          method: 'POST',
-          body: data,
-        }),
+        query: ({ data }) => {
+          return {
+            url: replaceUrlParams(urlArticles),
+            method: 'POST',
+            body: data,
+          };
+        },
         invalidatesTags: () => [{ type: ARTICLES_TAG_TYPE, id: 'LIST' }],
       }),
     }),

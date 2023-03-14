@@ -13,7 +13,12 @@ export const fetchOwnersApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       fetchOwners: build.query<OwnerType[], void>({
-        query: () => replaceUrlParams(urlOwners),
+        query: () => {
+          return {
+            url: replaceUrlParams(urlOwners),
+            method: 'GET',
+          };
+        },
         providesTags: (result) =>
           result
             ? [

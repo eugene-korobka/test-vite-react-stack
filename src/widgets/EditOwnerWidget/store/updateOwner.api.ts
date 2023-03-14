@@ -12,11 +12,13 @@ export const updateOwnerApi = baseApi
   .injectEndpoints({
     endpoints: (build) => ({
       updateOwner: build.mutation<void, { ownerId: OwnerIdType; data: Partial<OwnerType> }>({
-        query: ({ ownerId, data }) => ({
-          url: replaceUrlParams(urlOwnerById, { ownerId }),
-          method: 'PATCH',
-          body: data,
-        }),
+        query: ({ ownerId, data }) => {
+          return {
+            url: replaceUrlParams(urlOwnerById, { ownerId }),
+            method: 'PATCH',
+            body: data,
+          };
+        },
         invalidatesTags: (_, __, { ownerId }) => [{ type: OWNERS_TAG_TYPE, id: ownerId }],
       }),
     }),
