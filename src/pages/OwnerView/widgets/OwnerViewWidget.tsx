@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useFetchOwnerByIdQuery } from 'sharedApi/fetchOwnerById.api';
 
-// import { OwnerArticlesList } from './OwnerArticlesList.widget';
+import { OwnerArticlesList } from './OwnerArticlesList.widget';
 
 export const OwnerViewWidget = () => {
   const { ownerId = '' } = useParams();
@@ -21,7 +21,7 @@ export const OwnerViewWidget = () => {
       <div className="font-bold">Email:</div>
       <div>{ownerById?.email}</div>
       <br />
-      {/* <OwnerArticlesList ownerId={ownerId} /> */}
+      <OwnerArticlesList ownerId={ownerId} />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import { dbConnector, mockDatabase } from './db-connector.js';
 import { articleRoutes } from './routes/articleRoutes.js';
 import { ownerRoutes } from './routes/ownerRoutes.js';
+import { ownersAndArticlesRoutes } from './routes/ownersAndArticles.js';
 
 const server = Fastify({
   logger: true
@@ -21,6 +22,8 @@ server.register(mockDatabase);
 server.register(articleRoutes);
 
 server.register(ownerRoutes);
+
+server.register(ownersAndArticlesRoutes);
 
 server.get('/', async (request, reply) => {
   return { hello: 'world' }

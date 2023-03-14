@@ -5,6 +5,7 @@ export type OwnerType = {
   firstName: string;
   lastName: string;
   email: string;
+  articles?: EntityIdType[];
 };
 
 export type OwnerIdType = EntityIdType;

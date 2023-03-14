@@ -4,7 +4,7 @@ export type ArticleType = {
   _id: EntityIdType;
   title: string;
   description: string;
-  ownerId?: EntityIdType;
+  belongsTo?: boolean;
 };
 
 export type ArticleIdType = EntityIdType;
