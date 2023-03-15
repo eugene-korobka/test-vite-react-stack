@@ -1,5 +1,6 @@
 import { ObjectId } from "@fastify/mongodb";
 import { getDbCollections } from "../db-connector.js";
+import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
 
 const urlArticles = '/articles';
@@ -12,7 +13,15 @@ const properties = {
 
 const articlePostBodyJsonSchema = {
   type: 'object',
-  properties,
+  properties: {
+    ...properties,
+    ownerIds: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+  },
   required: ['title', 'description'],
 }
 
@@ -75,6 +84,8 @@ export async function articleRoutes(instance) {
     try {
       const result = await articlesCollection.findOneAndDelete({ _id: ObjectId(request.params.articleId) });
 
+      ServerEventBus.emit(articleRemovedEvent, { articleId: request.params.articleId });
+
       return result
     } catch (error) {
       console.error(error);
@@ -102,6 +113,12 @@ export async function articleRoutes(instance) {
       const newArticle = getArticleDto(request.body);
 
       const result = await articlesCollection.insertOne(newArticle);
+
+      const ownerIds = request.body.ownerIds;
+
+      if (ownerIds.length) {
+        ServerEventBus.emit(articleCreatedEvent, { articleId: result.insertedId, ownerIds });
+      }
 
       return result
     } catch (error) {

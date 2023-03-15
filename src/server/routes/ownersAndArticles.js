@@ -1,10 +1,12 @@
 import { ObjectId } from "@fastify/mongodb";
 import { getDbCollections } from "../db-connector.js";
+import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
 
 const urlArticleOwners = '/articles/:articleId/owners';
-// const urlArticleOwnersAvailable = '/articles/:articleId/owners/available';
+// const urlArticlesAvailable = '/articles/available';
 const urlOwnerArticles = '/owners/:ownerId/articles';
 const urlOwnerArticlesAvailable = '/owners/:ownerId/articles/available';
+const urlOwnersAvailable = '/owners/available';
 
 const ownerArticlesPatchBodyJsonSchema = {
   type: 'object',
@@ -22,6 +24,12 @@ const ownerArticlesPatchBodyJsonSchema = {
 const patchOwnerArticlesOptions = {
   schema: {
     body: ownerArticlesPatchBodyJsonSchema,
+  },
+};
+
+const getOwnersAvailableOptions = {
+  querystring: {
+    articleId: { type: 'string' },
   },
 };
 
@@ -100,5 +108,62 @@ export async function ownersAndArticlesRoutes(instance) {
       throw error;
     }
   });
+
+  instance.get(urlOwnersAvailable, getOwnersAvailableOptions, async (request, reply) => {
+    try {
+      const articleId = request.query.articleId;
+
+      const owners = await ownersCollection.find().toArray();
+
+      const result = owners.map((owner) => {
+        return {
+          ...owner,
+          belongsTo: !!owner?.articles?.includes(articleId),
+        };
+      });
+
+      return result
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  });
+
+  async function addCreatedArticleToOwners({ articleId, ownerIds }) {
+    if (!ownerIds?.length) {
+      return;
+    }
+
+    try {
+      await ownersCollection.updateMany({
+        _id: { $in: ownerIds?.map((id) => ObjectId(id)) },
+      }, {
+        $push: { articles: articleId.toString() },
+      });
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  }
+
+  ServerEventBus.on(articleCreatedEvent, addCreatedArticleToOwners);
+
+  async function removeArticleFromOwners({ articleId }) {
+    try {
+      await ownersCollection.updateMany({
+        articles: articleId,
+      }, {
+        $pull: { articles: articleId },
+      });
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  }
+
+  ServerEventBus.on(articleRemovedEvent, removeArticleFromOwners);
 
 };
