@@ -1,15 +1,13 @@
 import { useEffect, useId } from 'react';
 import { useForm } from 'react-hook-form';
 import type { ArticleType } from 'sharedTypes/article.types';
-import { descriptionInputName, ownerIdInputName, titleInputName } from 'sharedTypes/constants';
+import { descriptionInputName, titleInputName } from 'sharedTypes/constants';
 
-// import { SelectOwner } from 'widgets/SelectOwner.widget';
 import { RequiredFieldMark } from './RequiredFieldMark';
 
 export const defaultFormValues: Partial<ArticleType> = {
   [titleInputName]: '',
   [descriptionInputName]: '',
-  [ownerIdInputName]: '',
 };
 
 function useInputIds() {
@@ -88,7 +86,6 @@ export const ArticleHookForm = (props: ArticleHookFormPropsType) => {
           {...register(descriptionInputName, { required: true })}
         />
       </label>
-      {/* <SelectOwner register={register} /> */}
     </form>
   );
 };

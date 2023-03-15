@@ -1,6 +1,7 @@
 import { ARTICLES_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import { urlArticles } from 'sharedApi/urlStrings';
 import type { ArticleType } from 'sharedTypes/article.types';
+import type { OwnerIdType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
@@ -11,7 +12,7 @@ export const createArticleApi = baseApi
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      createArticle: build.mutation<void, { data: Partial<ArticleType> }>({
+      createArticle: build.mutation<void, { data: Partial<ArticleType> & { ownerIds?: OwnerIdType[] } }>({
         query: ({ data }) => {
           return {
             url: replaceUrlParams(urlArticles),
