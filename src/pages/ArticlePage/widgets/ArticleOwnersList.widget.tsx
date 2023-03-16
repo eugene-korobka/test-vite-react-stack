@@ -2,6 +2,8 @@ import { useFetchArticleOwnersQuery } from 'sharedApi/fetchArticleOwners.api';
 import { ArticleIdType } from 'sharedTypes/article.types';
 import { getOwnerFullName } from 'src/utils/getOwnerFullName';
 
+import { EditArticleOwnersWidget } from './EditArticleOwners.widget';
+
 type ArticleOwnersListPropsType = {
   articleId: ArticleIdType;
 };
@@ -27,12 +29,13 @@ function useArticleOwnersListState(props: ArticleOwnersListPropsType) {
 }
 
 export const ArticleOwnersList = (props: ArticleOwnersListPropsType) => {
-  const { isFetchingArticleOwners, noOwners, hasOwners, articleOwners } = useArticleOwnersListState(props);
+  const { articleId, isFetchingArticleOwners, noOwners, hasOwners, articleOwners } = useArticleOwnersListState(props);
 
   return (
     <div>
       <div className="flex items-center">
         <div className="mr-4 font-bold">Owners</div>
+        <EditArticleOwnersWidget articleId={articleId} />
       </div>
 
       {isFetchingArticleOwners && <div>Loading...</div>}
