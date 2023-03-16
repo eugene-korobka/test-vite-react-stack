@@ -1,6 +1,7 @@
 import { ObjectId } from "@fastify/mongodb";
 import { getDbCollections } from "../db-connector.js";
 import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
+import { mapIdsToObjectIds, mapObjectIdsToIds } from "../utils/convertId.js";
 
 const urlArticleOwners = '/articles/:articleId/owners';
 // const urlArticlesAvailable = '/articles/available';
@@ -30,6 +31,25 @@ const patchOwnerArticlesOptions = {
 const getOwnersAvailableOptions = {
   querystring: {
     articleId: { type: 'string' },
+  },
+};
+
+const articleOwnersPutBodyJsonSchema = {
+  type: 'object',
+  properties: {
+    ownerIds: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+  },
+  required: ['ownerIds'],
+}
+
+const putArticleOwnersOptions = {
+  schema: {
+    body: articleOwnersPutBodyJsonSchema,
   },
 };
 
@@ -123,6 +143,47 @@ export async function ownersAndArticlesRoutes(instance) {
       });
 
       return result
+    } catch (error) {
+      console.error(error);
+
+      throw error;
+    }
+  });
+
+  instance.put(urlArticleOwners, putArticleOwnersOptions, async (request, reply) => {
+    try {
+      const articleId = request.params.articleId;
+      const ownerIds = request.body.ownerIds;
+
+      const ownersByArticleId = await ownersCollection.find({ articles: articleId }).toArray();
+
+      const ownerIdsByArticleId = ownersByArticleId.map(({ _id }) => mapObjectIdsToIds(_id));
+
+      const addedOwnerIds = ownerIds.filter((id) => !ownerIdsByArticleId.includes(id));
+
+      if (addedOwnerIds.length) {
+        const addedOwnerObjectIds = mapIdsToObjectIds(addedOwnerIds);
+
+        await ownersCollection.updateMany({
+          _id: { $in: addedOwnerObjectIds },
+        }, {
+          $push: { articles: articleId },
+        });
+      }
+
+      const removedOwnerIds = ownerIdsByArticleId.filter((id) => !ownerIds.includes(id));
+
+      if (removedOwnerIds.length) {
+        const removedOwnerObjectIds = mapIdsToObjectIds(removedOwnerIds);
+
+        await ownersCollection.updateMany({
+          _id: { $in: removedOwnerObjectIds },
+        }, {
+          $pull: { articles: articleId },
+        });
+      }
+
+      return {}
     } catch (error) {
       console.error(error);
 

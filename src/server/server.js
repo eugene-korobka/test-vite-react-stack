@@ -11,7 +11,7 @@ const server = Fastify({
 
 await server.register(cors, {
   origin: true,
-  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
 });
 
