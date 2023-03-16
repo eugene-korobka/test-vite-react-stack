@@ -1,13 +1,9 @@
-import { useCallback, useEffect, useId, useMemo, useState } from 'react';
-import { useFetchOwnersAvailableQuery } from 'sharedApi/fetchOwnersAvailable.api';
-import { EntityIdType } from 'sharedTypes/common.types';
-import { OwnerType } from 'sharedTypes/owner.types';
-import { areTwoIdsArraysDifferent, mapEntitiesToIdsByBelongsTo } from 'src/utils/entitiesHelpers';
-import { getOwnerFullName } from 'src/utils/getOwnerFullName';
+import { useCallback, useId } from 'react';
 
 import { AppButton, AppSubmitButton } from 'components/AppButton';
 import { ArticleHookForm } from 'components/ArticleHookForm';
 import { Modal } from 'components/ModalComponents';
+import { OwnersCheckableList, useAvailableOwnersList } from 'components/OwnersCheckableList';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 
@@ -44,52 +40,6 @@ const CreateArticleModalButton = () => {
   return <AppButton onClick={openCreateModal}>New article</AppButton>;
 };
 
-const emptyOwners: OwnerType[] = [];
-
-function useAvailableOwners({ isModalOpen }) {
-  const { data: availableOwners = emptyOwners, isFetching: isFetchingOwners } = useFetchOwnersAvailableQuery(
-    {},
-    { skip: !isModalOpen },
-  );
-
-  const noOwners = !isFetchingOwners && !availableOwners?.length;
-  const hasOwners = !isFetchingOwners && !!availableOwners?.length;
-
-  const initialOwnerIds = useMemo(() => {
-    return mapEntitiesToIdsByBelongsTo(availableOwners);
-  }, [availableOwners]);
-
-  const [checkedOwnerIds, setCheckedOwnerIds] = useState<EntityIdType[]>([]);
-
-  const hasOwnersChanges = useMemo(() => {
-    return areTwoIdsArraysDifferent(initialOwnerIds, checkedOwnerIds);
-  }, [initialOwnerIds, checkedOwnerIds]);
-
-  useEffect(() => {
-    setCheckedOwnerIds(initialOwnerIds);
-  }, [initialOwnerIds]);
-
-  const onArticleClick = useCallback((event) => {
-    const { value, checked } = event.target;
-
-    setCheckedOwnerIds((prev) => {
-      const newList = checked ? [...new Set([...prev, value])] : prev.filter((id) => id !== value);
-
-      return newList;
-    });
-  }, []);
-
-  return {
-    isFetchingOwners,
-    noOwners,
-    hasOwners,
-    availableOwners,
-    checkedOwnerIds,
-    hasOwnersChanges,
-    onArticleClick,
-  };
-}
-
 function useCreateArticleModalHookFormState() {
   const dispatch = useAppDispatch();
 
@@ -97,8 +47,8 @@ function useCreateArticleModalHookFormState() {
 
   const { closeCreateModal, beforeCloseCreateModal } = useCreateArticleModalHandlers();
 
-  const { isFetchingOwners, noOwners, hasOwners, availableOwners, checkedOwnerIds, onArticleClick } =
-    useAvailableOwners({ isModalOpen });
+  const { isFetchingOwners, noOwners, hasOwners, availableOwners, checkedOwnerIds, onOwnerClick } =
+    useAvailableOwnersList({ skipQuery: !isModalOpen });
 
   const [createArticleTrigger, { isLoading: isArticleCreating }] = useCreateArticleMutation();
 
@@ -135,7 +85,7 @@ function useCreateArticleModalHookFormState() {
     hasOwners,
     availableOwners,
     checkedOwnerIds,
-    onArticleClick,
+    onOwnerClick,
   };
 }
 
@@ -152,7 +102,7 @@ const CreateArticleModalHookForm = () => {
     hasOwners,
     availableOwners,
     checkedOwnerIds,
-    onArticleClick,
+    onOwnerClick,
   } = useCreateArticleModalHookFormState();
 
   return (
@@ -160,30 +110,15 @@ const CreateArticleModalHookForm = () => {
       <Modal.Header title="Create article" />
       <Modal.Main>
         <ArticleHookForm formId={formId} onSubmitHandler={createArticle} onFormChangeHandler={onChangeFormValues} />
-        <div>
-          <div className="mb-2">Owners</div>
-          {isFetchingOwners && <div>Loading...</div>}
-          {noOwners && <div>No articles</div>}
-          {hasOwners && (
-            <ul>
-              {availableOwners?.map((owner) => (
-                <li key={owner._id} className="mb-2 flex items-center">
-                  <input
-                    className="w-4 h-4 mr-2 cursor-pointer"
-                    id={`article-owner-${owner._id}`}
-                    type="checkbox"
-                    checked={checkedOwnerIds.includes(owner._id)}
-                    value={owner._id}
-                    onChange={onArticleClick}
-                  />
-                  <label className="cursor-pointer" htmlFor={`article-owner-${owner._id}`}>
-                    {getOwnerFullName(owner)}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <OwnersCheckableList
+          label="Owners"
+          isFetchingOwners={isFetchingOwners}
+          noOwners={noOwners}
+          hasOwners={hasOwners}
+          ownersList={availableOwners}
+          checkedOwnerIds={checkedOwnerIds}
+          onOwnerClick={onOwnerClick}
+        />
       </Modal.Main>
       <Modal.Footer>
         <AppButton onClick={beforeCloseCreateModal}>Cancel</AppButton>

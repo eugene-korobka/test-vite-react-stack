@@ -16,7 +16,7 @@ const ModalBox = (props: React.PropsWithChildren) => {
   const { children } = props;
 
   return (
-    <div className="relative max-w-175 w-9/10 p-6 overflow-hidden overscroll-contain border border-solid border-gray-400 rounded-lg bg-[var(--light-bg-color)] dark:bg-[var(--dark-bg-color)]">
+    <div className="relative max-w-175 w-9/10 max-h-full flex flex-col p-6 overflow-hidden overscroll-contain border border-solid border-gray-400 rounded-lg bg-[var(--light-bg-color)] dark:bg-[var(--dark-bg-color)]">
       {children}
     </div>
   );
@@ -114,7 +114,11 @@ const Header = (props: ModalHeaderProps) => {
 const Main = (props: React.PropsWithChildren) => {
   const { children } = props;
 
-  return <section className="mb-4 overflow-y-hidden overscroll-contain text-start last:mb-0">{children}</section>;
+  return (
+    <section className="h-full mb-4 overflow-x-hidden overflow-y-auto overscroll-contain text-start last:mb-0">
+      {children}
+    </section>
+  );
 };
 
 const Footer = (props: React.PropsWithChildren) => {
