@@ -61,7 +61,7 @@ function getArticleDto(body) {
 export async function articleRoutes(instance) {
   const { articlesCollection } = getDbCollections(instance);
 
-  instance.get(apiUrl.articles, async (request, reply) => {
+  instance.get(apiUrl.articles, async () => {
     try {
       const result = await articlesCollection.find().toArray();
 
@@ -89,7 +89,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.delete(apiUrl.articleById, async (request, reply) => {
+  instance.delete(apiUrl.articleById, async (request) => {
     try {
       const result = await articlesCollection.findOneAndDelete({ _id: ObjectId(request.params.articleId) });
 
@@ -103,7 +103,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.patch(apiUrl.articleById, patchArticleOptions, async (request, reply) => {
+  instance.patch(apiUrl.articleById, patchArticleOptions, async (request) => {
     try {
       const articleId = request.params.articleId;
 
@@ -125,7 +125,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.post(apiUrl.articles, postArticleOptions, async (request, reply) => {
+  instance.post(apiUrl.articles, postArticleOptions, async (request) => {
     try {
       const newArticle = getArticleDto(request.body);
 

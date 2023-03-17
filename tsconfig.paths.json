@@ -43,6 +43,12 @@
       ],
       "hooks/*": [
         "./src/hooks/*"
+      ],
+      "server": [
+        "./src/server"
+      ],
+      "server/*": [
+        "./src/server/*"
       ]
     }
   }

@@ -43,7 +43,7 @@ function getOwnerDto(body) {
 export async function ownerRoutes(instance) {
   const { ownersCollection } = getDbCollections(instance);
 
-  instance.get(apiUrl.owners, async (request, reply) => {
+  instance.get(apiUrl.owners, async () => {
     try {
       const result = await ownersCollection.find().toArray();
 
@@ -71,7 +71,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.delete(apiUrl.ownerById, async (request, reply) => {
+  instance.delete(apiUrl.ownerById, async (request) => {
     try {
       const result = await ownersCollection.findOneAndDelete({ _id: ObjectId(request.params.ownerId) });
 
@@ -83,7 +83,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.patch(apiUrl.ownerById, patchOwnerOptions, async (request, reply) => {
+  instance.patch(apiUrl.ownerById, patchOwnerOptions, async (request) => {
     try {
       const changes = getOwnerDto(request.body);
 
@@ -97,7 +97,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.post(apiUrl.owners, postOwnerOptions, async (request, reply) => {
+  instance.post(apiUrl.owners, postOwnerOptions, async (request) => {
     try {
       const newOwner = getOwnerDto(request.body);
 

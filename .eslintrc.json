@@ -18,7 +18,8 @@
   "overrides": [
     {
       "files": [
-        "**/*.ts?(x)"
+        "**/*.ts?(x)",
+        "**/*.js?(x)"
       ],
       "excludedFiles": [
         "**/*.html"

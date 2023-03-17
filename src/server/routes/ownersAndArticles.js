@@ -90,7 +90,7 @@ export async function updateArticleOwners(instance, { articleId, ownerIds }) {
 export async function ownersAndArticlesRoutes(instance) {
   const { articlesCollection, ownersCollection } = getDbCollections(instance);
 
-  instance.get(apiUrl.ownerByIdArticles, async (request, reply) => {
+  instance.get(apiUrl.ownerByIdArticles, async (request) => {
     try {
       const ownerId = ObjectId(request.params.ownerId);
 
@@ -108,7 +108,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(apiUrl.articleByIdOwners, async (request, reply) => {
+  instance.get(apiUrl.articleByIdOwners, async (request) => {
     try {
       const articleId = request.params.articleId;
 
@@ -122,7 +122,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.patch(apiUrl.ownerByIdArticles, patchOwnerArticlesOptions, async (request, reply) => {
+  instance.patch(apiUrl.ownerByIdArticles, patchOwnerArticlesOptions, async (request) => {
     try {
       const ownerId = ObjectId(request.params.ownerId);
 
@@ -138,7 +138,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(apiUrl.articlesAvailable, getArticlesAvailableOptions, async (request, reply) => {
+  instance.get(apiUrl.articlesAvailable, getArticlesAvailableOptions, async (request) => {
     try {
       const ownerId = ObjectId(request.query.ownerId);
 
@@ -163,7 +163,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(apiUrl.ownersAvailable, getOwnersAvailableOptions, async (request, reply) => {
+  instance.get(apiUrl.ownersAvailable, getOwnersAvailableOptions, async (request) => {
     try {
       const articleId = request.query.articleId;
 
@@ -184,7 +184,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.put(apiUrl.articleByIdOwners, putArticleOwnersOptions, async (request, reply) => {
+  instance.put(apiUrl.articleByIdOwners, putArticleOwnersOptions, async (request) => {
     try {
       const articleId = request.params.articleId;
       const ownerIds = request.body.ownerIds;
