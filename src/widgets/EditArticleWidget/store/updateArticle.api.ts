@@ -1,5 +1,5 @@
-import { ARTICLE_OWNERS_TAG_TYPE,ARTICLES_TAG_TYPE, OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
-import { urlArticleById } from 'sharedApi/urlStrings';
+import { apiUrl } from 'server/apiUrl';
+import { ARTICLE_OWNERS_TAG_TYPE, ARTICLES_TAG_TYPE, OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import type { ArticleIdType, ArticleType } from 'sharedTypes/article.types';
 import { OwnerIdType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
@@ -15,7 +15,7 @@ export const updateArticleApi = baseApi
       updateArticle: build.mutation<void, { articleId: ArticleIdType; data: Partial<ArticleType> & { ownerIds?: OwnerIdType[] } }>({
         query: ({ articleId, data }) => {
           return {
-            url: replaceUrlParams(urlArticleById, { articleId }),
+            url: replaceUrlParams(apiUrl.articleById, { articleId }),
             method: 'PATCH',
             body: data,
           };

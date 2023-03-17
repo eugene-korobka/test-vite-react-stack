@@ -1,11 +1,11 @@
 import { ObjectId } from "@fastify/mongodb";
+
+import {apiUrl} from '../apiUrl.js';
 import { getDbCollections } from "../db-connector.js";
 import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
-import { updateArticleOwners } from "./ownersAndArticles.js";
 
-const urlArticles = '/articles';
-const urlArticleById = '/articles/:articleId';
+import { updateArticleOwners } from "./ownersAndArticles.js";
 
 const properties = {
   title: { type: 'string' },
@@ -61,7 +61,7 @@ function getArticleDto(body) {
 export async function articleRoutes(instance) {
   const { articlesCollection } = getDbCollections(instance);
 
-  instance.get(urlArticles, async (request, reply) => {
+  instance.get(apiUrl.articles, async (request, reply) => {
     try {
       const result = await articlesCollection.find().toArray();
 
@@ -73,7 +73,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.get(urlArticleById, async (request, reply) => {
+  instance.get(apiUrl.articleById, async (request, reply) => {
     try {
       const result = await articlesCollection.findOne({ _id: ObjectId(request.params.articleId) });
 
@@ -89,7 +89,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.delete(urlArticleById, async (request, reply) => {
+  instance.delete(apiUrl.articleById, async (request, reply) => {
     try {
       const result = await articlesCollection.findOneAndDelete({ _id: ObjectId(request.params.articleId) });
 
@@ -103,7 +103,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.patch(urlArticleById, patchArticleOptions, async (request, reply) => {
+  instance.patch(apiUrl.articleById, patchArticleOptions, async (request, reply) => {
     try {
       const articleId = request.params.articleId;
 
@@ -125,7 +125,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.post(urlArticles, postArticleOptions, async (request, reply) => {
+  instance.post(apiUrl.articles, postArticleOptions, async (request, reply) => {
     try {
       const newArticle = getArticleDto(request.body);
 

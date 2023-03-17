@@ -1,5 +1,5 @@
+import { apiUrl } from 'server/apiUrl';
 import { OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
-import { urlOwners } from 'sharedApi/urlStrings';
 import type { OwnerType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
@@ -14,7 +14,7 @@ export const createOwnerApi = baseApi
       createOwner: build.mutation<void, { data: Partial<OwnerType> }>({
         query: ({ data }) => {
           return {
-            url: replaceUrlParams(urlOwners),
+            url: replaceUrlParams(apiUrl.owners),
             method: 'POST',
             body: data,
           };

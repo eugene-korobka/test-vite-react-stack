@@ -1,12 +1,9 @@
 import { ObjectId } from "@fastify/mongodb";
+
+import { apiUrl } from "../apiUrl.js";
 import { getDbCollections } from "../db-connector.js";
 import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
 import { mapIdsToObjectIds, mapObjectIdsToIds } from "../utils/convertId.js";
-
-const urlArticleOwners = '/articles/:articleId/owners';
-const urlArticlesAvailable = '/articles/available';
-const urlOwnerArticles = '/owners/:ownerId/articles';
-const urlOwnersAvailable = '/owners/available';
 
 const ownerArticlesPatchBodyJsonSchema = {
   type: 'object',
@@ -93,7 +90,7 @@ export async function updateArticleOwners(instance, { articleId, ownerIds }) {
 export async function ownersAndArticlesRoutes(instance) {
   const { articlesCollection, ownersCollection } = getDbCollections(instance);
 
-  instance.get(urlOwnerArticles, async (request, reply) => {
+  instance.get(apiUrl.ownerByIdArticles, async (request, reply) => {
     try {
       const ownerId = ObjectId(request.params.ownerId);
 
@@ -111,7 +108,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(urlArticleOwners, async (request, reply) => {
+  instance.get(apiUrl.articleByIdOwners, async (request, reply) => {
     try {
       const articleId = request.params.articleId;
 
@@ -125,7 +122,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.patch(urlOwnerArticles, patchOwnerArticlesOptions, async (request, reply) => {
+  instance.patch(apiUrl.ownerByIdArticles, patchOwnerArticlesOptions, async (request, reply) => {
     try {
       const ownerId = ObjectId(request.params.ownerId);
 
@@ -141,7 +138,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(urlArticlesAvailable, getArticlesAvailableOptions, async (request, reply) => {
+  instance.get(apiUrl.articlesAvailable, getArticlesAvailableOptions, async (request, reply) => {
     try {
       const ownerId = ObjectId(request.query.ownerId);
 
@@ -166,7 +163,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(urlOwnersAvailable, getOwnersAvailableOptions, async (request, reply) => {
+  instance.get(apiUrl.ownersAvailable, getOwnersAvailableOptions, async (request, reply) => {
     try {
       const articleId = request.query.articleId;
 
@@ -187,7 +184,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.put(urlArticleOwners, putArticleOwnersOptions, async (request, reply) => {
+  instance.put(apiUrl.articleByIdOwners, putArticleOwnersOptions, async (request, reply) => {
     try {
       const articleId = request.params.articleId;
       const ownerIds = request.body.ownerIds;

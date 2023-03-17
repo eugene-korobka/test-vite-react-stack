@@ -1,3 +1,4 @@
+import { apiUrl } from 'server/apiUrl';
 import type { ArticleType } from 'sharedTypes/article.types';
 import type { OwnerIdType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
@@ -5,7 +6,6 @@ import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 import { baseApi } from 'store/baseApi';
 
 import { OWNER_ARTICLES_TAG_TYPE } from './sharedTagTypes';
-import { urlOwnerArticles } from './urlStrings';
 
 export const fetchOwnerArticlesApi = baseApi
   .enhanceEndpoints({
@@ -16,7 +16,7 @@ export const fetchOwnerArticlesApi = baseApi
       fetchOwnerArticles: build.query<ArticleType[], { ownerId: OwnerIdType }>({
         query: ({ ownerId }) => {
           return ({
-            url: replaceUrlParams(urlOwnerArticles, { ownerId }),
+            url: replaceUrlParams(apiUrl.ownerByIdArticles, { ownerId }),
             method: 'GET',
           });
         },

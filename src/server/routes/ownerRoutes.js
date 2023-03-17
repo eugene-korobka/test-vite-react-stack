@@ -1,9 +1,8 @@
 import { ObjectId } from "@fastify/mongodb";
+
+import { apiUrl } from "../apiUrl.js";
 import { getDbCollections } from "../db-connector.js";
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
-
-const urlOwners = '/owners';
-const urlOwnerById = '/owners/:ownerId';
 
 const properties = {
   firstName: { type: 'string' },
@@ -44,7 +43,7 @@ function getOwnerDto(body) {
 export async function ownerRoutes(instance) {
   const { ownersCollection } = getDbCollections(instance);
 
-  instance.get(urlOwners, async (request, reply) => {
+  instance.get(apiUrl.owners, async (request, reply) => {
     try {
       const result = await ownersCollection.find().toArray();
 
@@ -56,7 +55,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.get(urlOwnerById, async (request, reply) => {
+  instance.get(apiUrl.ownerById, async (request, reply) => {
     try {
       const result = await ownersCollection.findOne({ _id: ObjectId(request.params.ownerId) });
 
@@ -72,7 +71,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.delete(urlOwnerById, async (request, reply) => {
+  instance.delete(apiUrl.ownerById, async (request, reply) => {
     try {
       const result = await ownersCollection.findOneAndDelete({ _id: ObjectId(request.params.ownerId) });
 
@@ -84,7 +83,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.patch(urlOwnerById, patchOwnerOptions, async (request, reply) => {
+  instance.patch(apiUrl.ownerById, patchOwnerOptions, async (request, reply) => {
     try {
       const changes = getOwnerDto(request.body);
 
@@ -98,7 +97,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.post(urlOwners, postOwnerOptions, async (request, reply) => {
+  instance.post(apiUrl.owners, postOwnerOptions, async (request, reply) => {
     try {
       const newOwner = getOwnerDto(request.body);
 

@@ -1,5 +1,5 @@
+import { apiUrl } from 'server/apiUrl';
 import { ARTICLES_TAG_TYPE } from 'sharedApi/sharedTagTypes';
-import { urlArticles } from 'sharedApi/urlStrings';
 import { ArticleType } from 'sharedTypes/article.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
@@ -14,7 +14,7 @@ export const fetchArticlesApi = baseApi
       fetchArticles: build.query<ArticleType[], void>({
         query: () => {
           return {
-            url: replaceUrlParams(urlArticles),
+            url: replaceUrlParams(apiUrl.articles),
             method: 'GET',
           };
         },

@@ -1,5 +1,5 @@
+import { apiUrl } from 'server/apiUrl';
 import { ARTICLES_TAG_TYPE } from 'sharedApi/sharedTagTypes';
-import { urlArticles } from 'sharedApi/urlStrings';
 import type { ArticleType } from 'sharedTypes/article.types';
 import type { OwnerIdType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
@@ -15,7 +15,7 @@ export const createArticleApi = baseApi
       createArticle: build.mutation<void, { data: Partial<ArticleType> & { ownerIds?: OwnerIdType[] } }>({
         query: ({ data }) => {
           return {
-            url: replaceUrlParams(urlArticles),
+            url: replaceUrlParams(apiUrl.articles),
             method: 'POST',
             body: data,
           };

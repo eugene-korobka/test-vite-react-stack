@@ -1,10 +1,9 @@
+import { apiUrl } from 'server/apiUrl';
 import { OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import type { OwnerType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
-
-import { urlOwners } from './urlStrings';
 
 export const fetchOwnersApi = baseApi
   .enhanceEndpoints({
@@ -15,7 +14,7 @@ export const fetchOwnersApi = baseApi
       fetchOwners: build.query<OwnerType[], void>({
         query: () => {
           return {
-            url: replaceUrlParams(urlOwners),
+            url: replaceUrlParams(apiUrl.owners),
             method: 'GET',
           };
         },
