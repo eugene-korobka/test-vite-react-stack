@@ -5,19 +5,20 @@ import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
 
-import { urlOwnerArticlesAvailable } from './urlStrings';
+import { urlArticlesAvailable } from './urlStrings';
 
-export const fetchAvailableArticlesByOwnerIdApi = baseApi
+export const fetchArticlesAvailableApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [ARTICLES_TAG_TYPE],
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      fetchAvailableArticlesByOwnerId: build.query<ArticleType[], { ownerId: OwnerIdType }>({
+      fetchArticlesAvailable: build.query<ArticleType[], { ownerId?: OwnerIdType }>({
         query: ({ ownerId }) => {
           return ({
-            url: replaceUrlParams(urlOwnerArticlesAvailable, { ownerId }),
+            url: replaceUrlParams(urlArticlesAvailable),
             method: 'GET',
+            params: { ownerId }
           });
         },
         providesTags: () => [{ type: ARTICLES_TAG_TYPE, id: 'LIST' }],
@@ -25,4 +26,4 @@ export const fetchAvailableArticlesByOwnerIdApi = baseApi
     }),
   });
 
-export const { useFetchAvailableArticlesByOwnerIdQuery } = fetchAvailableArticlesByOwnerIdApi;
+export const { useFetchArticlesAvailableQuery } = fetchArticlesAvailableApi;

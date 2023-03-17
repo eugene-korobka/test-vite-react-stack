@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useConfirmModalState, useModalState } from 'hooks/useModal';
-import { useFetchAvailableArticlesByOwnerIdQuery } from 'sharedApi/fetchAvailableArticlesByOwnerId.api';
+import { useFetchArticlesAvailableQuery } from 'sharedApi/fetchArticlesAvailable.api';
 import { useUpdateOwnerArticlesListMutation } from 'sharedApi/updateOwnerArticlesList.api';
 import { ArticleType } from 'sharedTypes/article.types';
 import { OwnerIdType } from 'sharedTypes/owner.types';
@@ -32,8 +32,10 @@ type EditOwnerArticlesModalPropsType = {
 function useEditOwnerArticlesModalState(props: EditOwnerArticlesModalPropsType) {
   const { ownerId, isModalOpen, closeModal } = props;
 
-  const { data: initialArticles = emptyArticles, isFetching: isFetchingArticles } =
-    useFetchAvailableArticlesByOwnerIdQuery({ ownerId }, { skip: !isModalOpen });
+  const { data: initialArticles = emptyArticles, isFetching: isFetchingArticles } = useFetchArticlesAvailableQuery(
+    { ownerId },
+    { skip: !isModalOpen },
+  );
 
   const noArticles = !isFetchingArticles && !initialArticles?.length;
   const hasArticles = !isFetchingArticles && !!initialArticles?.length;

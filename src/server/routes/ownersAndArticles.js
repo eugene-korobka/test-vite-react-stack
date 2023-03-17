@@ -4,9 +4,8 @@ import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eve
 import { mapIdsToObjectIds, mapObjectIdsToIds } from "../utils/convertId.js";
 
 const urlArticleOwners = '/articles/:articleId/owners';
-// const urlArticlesAvailable = '/articles/available';
+const urlArticlesAvailable = '/articles/available';
 const urlOwnerArticles = '/owners/:ownerId/articles';
-const urlOwnerArticlesAvailable = '/owners/:ownerId/articles/available';
 const urlOwnersAvailable = '/owners/available';
 
 const ownerArticlesPatchBodyJsonSchema = {
@@ -25,6 +24,12 @@ const ownerArticlesPatchBodyJsonSchema = {
 const patchOwnerArticlesOptions = {
   schema: {
     body: ownerArticlesPatchBodyJsonSchema,
+  },
+};
+
+const getArticlesAvailableOptions = {
+  querystring: {
+    ownerId: { type: 'string' },
   },
 };
 
@@ -136,9 +141,9 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(urlOwnerArticlesAvailable, async (request, reply) => {
+  instance.get(urlArticlesAvailable, getArticlesAvailableOptions, async (request, reply) => {
     try {
-      const ownerId = ObjectId(request.params.ownerId);
+      const ownerId = ObjectId(request.query.ownerId);
 
       const owner = await ownersCollection.findOne({ _id: ownerId });
 
