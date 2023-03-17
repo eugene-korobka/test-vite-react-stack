@@ -53,6 +53,38 @@ const putArticleOwnersOptions = {
   },
 };
 
+export async function updateArticleOwners(instance, { articleId, ownerIds }) {
+  const { ownersCollection } = getDbCollections(instance);
+
+  const ownersByArticleId = await ownersCollection.find({ articles: articleId }).toArray();
+
+  const ownerIdsByArticleId = ownersByArticleId.map(({ _id }) => mapObjectIdsToIds(_id));
+
+  const addedOwnerIds = ownerIds.filter((id) => !ownerIdsByArticleId.includes(id));
+
+  if (addedOwnerIds.length) {
+    const addedOwnerObjectIds = mapIdsToObjectIds(addedOwnerIds);
+
+    await ownersCollection.updateMany({
+      _id: { $in: addedOwnerObjectIds },
+    }, {
+      $push: { articles: articleId },
+    });
+  }
+
+  const removedOwnerIds = ownerIdsByArticleId.filter((id) => !ownerIds.includes(id));
+
+  if (removedOwnerIds.length) {
+    const removedOwnerObjectIds = mapIdsToObjectIds(removedOwnerIds);
+
+    await ownersCollection.updateMany({
+      _id: { $in: removedOwnerObjectIds },
+    }, {
+      $pull: { articles: articleId },
+    });
+  }
+}
+
 export async function ownersAndArticlesRoutes(instance) {
   const { articlesCollection, ownersCollection } = getDbCollections(instance);
 
@@ -155,33 +187,7 @@ export async function ownersAndArticlesRoutes(instance) {
       const articleId = request.params.articleId;
       const ownerIds = request.body.ownerIds;
 
-      const ownersByArticleId = await ownersCollection.find({ articles: articleId }).toArray();
-
-      const ownerIdsByArticleId = ownersByArticleId.map(({ _id }) => mapObjectIdsToIds(_id));
-
-      const addedOwnerIds = ownerIds.filter((id) => !ownerIdsByArticleId.includes(id));
-
-      if (addedOwnerIds.length) {
-        const addedOwnerObjectIds = mapIdsToObjectIds(addedOwnerIds);
-
-        await ownersCollection.updateMany({
-          _id: { $in: addedOwnerObjectIds },
-        }, {
-          $push: { articles: articleId },
-        });
-      }
-
-      const removedOwnerIds = ownerIdsByArticleId.filter((id) => !ownerIds.includes(id));
-
-      if (removedOwnerIds.length) {
-        const removedOwnerObjectIds = mapIdsToObjectIds(removedOwnerIds);
-
-        await ownersCollection.updateMany({
-          _id: { $in: removedOwnerObjectIds },
-        }, {
-          $pull: { articles: articleId },
-        });
-      }
+      await updateArticleOwners(instance, { articleId, ownerIds });
 
       return {}
     } catch (error) {

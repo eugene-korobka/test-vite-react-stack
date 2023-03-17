@@ -2,6 +2,7 @@ import { ObjectId } from "@fastify/mongodb";
 import { getDbCollections } from "../db-connector.js";
 import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
+import { updateArticleOwners } from "./ownersAndArticles.js";
 
 const urlArticles = '/articles';
 const urlArticleById = '/articles/:articleId';
@@ -27,7 +28,15 @@ const articlePostBodyJsonSchema = {
 
 const articlePatchBodyJsonSchema = {
   type: 'object',
-  properties,
+  properties: {
+    ...properties,
+    ownerIds: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
+  },
   required: [],
 }
 
@@ -96,9 +105,17 @@ export async function articleRoutes(instance) {
 
   instance.patch(urlArticleById, patchArticleOptions, async (request, reply) => {
     try {
+      const articleId = request.params.articleId;
+
       const changes = getArticleDto(request.body);
 
-      const result = await articlesCollection.updateOne({ _id: ObjectId(request.params.articleId) }, { $set: changes });
+      const result = await articlesCollection.updateOne({ _id: ObjectId(articleId) }, { $set: changes });
+
+      const ownerIds = request.body.ownerIds;
+
+      if (ownerIds) {
+        await updateArticleOwners(instance, { articleId, ownerIds });
+      }
 
       return result
     } catch (error) {

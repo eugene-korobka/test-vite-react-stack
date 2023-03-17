@@ -1,4 +1,4 @@
-import { useCallback, useId } from 'react';
+import { useCallback, useEffect, useId } from 'react';
 import { useSubscribeToAppEvent } from 'hooks/useAppEvents';
 import { useFetchArticleByIdQuery } from 'sharedApi/fetchArticleById.api';
 import type { ArticleIdType } from 'sharedTypes/article.types';
@@ -8,6 +8,7 @@ import { RemoveArticleWithEvent } from 'widgets/RemoveArticle/RemoveArticleWithE
 import { AppButton, AppSubmitButton } from 'components/AppButton';
 import { ArticleHookForm } from 'components/ArticleHookForm';
 import { Modal } from 'components/ModalComponents';
+import { OwnersCheckableList, useAvailableOwnersList } from 'components/OwnersCheckableList';
 
 import { useAppDispatch } from 'store/hooks';
 
@@ -32,17 +33,33 @@ function useEditArticleModalContentHookFormState(props: EditArticleModalContentH
     { skip: !isModalOpen },
   );
 
-  function onChangeFormValues(hasChanges: boolean) {
-    dispatch(editArticleActions.setHasFormChanges(hasChanges));
-  }
+  const onChangeFormValues = useCallback(
+    (hasChanges: boolean) => {
+      dispatch(editArticleActions.setHasFormChanges(hasChanges));
+    },
+    [dispatch],
+  );
 
   const { beforeCloseEditArticleModal, closeEditArticleModal } = useEditArticleModalHandlers(articleId);
 
-  const [updateArticleTrigger, { isLoading: isArticleUpdating }] = useUpdateArticleMutation();
+  const { isFetchingOwners, noOwners, hasOwners, availableOwners, checkedOwnerIds, onOwnerClick, hasOwnersChanges } =
+    useAvailableOwnersList({ articleId, skipQuery: !isModalOpen });
+
+  useEffect(() => {
+    onChangeFormValues(hasOwnersChanges);
+  }, [hasOwnersChanges, onChangeFormValues]);
+
+  const [updateArticleTrigger, { isLoading: isUpdatingArticle }] = useUpdateArticleMutation();
 
   async function updateArticle(data) {
     try {
-      await updateArticleTrigger({ articleId, data });
+      await updateArticleTrigger({
+        articleId,
+        data: {
+          ...data,
+          ...(hasOwnersChanges ? { ownerIds: checkedOwnerIds } : {}),
+        },
+      });
 
       closeEditArticleModal();
     } catch (error) {
@@ -62,12 +79,18 @@ function useEditArticleModalContentHookFormState(props: EditArticleModalContentH
     articleId,
     articleById,
     isFetchingArticleById,
-    isArticleUpdating,
+    isUpdatingArticle,
     isModalOpen,
     formId,
     onChangeFormValues,
     updateArticle,
     beforeCloseEditArticleModal,
+    isFetchingOwners,
+    noOwners,
+    hasOwners,
+    availableOwners,
+    checkedOwnerIds,
+    onOwnerClick,
   };
 }
 
@@ -76,11 +99,17 @@ export const EditArticleModalContentHookForm = (props: EditArticleModalContentHo
     articleId,
     articleById,
     isFetchingArticleById,
-    isArticleUpdating,
+    isUpdatingArticle,
     formId,
     onChangeFormValues,
     updateArticle,
     beforeCloseEditArticleModal,
+    isFetchingOwners,
+    noOwners,
+    hasOwners,
+    availableOwners,
+    checkedOwnerIds,
+    onOwnerClick,
   } = useEditArticleModalContentHookFormState(props);
 
   return (
@@ -96,10 +125,19 @@ export const EditArticleModalContentHookForm = (props: EditArticleModalContentHo
             onFormChangeHandler={onChangeFormValues}
           />
         )}
+        <OwnersCheckableList
+          label="Owners"
+          isFetchingOwners={isFetchingOwners}
+          noOwners={noOwners}
+          hasOwners={hasOwners}
+          ownersList={availableOwners}
+          checkedOwnerIds={checkedOwnerIds}
+          onOwnerClick={onOwnerClick}
+        />
       </Modal.Main>
       <Modal.Footer>
         <AppButton onClick={beforeCloseEditArticleModal}>Cancel</AppButton>
-        <AppSubmitButton form={formId} disabled={isArticleUpdating}>
+        <AppSubmitButton form={formId} disabled={isUpdatingArticle}>
           Save
         </AppSubmitButton>
         <RemoveArticleWithEvent articleId={articleId} />
