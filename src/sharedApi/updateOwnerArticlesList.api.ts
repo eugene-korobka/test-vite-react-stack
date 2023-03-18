@@ -16,7 +16,7 @@ export const updateOwnerArticlesListApi = baseApi
         query: ({ ownerId, articleIds }) => {
           return {
             url: replaceUrlParams(apiUrl.ownerByIdArticles, { ownerId }),
-            method: 'PATCH',
+            method: 'PUT',
             body: { articleIds },
           };
         },

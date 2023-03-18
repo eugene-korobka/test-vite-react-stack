@@ -122,7 +122,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.patch(apiUrl.ownerByIdArticles, patchOwnerArticlesOptions, async (request) => {
+  instance.put(apiUrl.ownerByIdArticles, patchOwnerArticlesOptions, async (request) => {
     try {
       const ownerId = ObjectId(request.params.ownerId);
 
