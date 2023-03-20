@@ -14,7 +14,7 @@ type CreateOwnerModalHookFormProps = {
   closeModal: () => void;
 };
 
-const useCreateOwnerModalHookFormState = (props: CreateOwnerModalHookFormProps) => {
+const useCreateOwnerModalHookFormBaseState = (props: CreateOwnerModalHookFormProps) => {
   const { isModalOpen, closeModal } = props;
 
   const [hasFormChanges, setHasFormChanges] = useState(false);
@@ -65,7 +65,7 @@ const useCreateOwnerModalHookFormState = (props: CreateOwnerModalHookFormProps) 
   };
 };
 
-export const CreateOwnerModalHookForm = (props: CreateOwnerModalHookFormProps) => {
+const CreateOwnerModalHookFormBase = (props: CreateOwnerModalHookFormProps) => {
   const {
     isModalOpen,
     beforeCloseModal,
@@ -76,7 +76,7 @@ export const CreateOwnerModalHookForm = (props: CreateOwnerModalHookFormProps) =
     isCreatingOwner,
     isConfirmOpen,
     closeConfirmModal,
-  } = useCreateOwnerModalHookFormState(props);
+  } = useCreateOwnerModalHookFormBaseState(props);
 
   return (
     <Modal.BaseModal isOpen={isModalOpen} onClose={beforeCloseModal}>
@@ -96,5 +96,15 @@ export const CreateOwnerModalHookForm = (props: CreateOwnerModalHookFormProps) =
         />
       </Modal.Footer>
     </Modal.BaseModal>
+  );
+};
+
+export const CreateOwnerModalHookForm = (props: CreateOwnerModalHookFormProps) => {
+  const { isModalOpen } = props;
+
+  return (
+    <Modal.Mount isOpen={isModalOpen}>
+      <CreateOwnerModalHookFormBase {...props} />
+    </Modal.Mount>
   );
 };

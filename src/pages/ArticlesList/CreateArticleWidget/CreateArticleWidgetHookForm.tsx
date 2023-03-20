@@ -40,7 +40,7 @@ const CreateArticleModalButton = () => {
   return <AppButton onClick={openCreateModal}>New article</AppButton>;
 };
 
-function useCreateArticleModalHookFormState() {
+function useCreateArticleModalHookFormBaseState() {
   const dispatch = useAppDispatch();
 
   const isModalOpen = useAppSelector(createArticleSelectors.selectIsCreateModalOpen);
@@ -89,7 +89,7 @@ function useCreateArticleModalHookFormState() {
   };
 }
 
-const CreateArticleModalHookForm = () => {
+const CreateArticleModalHookFormBase = () => {
   const {
     isModalOpen,
     beforeCloseCreateModal,
@@ -103,7 +103,7 @@ const CreateArticleModalHookForm = () => {
     availableOwners,
     checkedOwnerIds,
     onOwnerClick,
-  } = useCreateArticleModalHookFormState();
+  } = useCreateArticleModalHookFormBaseState();
 
   return (
     <Modal.BaseModal isOpen={isModalOpen} onClose={beforeCloseCreateModal}>
@@ -128,6 +128,16 @@ const CreateArticleModalHookForm = () => {
         <CreateArticleConfirmModal />
       </Modal.Footer>
     </Modal.BaseModal>
+  );
+};
+
+const CreateArticleModalHookForm = () => {
+  const isModalOpen = useAppSelector(createArticleSelectors.selectIsCreateModalOpen);
+
+  return (
+    <Modal.Mount isOpen={isModalOpen}>
+      <CreateArticleModalHookFormBase />
+    </Modal.Mount>
   );
 };
 

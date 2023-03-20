@@ -1,27 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useConfirmModalState, useModalState } from 'hooks/useModal';
-import { useFetchArticlesAvailableQuery } from 'sharedApi/fetchArticlesAvailable.api';
 import { useUpdateOwnerArticlesListMutation } from 'sharedApi/updateOwnerArticlesList.api';
-import { ArticleType } from 'sharedTypes/article.types';
 import { OwnerIdType } from 'sharedTypes/owner.types';
 
 import { AppButton } from 'components/AppButton';
+import { ArticlesCheckableList, useAvailableArticlesList } from 'components/ArticlesCheckableList';
 import { ExitWithChangesConfirmModal } from 'components/ExitWithChangesConfirmModal';
 import { Modal } from 'components/ModalComponents';
-
-function mapArticlesToOwnerRecord(articles?: ArticleType[]) {
-  if (!articles?.length) {
-    return {};
-  }
-
-  return articles.reduce((acc, article) => {
-    acc[article._id] = article.belongsTo;
-
-    return acc;
-  }, {});
-}
-
-const emptyArticles: ArticleType[] = [];
 
 type EditOwnerArticlesModalPropsType = {
   ownerId: OwnerIdType;
@@ -29,78 +14,42 @@ type EditOwnerArticlesModalPropsType = {
   closeModal: () => void;
 };
 
-function useEditOwnerArticlesModalState(props: EditOwnerArticlesModalPropsType) {
+function useEditOwnerArticlesModalBaseState(props: EditOwnerArticlesModalPropsType) {
   const { ownerId, isModalOpen, closeModal } = props;
 
-  const { data: initialArticles = emptyArticles, isFetching: isFetchingArticles } = useFetchArticlesAvailableQuery(
-    { ownerId },
-    { skip: !isModalOpen },
-  );
-
-  const noArticles = !isFetchingArticles && !initialArticles?.length;
-  const hasArticles = !isFetchingArticles && !!initialArticles?.length;
-
-  const [updatedArticles, setUpdatedArticles] = useState(initialArticles);
-
-  useEffect(() => {
-    setUpdatedArticles(initialArticles);
-  }, [initialArticles]);
-
-  const getHasChangedArticles = useCallback(() => {
-    const articlesRecord = mapArticlesToOwnerRecord(initialArticles);
-
-    const diff = updatedArticles.filter((article) => {
-      return article.belongsTo !== articlesRecord[article._id];
-    });
-
-    return !!diff.length;
-  }, [updatedArticles, initialArticles]);
-
-  const onArticleClick = useCallback((event) => {
-    const { value, checked } = event.target;
-
-    setUpdatedArticles((prev) => {
-      const newList = prev.map((article) => (article._id === value ? { ...article, belongsTo: checked } : article));
-
-      return newList;
-    });
-  }, []);
+  const {
+    isFetchingArticles,
+    noArticles,
+    hasArticles,
+    availableArticles,
+    checkedArticleIds,
+    onArticleClick,
+    hasArticlesChanges,
+  } = useAvailableArticlesList({ ownerId, skipQuery: !isModalOpen });
 
   const [updateOwnerArticlesListTrigger] = useUpdateOwnerArticlesListMutation();
 
   const updateArticlesOwner = useCallback(async () => {
-    const hasChanges = getHasChangedArticles();
-
     try {
-      if (hasChanges) {
-        const articleIds = updatedArticles.reduce((acc: string[], article) => {
-          if (article.belongsTo) {
-            acc.push(article._id);
-          }
-
-          return acc;
-        }, []);
-
-        await updateOwnerArticlesListTrigger({ ownerId, articleIds });
+      if (hasArticlesChanges) {
+        await updateOwnerArticlesListTrigger({ ownerId, articleIds: checkedArticleIds });
       }
 
       closeModal();
     } catch (error) {
       console.error(error);
     }
-  }, [ownerId, getHasChangedArticles, updatedArticles, updateOwnerArticlesListTrigger, closeModal]);
+  }, [ownerId, hasArticlesChanges, checkedArticleIds, updateOwnerArticlesListTrigger, closeModal]);
 
   const { isConfirmOpen, openConfirmModal, closeConfirmModal } = useConfirmModalState();
 
   const beforeCloseModal = useCallback(() => {
-    const hasChanges = getHasChangedArticles();
-
-    if (hasChanges) {
+    if (hasArticlesChanges) {
       openConfirmModal();
     } else {
       closeModal();
     }
-  }, [getHasChangedArticles, openConfirmModal, closeModal]);
+  }, [hasArticlesChanges, openConfirmModal, closeModal]);
 
   const confirmExit = useCallback(() => {
     closeConfirmModal();
@@ -114,7 +63,8 @@ function useEditOwnerArticlesModalState(props: EditOwnerArticlesModalPropsType) 
     isFetchingArticles,
     noArticles,
     hasArticles,
-    updatedArticles,
+    availableArticles,
+    checkedArticleIds,
     onArticleClick,
     updateArticlesOwner,
     isConfirmOpen,
@@ -123,20 +73,21 @@ function useEditOwnerArticlesModalState(props: EditOwnerArticlesModalPropsType) 
   };
 }
 
-const EditOwnerArticlesModal = (props: EditOwnerArticlesModalPropsType) => {
+const EditOwnerArticlesModalBase = (props: EditOwnerArticlesModalPropsType) => {
   const {
     isModalOpen,
     beforeCloseModal,
     isFetchingArticles,
     noArticles,
     hasArticles,
-    updatedArticles,
+    availableArticles,
+    checkedArticleIds,
     onArticleClick,
     updateArticlesOwner,
     isConfirmOpen,
     confirmExit,
     closeConfirmModal,
-  } = useEditOwnerArticlesModalState(props);
+  } = useEditOwnerArticlesModalBaseState(props);
 
   return (
     <Modal.BaseModal isOpen={isModalOpen} onClose={beforeCloseModal}>
@@ -145,23 +96,14 @@ const EditOwnerArticlesModal = (props: EditOwnerArticlesModalPropsType) => {
         {isFetchingArticles && <div>Loading...</div>}
         {noArticles && <div>No articles</div>}
         {hasArticles && (
-          <ul>
-            {updatedArticles?.map((article) => (
-              <li key={article._id} className="mb-2 flex items-center">
-                <input
-                  className="w-4 h-4 mr-2 cursor-pointer"
-                  id={`owner-article-${article._id}`}
-                  type="checkbox"
-                  checked={article.belongsTo}
-                  value={article._id}
-                  onChange={onArticleClick}
-                />
-                <label className="cursor-pointer" htmlFor={`owner-article-${article._id}`}>
-                  {article.title}
-                </label>
-              </li>
-            ))}
-          </ul>
+          <ArticlesCheckableList
+            isFetchingArticles={isFetchingArticles}
+            noArticles={noArticles}
+            hasArticles={hasArticles}
+            articlesList={availableArticles}
+            checkedArticleIds={checkedArticleIds}
+            onArticleClick={onArticleClick}
+          />
         )}
       </Modal.Main>
       <Modal.Footer>
@@ -174,6 +116,16 @@ const EditOwnerArticlesModal = (props: EditOwnerArticlesModalPropsType) => {
         />
       </Modal.Footer>
     </Modal.BaseModal>
+  );
+};
+
+const EditOwnerArticlesModal = (props: EditOwnerArticlesModalPropsType) => {
+  const { isModalOpen } = props;
+
+  return (
+    <Modal.Mount isOpen={isModalOpen}>
+      <EditOwnerArticlesModalBase {...props} />
+    </Modal.Mount>
   );
 };
 

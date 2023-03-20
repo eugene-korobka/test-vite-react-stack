@@ -127,6 +127,16 @@ const Footer = (props: React.PropsWithChildren) => {
   return <footer className="flex justify-center items-center gap-4">{children}</footer>;
 };
 
+const Mount = (props: React.PropsWithChildren & { isOpen: boolean }) => {
+  const { isOpen, children } = props;
+
+  if (isOpen) {
+    return <>{children}</>;
+  }
+
+  return null;
+};
+
 export const Modal = {
   Backdrop,
   ModalBox,
@@ -136,4 +146,5 @@ export const Modal = {
   Header,
   Main,
   Footer,
+  Mount,
 };

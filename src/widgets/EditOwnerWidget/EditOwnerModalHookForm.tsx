@@ -22,7 +22,7 @@ type EditOwnerModalHookFormProps = {
   closeModal: () => void;
 };
 
-function useEditOwnerModalHookFormState(props: EditOwnerModalHookFormProps) {
+function useEditOwnerModalHookFormBaseState(props: EditOwnerModalHookFormProps) {
   const { ownerId, isModalOpen, closeModal } = props;
 
   const [hasFormChanges, setHasFormChanges] = useState(false);
@@ -87,7 +87,7 @@ function useEditOwnerModalHookFormState(props: EditOwnerModalHookFormProps) {
   };
 }
 
-export const EditOwnerModalHookForm = (props: EditOwnerModalHookFormProps) => {
+const EditOwnerModalHookFormBase = (props: EditOwnerModalHookFormProps) => {
   const {
     ownerId,
     isModalOpen,
@@ -101,7 +101,7 @@ export const EditOwnerModalHookForm = (props: EditOwnerModalHookFormProps) => {
     isUpdatingOwner,
     isConfirmOpen,
     closeConfirmModal,
-  } = useEditOwnerModalHookFormState(props);
+  } = useEditOwnerModalHookFormBaseState(props);
 
   return (
     <Modal.BaseModal isOpen={isModalOpen} onClose={beforeCloseModal}>
@@ -131,5 +131,15 @@ export const EditOwnerModalHookForm = (props: EditOwnerModalHookFormProps) => {
         />
       </Modal.Footer>
     </Modal.BaseModal>
+  );
+};
+
+export const EditOwnerModalHookForm = (props: EditOwnerModalHookFormProps) => {
+  const { isModalOpen } = props;
+
+  return (
+    <Modal.Mount isOpen={isModalOpen}>
+      <EditOwnerModalHookFormBase {...props} />
+    </Modal.Mount>
   );
 };

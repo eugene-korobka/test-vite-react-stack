@@ -14,7 +14,7 @@ type EditArticleOwnersModalPropsType = {
   closeModal: () => void;
 };
 
-function useEditArticleOwnersModalState(props: EditArticleOwnersModalPropsType) {
+function useEditArticleOwnersModalBaseState(props: EditArticleOwnersModalPropsType) {
   const { articleId, isModalOpen, closeModal } = props;
 
   const { isFetchingOwners, noOwners, hasOwners, availableOwners, checkedOwnerIds, onOwnerClick, hasOwnersChanges } =
@@ -65,7 +65,7 @@ function useEditArticleOwnersModalState(props: EditArticleOwnersModalPropsType) 
   };
 }
 
-const EditArticleOwnersModal = (props: EditArticleOwnersModalPropsType) => {
+const EditArticleOwnersModalBase = (props: EditArticleOwnersModalPropsType) => {
   const {
     isModalOpen,
     beforeCloseModal,
@@ -79,7 +79,7 @@ const EditArticleOwnersModal = (props: EditArticleOwnersModalPropsType) => {
     isConfirmOpen,
     closeConfirmModal,
     confirmExit,
-  } = useEditArticleOwnersModalState(props);
+  } = useEditArticleOwnersModalBaseState(props);
 
   return (
     <Modal.BaseModal isOpen={isModalOpen} onClose={beforeCloseModal}>
@@ -104,6 +104,16 @@ const EditArticleOwnersModal = (props: EditArticleOwnersModalPropsType) => {
         />
       </Modal.Footer>
     </Modal.BaseModal>
+  );
+};
+
+const EditArticleOwnersModal = (props: EditArticleOwnersModalPropsType) => {
+  const { isModalOpen } = props;
+
+  return (
+    <Modal.Mount isOpen={isModalOpen}>
+      <EditArticleOwnersModalBase {...props} />
+    </Modal.Mount>
   );
 };
 

@@ -90,13 +90,13 @@ export const OwnersCheckableList = (props: OwnersCheckableListPropsType) => {
             <li key={owner._id} className="mb-2 flex items-center">
               <input
                 className="w-4 h-4 mr-2 cursor-pointer"
-                id={`article-owner-${owner._id}`}
+                id={`checkable-owner-${owner._id}`}
                 type="checkbox"
                 checked={checkedOwnerIds.includes(owner._id)}
                 value={owner._id}
                 onChange={onOwnerClick}
               />
-              <label className="cursor-pointer" htmlFor={`article-owner-${owner._id}`}>
+              <label className="cursor-pointer" htmlFor={`checkable-owner-${owner._id}`}>
                 {getOwnerFullName(owner)}
               </label>
             </li>

@@ -27,8 +27,10 @@ export const EditArticleModalHookForm = (props: EditArticleModalHookFormProps) =
   const { articleId, isModalOpen, beforeCloseEditArticleModal } = useEditArticleModalHookFormState(props);
 
   return (
-    <Modal.BaseModal isOpen={isModalOpen} onClose={beforeCloseEditArticleModal}>
-      <EditArticleModalContentHookForm articleId={articleId} />
-    </Modal.BaseModal>
+    <Modal.Mount isOpen={isModalOpen}>
+      <Modal.BaseModal isOpen={isModalOpen} onClose={beforeCloseEditArticleModal}>
+        <EditArticleModalContentHookForm articleId={articleId} />
+      </Modal.BaseModal>
+    </Modal.Mount>
   );
 };
