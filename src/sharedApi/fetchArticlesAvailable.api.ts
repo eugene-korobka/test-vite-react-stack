@@ -1,5 +1,5 @@
 import { apiUrl } from 'server/apiUrl';
-import { ARTICLES_TAG_TYPE } from 'sharedApi/sharedTagTypes';
+import { ARTICLES_AVAILABLE_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import type { ArticleType } from 'sharedTypes/article.types';
 import type { OwnerIdType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
@@ -8,7 +8,7 @@ import { baseApi } from 'store/baseApi';
 
 export const fetchArticlesAvailableApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: [ARTICLES_TAG_TYPE],
+    addTagTypes: [ARTICLES_AVAILABLE_TAG_TYPE],
   })
   .injectEndpoints({
     endpoints: (build) => ({
@@ -20,7 +20,7 @@ export const fetchArticlesAvailableApi = baseApi
             params: { ownerId }
           });
         },
-        providesTags: () => [{ type: ARTICLES_TAG_TYPE, id: 'LIST' }],
+        providesTags: () => [{ type: ARTICLES_AVAILABLE_TAG_TYPE, id: 'LIST' }],
       }),
     }),
   });

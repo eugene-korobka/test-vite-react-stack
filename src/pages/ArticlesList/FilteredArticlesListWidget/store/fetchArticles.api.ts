@@ -18,13 +18,7 @@ export const fetchArticlesApi = baseApi
             method: 'GET',
           };
         },
-        providesTags: (result) =>
-          result
-            ? [
-              ...result.map((article) => ({ type: ARTICLES_TAG_TYPE, id: article._id })),
-              { type: ARTICLES_TAG_TYPE, id: 'LIST' },
-            ]
-            : [{ type: ARTICLES_TAG_TYPE, id: 'LIST' }],
+        providesTags: () => [{ type: ARTICLES_TAG_TYPE, id: 'LIST' }],
       }),
     }),
   });

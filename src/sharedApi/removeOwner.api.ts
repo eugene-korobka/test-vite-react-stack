@@ -1,14 +1,13 @@
 import { apiUrl } from 'server/apiUrl';
+import { OWNERS_AVAILABLE_TAG_TYPE, OWNERS_BY_ARTICLE_TAG_TYPE, OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import type { OwnerIdType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
 
-import { OWNERS_TAG_TYPE } from './sharedTagTypes';
-
 export const removeOwnerApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: [OWNERS_TAG_TYPE],
+    addTagTypes: [OWNERS_TAG_TYPE, OWNERS_AVAILABLE_TAG_TYPE, OWNERS_BY_ARTICLE_TAG_TYPE],
   })
   .injectEndpoints({
     endpoints: (build) => ({
@@ -19,7 +18,11 @@ export const removeOwnerApi = baseApi
             method: 'DELETE',
           };
         },
-        invalidatesTags: () => [{ type: OWNERS_TAG_TYPE, id: 'LIST' }],
+        invalidatesTags: () => [
+          { type: OWNERS_TAG_TYPE, id: 'LIST' },
+          { type: OWNERS_AVAILABLE_TAG_TYPE, id: 'LIST' },
+          { type: OWNERS_BY_ARTICLE_TAG_TYPE, id: 'LIST' },
+        ],
       }),
     }),
   });

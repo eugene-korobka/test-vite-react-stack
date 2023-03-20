@@ -18,13 +18,7 @@ export const fetchOwnersApi = baseApi
             method: 'GET',
           };
         },
-        providesTags: (result) =>
-          result
-            ? [
-              ...result.map((owner) => ({ type: OWNERS_TAG_TYPE, id: owner._id })),
-              { type: OWNERS_TAG_TYPE, id: 'LIST' },
-            ]
-            : [{ type: OWNERS_TAG_TYPE, id: 'LIST' }],
+        providesTags: () => [{ type: OWNERS_TAG_TYPE, id: 'LIST' }],
       }),
     }),
   });

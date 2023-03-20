@@ -1,15 +1,14 @@
 import { apiUrl } from 'server/apiUrl';
+import { OWNERS_BY_ARTICLE_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import type { ArticleIdType } from 'sharedTypes/article.types';
 import type { OwnerType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
 
-import { ARTICLE_OWNERS_TAG_TYPE } from './sharedTagTypes';
-
 export const fetchArticleOwnersApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: [ARTICLE_OWNERS_TAG_TYPE],
+    addTagTypes: [OWNERS_BY_ARTICLE_TAG_TYPE],
   })
   .injectEndpoints({
     endpoints: (build) => ({
@@ -20,7 +19,7 @@ export const fetchArticleOwnersApi = baseApi
             method: 'GET',
           });
         },
-        providesTags: () => [{ type: ARTICLE_OWNERS_TAG_TYPE, id: 'LIST' }],
+        providesTags: () => [{ type: OWNERS_BY_ARTICLE_TAG_TYPE, id: 'LIST' }],
       }),
     }),
   });

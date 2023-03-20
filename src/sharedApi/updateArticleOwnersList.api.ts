@@ -1,5 +1,5 @@
 import { apiUrl } from 'server/apiUrl';
-import { ARTICLE_OWNERS_TAG_TYPE, OWNER_ARTICLES_TAG_TYPE,OWNERS_TAG_TYPE } from 'sharedApi/sharedTagTypes';
+import { ARTICLES_AVAILABLE_TAG_TYPE,ARTICLES_BY_OWNER_TAG_TYPE, OWNERS_AVAILABLE_TAG_TYPE,OWNERS_BY_ARTICLE_TAG_TYPE } from 'sharedApi/sharedTagTypes';
 import type { ArticleIdType } from 'sharedTypes/article.types';
 import type { OwnerIdType } from 'sharedTypes/owner.types';
 import { replaceUrlParams } from 'src/utils/replaceUrlParams';
@@ -8,7 +8,7 @@ import { baseApi } from 'store/baseApi';
 
 export const updateArticleOwnersListApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: [ARTICLE_OWNERS_TAG_TYPE, OWNERS_TAG_TYPE, OWNER_ARTICLES_TAG_TYPE],
+    addTagTypes: [OWNERS_BY_ARTICLE_TAG_TYPE, ARTICLES_BY_OWNER_TAG_TYPE, OWNERS_AVAILABLE_TAG_TYPE, ARTICLES_AVAILABLE_TAG_TYPE],
   })
   .injectEndpoints({
     endpoints: (build) => ({
@@ -21,9 +21,10 @@ export const updateArticleOwnersListApi = baseApi
           };
         },
         invalidatesTags: () => [
-          { type: ARTICLE_OWNERS_TAG_TYPE, id: 'LIST' },
-          { type: OWNERS_TAG_TYPE, id: 'LIST' },
-          { type: OWNER_ARTICLES_TAG_TYPE, id: 'LIST' },
+          { type: OWNERS_BY_ARTICLE_TAG_TYPE, id: 'LIST' },
+          { type: OWNERS_AVAILABLE_TAG_TYPE, id: 'LIST' },
+          { type: ARTICLES_BY_OWNER_TAG_TYPE, id: 'LIST' },
+          { type: ARTICLES_AVAILABLE_TAG_TYPE, id: 'LIST' },
         ],
       }),
     }),
