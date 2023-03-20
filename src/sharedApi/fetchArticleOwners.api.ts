@@ -6,7 +6,7 @@ import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
 
-export const fetchArticleOwnersApi = baseApi
+const fetchArticleOwnersApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [OWNERS_BY_ARTICLE_TAG_TYPE],
   })

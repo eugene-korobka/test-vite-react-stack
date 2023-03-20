@@ -6,7 +6,7 @@ import { replaceUrlParams } from 'src/utils/replaceUrlParams';
 
 import { baseApi } from 'store/baseApi';
 
-export const fetchArticlesAvailableApi = baseApi
+const fetchArticlesAvailableApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [ARTICLES_AVAILABLE_TAG_TYPE],
   })

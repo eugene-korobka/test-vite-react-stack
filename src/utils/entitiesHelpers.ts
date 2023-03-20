@@ -2,18 +2,6 @@ import type { ArticleType } from "sharedTypes/article.types";
 import type { EntityIdType } from "sharedTypes/common.types";
 import type { OwnerType } from "sharedTypes/owner.types";
 
-export function reduceEntitiesToRecordByBelongsTo(entities?: Array<ArticleType | OwnerType>) {
-  if (!entities?.length) {
-    return {};
-  }
-
-  return entities.reduce((acc: Record<EntityIdType, boolean>, entity) => {
-    acc[entity._id] = !!entity?.belongsTo;
-
-    return acc;
-  }, {});
-}
-
 export function mapEntitiesToIdsByBelongsTo(entities?: Array<ArticleType | OwnerType>) {
   if (!entities?.length) {
     return [];

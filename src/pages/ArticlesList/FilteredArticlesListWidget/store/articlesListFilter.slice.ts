@@ -41,5 +41,3 @@ export const articlesListFilterSlice = createSlice({
 });
 
 export const articlesListFilterActions = articlesListFilterSlice.actions;
-
-export const articlesListFilterReducer = articlesListFilterSlice.reducer;

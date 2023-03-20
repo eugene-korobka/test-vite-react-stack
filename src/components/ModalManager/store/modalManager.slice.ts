@@ -24,5 +24,3 @@ export const modalManagerSlice = createSlice({
 });
 
 export const modalManagerActions = modalManagerSlice.actions;
-
-export const modalManagerReducer = modalManagerSlice.reducer;

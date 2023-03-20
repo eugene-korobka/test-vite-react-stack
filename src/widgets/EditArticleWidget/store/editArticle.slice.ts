@@ -55,5 +55,3 @@ export const editArticleActions = {
   ...editArticleSlice.actions,
   beforeCloseEditModal,
 };
-
-export const editArticleReducer = editArticleSlice.reducer;

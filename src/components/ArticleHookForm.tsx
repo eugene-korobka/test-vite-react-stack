@@ -5,7 +5,7 @@ import { descriptionInputName, titleInputName } from 'sharedTypes/constants';
 
 import { RequiredFieldMark } from './RequiredFieldMark';
 
-export const defaultFormValues: Partial<ArticleType> = {
+const defaultFormValues: Partial<ArticleType> = {
   [titleInputName]: '',
   [descriptionInputName]: '',
 };

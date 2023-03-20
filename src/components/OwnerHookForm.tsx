@@ -5,7 +5,7 @@ import type { OwnerType } from 'sharedTypes/owner.types';
 
 import { RequiredFieldMark } from './RequiredFieldMark';
 
-export const defaultFormValues: Partial<OwnerType> = {
+const defaultFormValues: Partial<OwnerType> = {
   [firstNameInputName]: '',
   [lastNameInputName]: '',
   [emailInputName]: '',

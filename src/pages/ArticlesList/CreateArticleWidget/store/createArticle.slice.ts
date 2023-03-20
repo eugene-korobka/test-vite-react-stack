@@ -52,5 +52,3 @@ export const createArticleActions = {
   ...createArticleSlice.actions,
   beforeCloseCreateModal,
 };
-
-export const createArticleReducer = createArticleSlice.reducer;

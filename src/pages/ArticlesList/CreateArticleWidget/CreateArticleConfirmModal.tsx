@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { createArticleSelectors } from './store/createArticle.selector';
 import { createArticleActions } from './store/createArticle.slice';
 
-export function useCreateArticleConfirmModalHandlers() {
+function useCreateArticleConfirmModalHandlers() {
   const dispatch = useAppDispatch();
 
   const openCreateArticleConfirmModal = () => {

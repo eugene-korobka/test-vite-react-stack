@@ -6,7 +6,7 @@ import { baseApi } from 'store/baseApi';
 
 import { ARTICLES_TAG_TYPE } from './sharedTagTypes';
 
-export const fetchArticleByIdApi = baseApi
+const fetchArticleByIdApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [ARTICLES_TAG_TYPE],
   })

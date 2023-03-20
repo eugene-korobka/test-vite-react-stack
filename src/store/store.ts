@@ -3,7 +3,6 @@ import { editArticleSlice } from 'widgets/EditArticleWidget/store/editArticle.sl
 
 import { createArticleSlice } from 'pages/ArticlesList/CreateArticleWidget/store/createArticle.slice';
 import { articlesListFilterSlice } from 'pages/ArticlesList/FilteredArticlesListWidget/store/articlesListFilter.slice';
-import { removeArticleSlice } from 'pages/ArticlesList/RemoveArticleButtonWidget/store/removeArticle.slice';
 
 import { modalManagerSlice } from 'components/ModalManager/store/modalManager.slice';
 
@@ -15,7 +14,6 @@ export const store = configureStore({
     [modalManagerSlice.name]: modalManagerSlice.reducer,
     [articlesListFilterSlice.name]: articlesListFilterSlice.reducer,
     [createArticleSlice.name]: createArticleSlice.reducer,
-    [removeArticleSlice.name]: removeArticleSlice.reducer,
     [editArticleSlice.name]: editArticleSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),

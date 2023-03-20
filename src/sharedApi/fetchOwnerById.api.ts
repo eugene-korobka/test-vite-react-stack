@@ -6,7 +6,7 @@ import { baseApi } from 'store/baseApi';
 
 import { OWNERS_TAG_TYPE } from './sharedTagTypes';
 
-export const fetchOwnerByIdApi = baseApi
+const fetchOwnerByIdApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [OWNERS_TAG_TYPE],
   })

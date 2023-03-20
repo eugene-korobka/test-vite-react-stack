@@ -1,6 +1,6 @@
 import { replaceUrlParams, UrlParams } from "src/utils/replaceUrlParams";
 
-export const routesPaths = {
+const routesPaths = {
   root: '/',
   home: '/home',
   articlesList: '/articles',
