@@ -36,6 +36,8 @@ function useEditOwnerModalHookFormBaseState(props: EditOwnerModalHookFormProps) 
     { skip: !isModalOpen },
   );
 
+  const hasOwnerById = !isFetchingOwnerById && !!ownerById;
+
   const { isConfirmOpen, openConfirmModal, closeConfirmModal } = useConfirmModalState();
 
   const beforeCloseModal = useCallback(() => {
@@ -77,6 +79,7 @@ function useEditOwnerModalHookFormBaseState(props: EditOwnerModalHookFormProps) 
     beforeCloseModal,
     confirmExit,
     isFetchingOwnerById,
+    hasOwnerById,
     ownerById,
     formId,
     updateOwner,
@@ -94,6 +97,7 @@ const EditOwnerModalHookFormBase = (props: EditOwnerModalHookFormProps) => {
     beforeCloseModal,
     confirmExit,
     isFetchingOwnerById,
+    hasOwnerById,
     ownerById,
     formId,
     updateOwner,
@@ -108,7 +112,7 @@ const EditOwnerModalHookFormBase = (props: EditOwnerModalHookFormProps) => {
       <Modal.Header title="Edit owner" />
       <Modal.Main>
         {isFetchingOwnerById && <div className="w-full">Loading...</div>}
-        {!isFetchingOwnerById && ownerById && (
+        {hasOwnerById && (
           <OwnerHookForm
             formId={formId}
             initialValues={ownerById}

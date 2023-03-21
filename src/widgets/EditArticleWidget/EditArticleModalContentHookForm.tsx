@@ -33,6 +33,8 @@ function useEditArticleModalContentHookFormState(props: EditArticleModalContentH
     { skip: !isModalOpen },
   );
 
+  const hasArticleById = !isFetchingArticleById && !!articleById;
+
   const onChangeFormValues = useCallback(
     (hasChanges: boolean) => {
       dispatch(editArticleActions.setHasFormChanges(hasChanges));
@@ -79,6 +81,7 @@ function useEditArticleModalContentHookFormState(props: EditArticleModalContentH
     articleId,
     articleById,
     isFetchingArticleById,
+    hasArticleById,
     isUpdatingArticle,
     isModalOpen,
     formId,
@@ -99,6 +102,7 @@ export const EditArticleModalContentHookForm = (props: EditArticleModalContentHo
     articleId,
     articleById,
     isFetchingArticleById,
+    hasArticleById,
     isUpdatingArticle,
     formId,
     onChangeFormValues,
@@ -117,7 +121,7 @@ export const EditArticleModalContentHookForm = (props: EditArticleModalContentHo
       <Modal.Header title="Edit article" />
       <Modal.Main>
         {isFetchingArticleById && <div className="w-full">Loading...</div>}
-        {!isFetchingArticleById && articleById && (
+        {hasArticleById && (
           <ArticleHookForm
             formId={formId}
             initialValues={articleById}
@@ -125,15 +129,17 @@ export const EditArticleModalContentHookForm = (props: EditArticleModalContentHo
             onFormChangeHandler={onChangeFormValues}
           />
         )}
-        <OwnersCheckableList
-          label="Owners"
-          isFetchingOwners={isFetchingOwners}
-          noOwners={noOwners}
-          hasOwners={hasOwners}
-          ownersList={availableOwners}
-          checkedOwnerIds={checkedOwnerIds}
-          onOwnerClick={onOwnerClick}
-        />
+        {hasArticleById && (
+          <OwnersCheckableList
+            label="Owners"
+            isFetchingOwners={isFetchingOwners}
+            noOwners={noOwners}
+            hasOwners={hasOwners}
+            ownersList={availableOwners}
+            checkedOwnerIds={checkedOwnerIds}
+            onOwnerClick={onOwnerClick}
+          />
+        )}
       </Modal.Main>
       <Modal.Footer>
         <AppButton onClick={beforeCloseEditArticleModal}>Cancel</AppButton>

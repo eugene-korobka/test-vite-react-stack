@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useArrayQueryResult } from 'hooks/useArrayQuery';
 import { useFetchArticlesAvailableQuery } from 'sharedApi/fetchArticlesAvailable.api';
 import type { ArticleIdType, ArticleType } from 'sharedTypes/article.types';
 import type { OwnerIdType } from 'sharedTypes/owner.types';
@@ -7,13 +8,12 @@ import { areTwoIdsArraysDifferent, mapEntitiesToIdsByBelongsTo } from 'src/utils
 const emptyArticles: ArticleType[] = [];
 
 export function useAvailableArticlesList({ ownerId, skipQuery }: { ownerId?: OwnerIdType; skipQuery?: boolean }) {
-  const { data: availableArticles = emptyArticles, isFetching: isFetchingArticles } = useFetchArticlesAvailableQuery(
-    { ownerId },
-    { skip: skipQuery },
-  );
-
-  const noArticles = !isFetchingArticles && !availableArticles?.length;
-  const hasArticles = !isFetchingArticles && !!availableArticles?.length;
+  const {
+    data: availableArticles = emptyArticles,
+    isFetching: isFetchingArticles,
+    noElements: noArticles,
+    hasElements: hasArticles,
+  } = useArrayQueryResult<ArticleType>(useFetchArticlesAvailableQuery({ ownerId }, { skip: skipQuery }));
 
   const initialArticleIds = useMemo(() => {
     return mapEntitiesToIdsByBelongsTo(availableArticles);
@@ -33,7 +33,7 @@ export function useAvailableArticlesList({ ownerId, skipQuery }: { ownerId?: Own
     const { value, checked } = event.target;
 
     setCheckedArticleIds((prev) => {
-      const newList = checked ? [...new Set([...prev, value])] : prev.filter((id) => id !== value);
+      const newList = checked ? [...new Set<string>([...prev, value])] : prev.filter((id) => id !== value);
 
       return newList;
     });

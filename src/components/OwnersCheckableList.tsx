@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useArrayQueryResult } from 'hooks/useArrayQuery';
 import { useFetchOwnersAvailableQuery } from 'sharedApi/fetchOwnersAvailable.api';
 import type { ArticleIdType } from 'sharedTypes/article.types';
 import type { OwnerIdType, OwnerType } from 'sharedTypes/owner.types';
@@ -8,13 +9,12 @@ import { getOwnerFullName } from 'src/utils/getOwnerFullName';
 const emptyOwners: OwnerType[] = [];
 
 export function useAvailableOwnersList({ articleId, skipQuery }: { articleId?: ArticleIdType; skipQuery?: boolean }) {
-  const { data: availableOwners = emptyOwners, isFetching: isFetchingOwners } = useFetchOwnersAvailableQuery(
-    { articleId },
-    { skip: skipQuery },
-  );
-
-  const noOwners = !isFetchingOwners && !availableOwners?.length;
-  const hasOwners = !isFetchingOwners && !!availableOwners?.length;
+  const {
+    data: availableOwners = emptyOwners,
+    isFetching: isFetchingOwners,
+    noElements: noOwners,
+    hasElements: hasOwners,
+  } = useArrayQueryResult<OwnerType>(useFetchOwnersAvailableQuery({ articleId }, { skip: skipQuery }));
 
   const initialOwnerIds = useMemo(() => {
     return mapEntitiesToIdsByBelongsTo(availableOwners);
@@ -34,7 +34,7 @@ export function useAvailableOwnersList({ articleId, skipQuery }: { articleId?: A
     const { value, checked } = event.target;
 
     setCheckedOwnerIds((prev) => {
-      const newList = checked ? [...new Set([...prev, value])] : prev.filter((id) => id !== value);
+      const newList = checked ? [...new Set<string>([...prev, value])] : prev.filter((id) => id !== value);
 
       return newList;
     });

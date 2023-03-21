@@ -1,4 +1,6 @@
+import { useArrayQueryResult } from 'hooks/useArrayQuery';
 import { useFetchOwnerArticlesQuery } from 'sharedApi/fetchOwnerArticles.api';
+import { ArticleType } from 'sharedTypes/article.types';
 import { OwnerIdType } from 'sharedTypes/owner.types';
 
 import { EditOwnerArticlesWidget } from './EditOwnerArticles.widget';
@@ -10,10 +12,12 @@ type OwnerArticlesListPropsType = {
 function useOwnerArticlesListState(props: OwnerArticlesListPropsType) {
   const { ownerId } = props;
 
-  const { data: ownerArticles, isFetching: isFetchingOwnerArticles } = useFetchOwnerArticlesQuery({ ownerId });
-
-  const noArticles = !isFetchingOwnerArticles && !ownerArticles?.length;
-  const hasArticles = !isFetchingOwnerArticles && !!ownerArticles?.length;
+  const {
+    data: ownerArticles,
+    isFetching: isFetchingOwnerArticles,
+    noElements: noArticles,
+    hasElements: hasArticles,
+  } = useArrayQueryResult<ArticleType>(useFetchOwnerArticlesQuery({ ownerId }));
 
   return {
     ownerId,
