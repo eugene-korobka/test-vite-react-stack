@@ -1,7 +1,7 @@
 import { apiUrl } from '../apiUrl.js';
 import { getDbCollections } from "../db-connector.js";
-import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
-import { toObjectIds } from "../utils/convertId.js";
+import { toObjectIds, toStringIds } from "../utils/convertId.js";
+import { addArticleToOwnersByIds, removeArticleFromAllOwners } from '../utils/dbHelpers.js';
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
 
 import { updateArticleOwners } from "./ownersAndArticles.js";
@@ -58,7 +58,7 @@ function getArticleDto(body) {
 }
 
 export async function articleRoutes(instance) {
-  const { articlesCollection } = getDbCollections(instance);
+  const { articlesCollection, ownersCollection } = getDbCollections(instance);
 
   instance.get(apiUrl.articles, async () => {
     try {
@@ -92,11 +92,12 @@ export async function articleRoutes(instance) {
 
   instance.delete(apiUrl.articleById, async (request) => {
     try {
+      const articleId = request.params.articleId;
       const articleObjectId = toObjectIds(request.params.articleId);
 
       const result = await articlesCollection.findOneAndDelete({ _id: articleObjectId });
 
-      ServerEventBus.emit(articleRemovedEvent, { articleId: request.params.articleId });
+      await removeArticleFromAllOwners(ownersCollection, { articleId })
 
       return result
     } catch (error) {
@@ -137,7 +138,9 @@ export async function articleRoutes(instance) {
 
       const ownerIds = request.body.ownerIds;
 
-      ServerEventBus.emit(articleCreatedEvent, { articleObjectId: result.insertedId, ownerIds });
+      if (ownerIds) {
+        await addArticleToOwnersByIds(ownersCollection, { articleId: toStringIds(result.insertedId), ownerIds });
+      }
 
       return result
     } catch (error) {

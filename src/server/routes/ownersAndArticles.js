@@ -1,6 +1,5 @@
 import { apiUrl } from "../apiUrl.js";
 import { getDbCollections } from "../db-connector.js";
-import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
 import { toObjectIds, toStringIds } from "../utils/convertId.js";
 
 const ownerArticlesPatchBodyJsonSchema = {
@@ -196,41 +195,5 @@ export async function ownersAndArticlesRoutes(instance) {
       throw error;
     }
   });
-
-  async function addCreatedArticleToOwners({ articleObjectId, ownerIds }) {
-    if (!ownerIds?.length) {
-      return;
-    }
-
-    try {
-      await ownersCollection.updateMany({
-        _id: { $in: toObjectIds(ownerIds) },
-      }, {
-        $push: { articles: toStringIds(articleObjectId) },
-      });
-    } catch (error) {
-      console.error(error);
-
-      throw error;
-    }
-  }
-
-  ServerEventBus.on(articleCreatedEvent, addCreatedArticleToOwners);
-
-  async function removeArticleFromOwners({ articleId }) {
-    try {
-      await ownersCollection.updateMany({
-        articles: articleId,
-      }, {
-        $pull: { articles: articleId },
-      });
-    } catch (error) {
-      console.error(error);
-
-      throw error;
-    }
-  }
-
-  ServerEventBus.on(articleRemovedEvent, removeArticleFromOwners);
 
 };
