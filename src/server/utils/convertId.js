@@ -1,6 +1,6 @@
 import { ObjectId } from "@fastify/mongodb";
 
-export function mapIdsToObjectIds(ids) {
+export function toObjectIds(ids) {
   if (Array.isArray(ids)) {
     return ids.map((id) => ObjectId(id));
   }
@@ -8,7 +8,7 @@ export function mapIdsToObjectIds(ids) {
   return ObjectId(ids);
 }
 
-export function mapObjectIdsToIds(ids) {
+export function toStringIds(ids) {
   if (Array.isArray(ids)) {
     return ids.map((id) => id.toString());
   }

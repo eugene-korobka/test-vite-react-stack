@@ -1,8 +1,7 @@
-import { ObjectId } from "@fastify/mongodb";
-
-import {apiUrl} from '../apiUrl.js';
+import { apiUrl } from '../apiUrl.js';
 import { getDbCollections } from "../db-connector.js";
 import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
+import { toObjectIds } from "../utils/convertId.js";
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
 
 import { updateArticleOwners } from "./ownersAndArticles.js";
@@ -75,7 +74,9 @@ export async function articleRoutes(instance) {
 
   instance.get(apiUrl.articleById, async (request, reply) => {
     try {
-      const result = await articlesCollection.findOne({ _id: ObjectId(request.params.articleId) });
+      const articleObjectId = toObjectIds(request.params.articleId);
+
+      const result = await articlesCollection.findOne({ _id: articleObjectId });
 
       if (result === null) {
         return reply.status(404).send({ message: 'Not Found' });
@@ -91,7 +92,9 @@ export async function articleRoutes(instance) {
 
   instance.delete(apiUrl.articleById, async (request) => {
     try {
-      const result = await articlesCollection.findOneAndDelete({ _id: ObjectId(request.params.articleId) });
+      const articleObjectId = toObjectIds(request.params.articleId);
+
+      const result = await articlesCollection.findOneAndDelete({ _id: articleObjectId });
 
       ServerEventBus.emit(articleRemovedEvent, { articleId: request.params.articleId });
 
@@ -106,10 +109,11 @@ export async function articleRoutes(instance) {
   instance.patch(apiUrl.articleById, patchArticleOptions, async (request) => {
     try {
       const articleId = request.params.articleId;
+      const articleObjectId = toObjectIds(request.params.articleId);
 
       const changes = getArticleDto(request.body);
 
-      const result = await articlesCollection.updateOne({ _id: ObjectId(articleId) }, { $set: changes });
+      const result = await articlesCollection.updateOne({ _id: articleObjectId }, { $set: changes });
 
       const ownerIds = request.body.ownerIds;
 
@@ -133,9 +137,7 @@ export async function articleRoutes(instance) {
 
       const ownerIds = request.body.ownerIds;
 
-      if (ownerIds.length) {
-        ServerEventBus.emit(articleCreatedEvent, { articleId: result.insertedId, ownerIds });
-      }
+      ServerEventBus.emit(articleCreatedEvent, { articleObjectId: result.insertedId, ownerIds });
 
       return result
     } catch (error) {

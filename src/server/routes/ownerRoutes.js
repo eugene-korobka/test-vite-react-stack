@@ -1,7 +1,6 @@
-import { ObjectId } from "@fastify/mongodb";
-
 import { apiUrl } from "../apiUrl.js";
 import { getDbCollections } from "../db-connector.js";
+import { toObjectIds } from "../utils/convertId.js";
 import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
 
 const properties = {
@@ -57,7 +56,9 @@ export async function ownerRoutes(instance) {
 
   instance.get(apiUrl.ownerById, async (request, reply) => {
     try {
-      const result = await ownersCollection.findOne({ _id: ObjectId(request.params.ownerId) });
+      const ownerObjectId = toObjectIds(request.params.ownerId);
+
+      const result = await ownersCollection.findOne({ _id: ownerObjectId });
 
       if (result === null) {
         return reply.status(404).send({ message: 'Not Found' });
@@ -73,7 +74,9 @@ export async function ownerRoutes(instance) {
 
   instance.delete(apiUrl.ownerById, async (request) => {
     try {
-      const result = await ownersCollection.findOneAndDelete({ _id: ObjectId(request.params.ownerId) });
+      const ownerObjectId = toObjectIds(request.params.ownerId);
+
+      const result = await ownersCollection.findOneAndDelete({ _id: ownerObjectId });
 
       return result
     } catch (error) {
@@ -85,9 +88,11 @@ export async function ownerRoutes(instance) {
 
   instance.patch(apiUrl.ownerById, patchOwnerOptions, async (request) => {
     try {
+      const ownerObjectId = toObjectIds(request.params.ownerId);
+
       const changes = getOwnerDto(request.body);
 
-      const result = await ownersCollection.updateOne({ _id: ObjectId(request.params.ownerId) }, { $set: changes });
+      const result = await ownersCollection.updateOne({ _id: ownerObjectId }, { $set: changes });
 
       return result
     } catch (error) {

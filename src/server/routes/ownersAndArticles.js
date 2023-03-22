@@ -1,9 +1,7 @@
-import { ObjectId } from "@fastify/mongodb";
-
 import { apiUrl } from "../apiUrl.js";
 import { getDbCollections } from "../db-connector.js";
 import { articleCreatedEvent, articleRemovedEvent, ServerEventBus } from "../eventEmitter.js";
-import { mapIdsToObjectIds, mapObjectIdsToIds } from "../utils/convertId.js";
+import { toObjectIds, toStringIds } from "../utils/convertId.js";
 
 const ownerArticlesPatchBodyJsonSchema = {
   type: 'object',
@@ -60,12 +58,12 @@ export async function updateArticleOwners(instance, { articleId, ownerIds }) {
 
   const ownersByArticleId = await ownersCollection.find({ articles: articleId }).toArray();
 
-  const ownerIdsByArticleId = ownersByArticleId.map(({ _id }) => mapObjectIdsToIds(_id));
+  const ownerIdsByArticleId = ownersByArticleId.map(({ _id }) => toStringIds(_id));
 
   const addedOwnerIds = ownerIds.filter((id) => !ownerIdsByArticleId.includes(id));
 
   if (addedOwnerIds.length) {
-    const addedOwnerObjectIds = mapIdsToObjectIds(addedOwnerIds);
+    const addedOwnerObjectIds = toObjectIds(addedOwnerIds);
 
     await ownersCollection.updateMany({
       _id: { $in: addedOwnerObjectIds },
@@ -77,7 +75,7 @@ export async function updateArticleOwners(instance, { articleId, ownerIds }) {
   const removedOwnerIds = ownerIdsByArticleId.filter((id) => !ownerIds.includes(id));
 
   if (removedOwnerIds.length) {
-    const removedOwnerObjectIds = mapIdsToObjectIds(removedOwnerIds);
+    const removedOwnerObjectIds = toObjectIds(removedOwnerIds);
 
     await ownersCollection.updateMany({
       _id: { $in: removedOwnerObjectIds },
@@ -92,13 +90,13 @@ export async function ownersAndArticlesRoutes(instance) {
 
   instance.get(apiUrl.ownerByIdArticles, async (request) => {
     try {
-      const ownerId = ObjectId(request.params.ownerId);
+      const ownerObjectId = toObjectIds(request.params.ownerId);
 
-      const owner = await ownersCollection.findOne({ _id: ownerId });
+      const owner = await ownersCollection.findOne({ _id: ownerObjectId });
 
-      const ownerArticles = owner.articles?.map((id) => ObjectId(id)) || [];
+      const ownerArticleObjectIds = toObjectIds(owner?.articles || []);
 
-      const result = await articlesCollection.find({ _id: { $in: ownerArticles } }).toArray();
+      const result = await articlesCollection.find({ _id: { $in: ownerArticleObjectIds } }).toArray();
 
       return result
     } catch (error) {
@@ -124,11 +122,11 @@ export async function ownersAndArticlesRoutes(instance) {
 
   instance.put(apiUrl.ownerByIdArticles, patchOwnerArticlesOptions, async (request) => {
     try {
-      const ownerId = ObjectId(request.params.ownerId);
+      const ownerObjectId = toObjectIds(request.params.ownerId);
 
       const changes = { articles: request.body.articleIds };
 
-      const result = await ownersCollection.updateOne({ _id: ObjectId(ownerId) }, { $set: changes });
+      const result = await ownersCollection.updateOne({ _id: ownerObjectId }, { $set: changes });
 
       return result
     } catch (error) {
@@ -140,9 +138,9 @@ export async function ownersAndArticlesRoutes(instance) {
 
   instance.get(apiUrl.articlesAvailable, getArticlesAvailableOptions, async (request) => {
     try {
-      const ownerId = ObjectId(request.query.ownerId);
+      const ownerObjectId = toObjectIds(request.query.ownerId);
 
-      const owner = await ownersCollection.findOne({ _id: ownerId });
+      const owner = await ownersCollection.findOne({ _id: ownerObjectId });
 
       const ownerArticleIds = owner.articles || [];
 
@@ -151,7 +149,7 @@ export async function ownersAndArticlesRoutes(instance) {
       const result = articles.map((article) => {
         return {
           ...article,
-          belongsTo: ownerArticleIds.includes(article._id.toString()),
+          belongsTo: ownerArticleIds.includes(toStringIds(article._id)),
         };
       });
 
@@ -199,16 +197,16 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  async function addCreatedArticleToOwners({ articleId, ownerIds }) {
+  async function addCreatedArticleToOwners({ articleObjectId, ownerIds }) {
     if (!ownerIds?.length) {
       return;
     }
 
     try {
       await ownersCollection.updateMany({
-        _id: { $in: ownerIds?.map((id) => ObjectId(id)) },
+        _id: { $in: toObjectIds(ownerIds) },
       }, {
-        $push: { articles: articleId.toString() },
+        $push: { articles: toStringIds(articleObjectId) },
       });
     } catch (error) {
       console.error(error);
