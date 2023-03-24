@@ -1,10 +1,11 @@
-import { apiUrl } from '../apiUrl.js';
-import { getDbCollections } from "../db-connector.js";
-import { toObjectIds, toStringIds } from "../utils/convertId.js";
-import { addArticleToOwnersByIds, removeArticleFromAllOwners } from '../utils/dbHelpers.js';
-import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
+import { type FastifyInstance } from 'fastify';
+import { ArticleByIdParamsType, ArticlePatchBodyType, ArticlePostBodyType, ArticleType } from 'types';
 
-import { updateArticleOwners } from "./ownersAndArticles.js";
+import { apiUrl } from '../apiUrl';
+import { getDbCollections } from "../db-connector";
+import { toObjectIds, toStringIds } from "../utils/convertId";
+import { addArticleToOwnersByIds, removeArticleFromAllOwners, updateArticleOwners } from '../utils/dbHelpers';
+import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate";
 
 const properties = {
   title: { type: 'string' },
@@ -51,13 +52,13 @@ const postArticleOptions = {
   },
 };
 
-function getArticleDto(body) {
-  const articleDoc = peekDefinedPropertiesByTemplate(body, properties);
+function getArticleDto(body: ArticleType): ArticleType {
+  const articleDoc = peekDefinedPropertiesByTemplate<ArticleType>(body, properties);
 
   return articleDoc;
 }
 
-export async function articleRoutes(instance) {
+export async function articleRoutes(instance: FastifyInstance) {
   const { articlesCollection, ownersCollection } = getDbCollections(instance);
 
   instance.get(apiUrl.articles, async () => {
@@ -72,7 +73,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.get(apiUrl.articleById, async (request, reply) => {
+  instance.get<ArticleByIdParamsType>(apiUrl.articleById, async (request, reply) => {
     try {
       const articleObjectId = toObjectIds(request.params.articleId);
 
@@ -90,10 +91,10 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.delete(apiUrl.articleById, async (request) => {
+  instance.delete<ArticleByIdParamsType>(apiUrl.articleById, async (request) => {
     try {
       const articleId = request.params.articleId;
-      const articleObjectId = toObjectIds(request.params.articleId);
+      const articleObjectId = toObjectIds(articleId);
 
       const result = await articlesCollection.findOneAndDelete({ _id: articleObjectId });
 
@@ -107,10 +108,10 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.patch(apiUrl.articleById, patchArticleOptions, async (request) => {
+  instance.patch<ArticleByIdParamsType & ArticlePatchBodyType>(apiUrl.articleById, patchArticleOptions, async (request) => {
     try {
       const articleId = request.params.articleId;
-      const articleObjectId = toObjectIds(request.params.articleId);
+      const articleObjectId = toObjectIds(articleId);
 
       const changes = getArticleDto(request.body);
 
@@ -130,7 +131,7 @@ export async function articleRoutes(instance) {
     }
   });
 
-  instance.post(apiUrl.articles, postArticleOptions, async (request) => {
+  instance.post<ArticlePostBodyType>(apiUrl.articles, postArticleOptions, async (request) => {
     try {
       const newArticle = getArticleDto(request.body);
 

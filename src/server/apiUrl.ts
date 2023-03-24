@@ -15,4 +15,4 @@ export const apiUrl = {
 
   ownerByIdArticles: '/owners/:ownerId/articles',
 
-};
+} as const;

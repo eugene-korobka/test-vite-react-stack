@@ -1,7 +1,7 @@
-export function peekDefinedPropertiesByTemplate(source, template) {
+export function peekDefinedPropertiesByTemplate<E>(source: E, template: Record<string, unknown>) {
   return Object
     .keys(template)
-    .reduce((acc, key) => {
+    .reduce((acc: E, key: string) => {
       const value = source[key];
 
       if (value !== undefined) {
@@ -9,5 +9,5 @@ export function peekDefinedPropertiesByTemplate(source, template) {
       }
 
       return acc;
-    }, {});
+    }, {} as E);
 }

@@ -1,7 +1,10 @@
-import { apiUrl } from "../apiUrl.js";
-import { getDbCollections } from "../db-connector.js";
-import { toObjectIds } from "../utils/convertId.js";
-import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate.js";
+import { FastifyInstance } from "fastify";
+import { OwnerByIdParamsType, OwnerPatchBodyType, OwnerPostBodyType, OwnerType } from "types";
+
+import { apiUrl } from "../apiUrl";
+import { getDbCollections } from "../db-connector";
+import { toObjectIds } from "../utils/convertId";
+import { peekDefinedPropertiesByTemplate } from "../utils/peekDefinedPropertiesByTemplate";
 
 const properties = {
   firstName: { type: 'string' },
@@ -33,13 +36,13 @@ const postOwnerOptions = {
   },
 };
 
-function getOwnerDto(body) {
+function getOwnerDto(body: OwnerType) {
   const ownerDoc = peekDefinedPropertiesByTemplate(body, properties);
 
   return ownerDoc;
 }
 
-export async function ownerRoutes(instance) {
+export async function ownerRoutes(instance: FastifyInstance) {
   const { ownersCollection } = getDbCollections(instance);
 
   instance.get(apiUrl.owners, async () => {
@@ -54,7 +57,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.get(apiUrl.ownerById, async (request, reply) => {
+  instance.get<OwnerByIdParamsType>(apiUrl.ownerById, async (request, reply) => {
     try {
       const ownerObjectId = toObjectIds(request.params.ownerId);
 
@@ -72,7 +75,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.delete(apiUrl.ownerById, async (request) => {
+  instance.delete<OwnerByIdParamsType>(apiUrl.ownerById, async (request) => {
     try {
       const ownerObjectId = toObjectIds(request.params.ownerId);
 
@@ -86,7 +89,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.patch(apiUrl.ownerById, patchOwnerOptions, async (request) => {
+  instance.patch<OwnerByIdParamsType & OwnerPatchBodyType>(apiUrl.ownerById, patchOwnerOptions, async (request) => {
     try {
       const ownerObjectId = toObjectIds(request.params.ownerId);
 
@@ -102,7 +105,7 @@ export async function ownerRoutes(instance) {
     }
   });
 
-  instance.post(apiUrl.owners, postOwnerOptions, async (request) => {
+  instance.post<OwnerPostBodyType>(apiUrl.owners, postOwnerOptions, async (request) => {
     try {
       const newOwner = getOwnerDto(request.body);
 

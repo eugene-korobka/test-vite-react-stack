@@ -1,6 +1,17 @@
-import { apiUrl } from "../apiUrl.js";
-import { getDbCollections } from "../db-connector.js";
-import { toObjectIds, toStringIds } from "../utils/convertId.js";
+import { type FastifyInstance } from "fastify";
+import type {
+  ArticleByIdOwnersPutBodyType,
+  ArticleByIdParamsType,
+  ArticleIdQuerystringType,
+  OwnerByIdArticlesPutBodyType,
+  OwnerByIdParamsType,
+  OwnerIdQuerystringType,
+} from "types";
+
+import { apiUrl } from "../apiUrl";
+import { getDbCollections } from "../db-connector";
+import { toObjectIds, toStringIds } from "../utils/convertId";
+import { updateArticleOwners } from "../utils/dbHelpers";
 
 const ownerArticlesPatchBodyJsonSchema = {
   type: 'object',
@@ -22,15 +33,19 @@ const patchOwnerArticlesOptions = {
 };
 
 const getArticlesAvailableOptions = {
-  querystring: {
-    ownerId: { type: 'string' },
-  },
+  schema: {
+    querystring: {
+      ownerId: { type: 'string' },
+    },
+  }
 };
 
 const getOwnersAvailableOptions = {
-  querystring: {
-    articleId: { type: 'string' },
-  },
+  schema: {
+    querystring: {
+      articleId: { type: 'string' },
+    },
+  }
 };
 
 const articleOwnersPutBodyJsonSchema = {
@@ -52,42 +67,10 @@ const putArticleOwnersOptions = {
   },
 };
 
-export async function updateArticleOwners(instance, { articleId, ownerIds }) {
-  const { ownersCollection } = getDbCollections(instance);
-
-  const ownersByArticleId = await ownersCollection.find({ articles: articleId }).toArray();
-
-  const ownerIdsByArticleId = ownersByArticleId.map(({ _id }) => toStringIds(_id));
-
-  const addedOwnerIds = ownerIds.filter((id) => !ownerIdsByArticleId.includes(id));
-
-  if (addedOwnerIds.length) {
-    const addedOwnerObjectIds = toObjectIds(addedOwnerIds);
-
-    await ownersCollection.updateMany({
-      _id: { $in: addedOwnerObjectIds },
-    }, {
-      $push: { articles: articleId },
-    });
-  }
-
-  const removedOwnerIds = ownerIdsByArticleId.filter((id) => !ownerIds.includes(id));
-
-  if (removedOwnerIds.length) {
-    const removedOwnerObjectIds = toObjectIds(removedOwnerIds);
-
-    await ownersCollection.updateMany({
-      _id: { $in: removedOwnerObjectIds },
-    }, {
-      $pull: { articles: articleId },
-    });
-  }
-}
-
-export async function ownersAndArticlesRoutes(instance) {
+export async function ownersAndArticlesRoutes(instance: FastifyInstance) {
   const { articlesCollection, ownersCollection } = getDbCollections(instance);
 
-  instance.get(apiUrl.ownerByIdArticles, async (request) => {
+  instance.get<OwnerByIdParamsType>(apiUrl.ownerByIdArticles, async (request) => {
     try {
       const ownerObjectId = toObjectIds(request.params.ownerId);
 
@@ -105,7 +88,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(apiUrl.articleByIdOwners, async (request) => {
+  instance.get<ArticleByIdParamsType>(apiUrl.articleByIdOwners, async (request) => {
     try {
       const articleId = request.params.articleId;
 
@@ -119,11 +102,14 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.put(apiUrl.ownerByIdArticles, patchOwnerArticlesOptions, async (request) => {
+  instance.put<OwnerByIdParamsType & OwnerByIdArticlesPutBodyType>(apiUrl.ownerByIdArticles, patchOwnerArticlesOptions, async (request) => {
     try {
-      const ownerObjectId = toObjectIds(request.params.ownerId);
+      const { ownerId } = request.params;
+      const ownerObjectId = toObjectIds(ownerId);
 
-      const changes = { articles: request.body.articleIds };
+      const { articleIds } = request.body;
+
+      const changes = { articles: articleIds };
 
       const result = await ownersCollection.updateOne({ _id: ownerObjectId }, { $set: changes });
 
@@ -135,13 +121,13 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(apiUrl.articlesAvailable, getArticlesAvailableOptions, async (request) => {
+  instance.get<OwnerIdQuerystringType>(apiUrl.articlesAvailable, getArticlesAvailableOptions, async (request) => {
     try {
       const ownerObjectId = toObjectIds(request.query.ownerId);
 
       const owner = await ownersCollection.findOne({ _id: ownerObjectId });
 
-      const ownerArticleIds = owner.articles || [];
+      const ownerArticleIds = owner?.articles || [];
 
       const articles = await articlesCollection.find().toArray();
 
@@ -160,7 +146,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.get(apiUrl.ownersAvailable, getOwnersAvailableOptions, async (request) => {
+  instance.get<ArticleIdQuerystringType>(apiUrl.ownersAvailable, getOwnersAvailableOptions, async (request) => {
     try {
       const articleId = request.query.articleId;
 
@@ -181,7 +167,7 @@ export async function ownersAndArticlesRoutes(instance) {
     }
   });
 
-  instance.put(apiUrl.articleByIdOwners, putArticleOwnersOptions, async (request) => {
+  instance.put<ArticleByIdParamsType & ArticleByIdOwnersPutBodyType>(apiUrl.articleByIdOwners, putArticleOwnersOptions, async (request) => {
     try {
       const articleId = request.params.articleId;
       const ownerIds = request.body.ownerIds;

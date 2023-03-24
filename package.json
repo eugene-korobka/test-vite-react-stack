@@ -2,13 +2,11 @@
   "name": "test-vite-react-stack",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "server": "json-server --watch src/server/db.json",
-    "fastify": "node src/server/server.js",
+    "fastify": "tsc -p src/server/tsconfig.json && node src/server/build/server.js",
     "start": "concurrently -n server,front \"npm run fastify\" \"vite\""
   },
   "dependencies": {
@@ -24,6 +22,7 @@
     "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
+    "@types/node": "^18.15.3",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.49.0",

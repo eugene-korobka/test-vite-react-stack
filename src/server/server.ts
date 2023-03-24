@@ -1,16 +1,16 @@
 import cors from '@fastify/cors';
 import Fastify from 'fastify';
 
-import { articleRoutes } from './routes/articleRoutes.js';
-import { ownerRoutes } from './routes/ownerRoutes.js';
-import { ownersAndArticlesRoutes } from './routes/ownersAndArticles.js';
-import { dbConnector, mockDatabase } from './db-connector.js';
+import { articleRoutes } from './routes/articleRoutes';
+import { ownerRoutes } from './routes/ownerRoutes';
+import { ownersAndArticlesRoutes } from './routes/ownersAndArticles';
+import { dbConnector, mockDatabase } from './db-connector';
 
 const server = Fastify({
   logger: true
-})
+});
 
-await server.register(cors, {
+server.register(cors, {
   origin: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true,
