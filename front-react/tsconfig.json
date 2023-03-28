@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -14,11 +15,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "jsx": "react-jsx",
     "noImplicitAny": false
   },
-  "references": [
-    { "path": "./server-fastify/tsconfig.json" },
-    { "path": "./front-react/tsconfig.json" },
-    { "path": "./front-vue/tsconfig.json" }
-  ]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

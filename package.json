@@ -7,28 +7,15 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "fastify": "tsc -p src/server/tsconfig.json && node src/server/build/server.js",
-    "start": "concurrently -n server,front \"npm run fastify\" \"vite\""
+    "server-fastify": "npm run --prefix ./server-fastify/ fastify",
+    "front-react": "npm run --prefix ./front-react/ dev",
+    "front-vue": "npm run --prefix ./front-vue/ dev",
+    "start-react": "concurrently -n server,front \"npm run server-fastify\" \"npm run front-react\"",
+    "start-vue": "concurrently -n server,front \"npm run server-fastify\" \"npm run front-vue\""
   },
   "dependencies": {
-    "@fastify/cors": "^8.2.0",
-    "@fastify/mongodb": "^6.2.0",
-    "@reduxjs/toolkit": "^1.9.2",
-    "fastify": "^4.14.1",
-    "fastify-plugin": "^4.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.43.3",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
-    "@types/node": "^18.15.3",
-    "@types/react": "^18.0.26",
-    "@types/react-dom": "^18.0.9",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
-    "@vitejs/plugin-react": "^3.0.0",
-    "autoprefixer": "^10.4.13",
     "concurrently": "^7.6.0",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
@@ -36,14 +23,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.1",
     "eslint-plugin-simple-import-sort": "^9.0.0",
-    "json-server": "^0.17.1",
-    "postcss": "^8.4.21",
     "prettier": "2.8.3",
-    "react-table": "^7.8.0",
-    "tailwindcss": "^3.2.4",
-    "typescript": "^4.9.3",
-    "vite": "^4.0.0",
-    "vite-plugin-svgr": "^2.4.0",
-    "vite-tsconfig-paths": "^4.0.5"
+    "typescript": "^4.9.3"
   }
 }
