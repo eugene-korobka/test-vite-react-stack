@@ -13,7 +13,8 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.3",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.8.1",
+    "shared-test-eugene": "git+https://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:x-oauth-basic@github.com/eugene-korobka/shared-test-eugene.git"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
